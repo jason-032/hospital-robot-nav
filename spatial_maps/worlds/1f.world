@@ -70,7 +70,7 @@
             <diffuse>1.0 1.0 1.0 1</diffuse>
             <pbr>
               <metal>
-                <albedo_map>/home/jason/ros2_ws/src/spatial_maps/maps/1F_map_rot180.png</albedo_map>
+                <albedo_map>/home/jason/ros2_ws/src/spatial_maps/maps/1F_map_orig.png</albedo_map>
                 <metalness>0.0</metalness>
                 <roughness>1.0</roughness>
               </metal>
@@ -101,9 +101,9 @@
           </material>
         </visual>
       </link>
-      <!-- 180° Z rotation to match rot180 floor texture; tx/ty rotate around MAP center (21.6607,37.82) -->
-      <!-- tz=-1.05: most walls sit at model Z=1.0 (UCS +1 offset), so -1.05 puts base at world Z=-0.05 -->
-      <pose>43.321 76.640 -1.05 0 0 3.14159</pose>
+      <!-- No yaw rotation needed — walls OBJ already in world coords matching original map orientation -->
+      <!-- tz=-1.05: wall geometry starts at model Z=1.0 (UCS +1 offset), puts base at world Z=-0.05 -->
+      <pose>-1 0 -1.05 0 0 0</pose>
     </model>
 
   </world>
