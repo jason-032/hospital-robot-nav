@@ -1,0 +1,3831 @@
+{
+  "metadata": {
+    "type": "navigation_network",
+    "floor": "11Ep$YG2zB2x9a4C72JNWj",
+    "timestamp": "2026-03-11T00:09:23",
+    "source": "Spatial_Map Pipeline",
+    "statistics": {
+      "total_nodes": 179,
+      "room_nodes": 65,
+      "door_nodes": 114,
+      "step_nodes": 0,
+      "total_edges": 134,
+      "semantic_locations": 65
+    }
+  },
+  "nodes": [
+    {
+      "id": 0,
+      "original_id": "room_04QQ2gAZLCSeLxIHZ4ixAK",
+      "type": "room",
+      "x": 9.031935933854605,
+      "y": 4.790001478661181,
+      "z": 15.400021410598873,
+      "name": "S2024",
+      "navigable": true,
+      "is_goal": true
+    },
+    {
+      "id": 1,
+      "original_id": "room_04QQ2gAZLCSeLxIHZ4ixAA",
+      "type": "room",
+      "x": 37.05109426868819,
+      "y": 39.40865758751803,
+      "z": 15.400021410598873,
+      "name": "S2030",
+      "navigable": true,
+      "is_goal": true
+    },
+    {
+      "id": 2,
+      "original_id": "room_04QQ2gAZLCSeLxIHZ4ixAD",
+      "type": "room",
+      "x": 15.484765192637138,
+      "y": 45.689898069187365,
+      "z": 15.400021410598873,
+      "name": "S2031",
+      "navigable": true,
+      "is_goal": true
+    },
+    {
+      "id": 3,
+      "original_id": "room_04QQ2gAZLCSeLxIHZ4ixAC",
+      "type": "room",
+      "x": 37.032154011748375,
+      "y": 34.71969118628367,
+      "z": 15.400021410598873,
+      "name": "S2032",
+      "navigable": true,
+      "is_goal": true
+    },
+    {
+      "id": 4,
+      "original_id": "room_04QQ2gAZLCSeLxIHZ4ixAE",
+      "type": "room",
+      "x": 29.806937073700546,
+      "y": 43.469898069187316,
+      "z": 15.400021410598873,
+      "name": "S2034",
+      "navigable": true,
+      "is_goal": true
+    },
+    {
+      "id": 5,
+      "original_id": "room_04QQ2gAZLCSeLxIHZ4ixA1",
+      "type": "room",
+      "x": 29.781937073701503,
+      "y": 70.84950147866441,
+      "z": 15.400021410598873,
+      "name": "S2035",
+      "navigable": true,
+      "is_goal": true
+    },
+    {
+      "id": 6,
+      "original_id": "room_04QQ2gAZLCSeLxIHZ4ixA0",
+      "type": "room",
+      "x": 15.115850300905343,
+      "y": 43.17500147866301,
+      "z": 15.400021410598873,
+      "name": "S2036",
+      "navigable": true,
+      "is_goal": true
+    },
+    {
+      "id": 7,
+      "original_id": "room_04QQ2gAZLCSeLxIHZ4ixA3",
+      "type": "room",
+      "x": 28.33693707370033,
+      "y": 26.98073372025796,
+      "z": 15.400021410598873,
+      "name": "S2037",
+      "navigable": true,
+      "is_goal": true
+    },
+    {
+      "id": 8,
+      "original_id": "room_04QQ2gAZLCSeLxIHZ4ixA2",
+      "type": "room",
+      "x": 7.382609195947547,
+      "y": 20.79684266684299,
+      "z": 15.400021410598873,
+      "name": "S2038",
+      "navigable": true,
+      "is_goal": true
+    },
+    {
+      "id": 9,
+      "original_id": "room_04QQ2gAZLCSeLxIHZ4ixA4",
+      "type": "room",
+      "x": 7.320810068534462,
+      "y": 10.634878459737363,
+      "z": 15.400021410598873,
+      "name": "S2040",
+      "navigable": true,
+      "is_goal": true
+    },
+    {
+      "id": 10,
+      "original_id": "room_04QQ2gAZLCSeLxIHZ4ixA7",
+      "type": "room",
+      "x": 7.376907177984913,
+      "y": 16.118664568465928,
+      "z": 15.400021410598873,
+      "name": "S2041",
+      "navigable": true,
+      "is_goal": true
+    },
+    {
+      "id": 11,
+      "original_id": "room_04QQ2gAZLCSeLxIHZ4ixA6",
+      "type": "room",
+      "x": 7.381261923357752,
+      "y": 23.84394518231379,
+      "z": 15.400021410598873,
+      "name": "S2042",
+      "navigable": true,
+      "is_goal": true
+    },
+    {
+      "id": 12,
+      "original_id": "room_04QQ2gAZLCSeLxIHZ4ixAv",
+      "type": "room",
+      "x": 7.373210146656513,
+      "y": 39.39987175485169,
+      "z": 15.400021410598873,
+      "name": "S2043",
+      "navigable": true,
+      "is_goal": true
+    },
+    {
+      "id": 13,
+      "original_id": "room_04QQ2gAZLCSeLxIHZ4ixAu",
+      "type": "room",
+      "x": 7.374026899093221,
+      "y": 42.43306694613878,
+      "z": 15.400021410598873,
+      "name": "S2044",
+      "navigable": true,
+      "is_goal": true
+    },
+    {
+      "id": 14,
+      "original_id": "room_04QQ2gAZLCSeLxIHZ4ixAx",
+      "type": "room",
+      "x": 32.643609594008346,
+      "y": 50.82432681374068,
+      "z": 15.400021410598873,
+      "name": "S2045",
+      "navigable": true,
+      "is_goal": true
+    },
+    {
+      "id": 15,
+      "original_id": "room_04QQ2gAZLCSeLxIHZ4ixAw",
+      "type": "room",
+      "x": 18.10805164223585,
+      "y": 29.18156385983195,
+      "z": 15.400021410598873,
+      "name": "S2046",
+      "navigable": true,
+      "is_goal": true
+    },
+    {
+      "id": 16,
+      "original_id": "room_04QQ2gAZLCSeLxIHZ4ixAz",
+      "type": "room",
+      "x": 15.195945128102206,
+      "y": 30.743165495961463,
+      "z": 15.400021410598873,
+      "name": "S2047",
+      "navigable": true,
+      "is_goal": true
+    },
+    {
+      "id": 17,
+      "original_id": "room_04QQ2gAZLCSeLxIHZ4ixAy",
+      "type": "room",
+      "x": 15.162639952152645,
+      "y": 26.51693570031719,
+      "z": 15.400021410598873,
+      "name": "S2048",
+      "navigable": true,
+      "is_goal": true
+    },
+    {
+      "id": 18,
+      "original_id": "room_04QQ2gAZLCSeLxIHZ4ixA$",
+      "type": "room",
+      "x": 16.255050636549647,
+      "y": 23.820644054376526,
+      "z": 15.400021410598873,
+      "name": "S2049",
+      "navigable": true,
+      "is_goal": true
+    },
+    {
+      "id": 19,
+      "original_id": "room_04QQ2gAZLCSeLxIHZ4ixA_",
+      "type": "room",
+      "x": 37.05724120626153,
+      "y": 70.46838871717213,
+      "z": 15.400021410598873,
+      "name": "S2050",
+      "navigable": true,
+      "is_goal": true
+    },
+    {
+      "id": 20,
+      "original_id": "room_04QQ2gAZLCSeLxIHZ4ixAn",
+      "type": "room",
+      "x": 37.05384481957261,
+      "y": 67.23557562006133,
+      "z": 15.400021410598873,
+      "name": "S2051",
+      "navigable": true,
+      "is_goal": true
+    },
+    {
+      "id": 21,
+      "original_id": "room_04QQ2gAZLCSeLxIHZ4ixAm",
+      "type": "room",
+      "x": 36.97872512633728,
+      "y": 64.17948514591416,
+      "z": 15.400021410598873,
+      "name": "S2052",
+      "navigable": true,
+      "is_goal": true
+    },
+    {
+      "id": 22,
+      "original_id": "room_04QQ2gAZLCSeLxIHZ4ixAp",
+      "type": "room",
+      "x": 37.056948250782916,
+      "y": 61.03622772634175,
+      "z": 15.400021410598873,
+      "name": "S2053",
+      "navigable": true,
+      "is_goal": true
+    },
+    {
+      "id": 23,
+      "original_id": "room_04QQ2gAZLCSeLxIHZ4ixAo",
+      "type": "room",
+      "x": 28.184898750897016,
+      "y": 61.02787583576176,
+      "z": 15.400021410598873,
+      "name": "S2054",
+      "navigable": true,
+      "is_goal": true
+    },
+    {
+      "id": 24,
+      "original_id": "room_04QQ2gAZLCSeLxIHZ4ixAr",
+      "type": "room",
+      "x": 28.147529919785644,
+      "y": 65.20619611908062,
+      "z": 15.400021410598873,
+      "name": "S2055",
+      "navigable": true,
+      "is_goal": true
+    },
+    {
+      "id": 25,
+      "original_id": "room_04QQ2gAZLCSeLxIHZ4ixAq",
+      "type": "room",
+      "x": 37.05444287913421,
+      "y": 58.00503917036934,
+      "z": 15.400021410598873,
+      "name": "S2056",
+      "navigable": true,
+      "is_goal": true
+    },
+    {
+      "id": 26,
+      "original_id": "room_04QQ2gAZLCSeLxIHZ4ixAt",
+      "type": "room",
+      "x": 37.04955580568566,
+      "y": 54.847715962033135,
+      "z": 15.400021410598873,
+      "name": "S2057",
+      "navigable": true,
+      "is_goal": true
+    },
+    {
+      "id": 27,
+      "original_id": "room_04QQ2gAZLCSeLxIHZ4ixAs",
+      "type": "room",
+      "x": 28.186398777765966,
+      "y": 58.01362566390382,
+      "z": 15.400021410598873,
+      "name": "S2058",
+      "navigable": true,
+      "is_goal": true
+    },
+    {
+      "id": 28,
+      "original_id": "room_04QQ2gAZLCSeLxIHZ4ixAf",
+      "type": "room",
+      "x": 28.182953340257857,
+      "y": 53.30332572776518,
+      "z": 15.400021410598873,
+      "name": "S2059",
+      "navigable": true,
+      "is_goal": true
+    },
+    {
+      "id": 29,
+      "original_id": "room_04QQ2gAZLCSeLxIHZ4ixAe",
+      "type": "room",
+      "x": 23.89313383774033,
+      "y": 50.72970669044011,
+      "z": 15.400021410598873,
+      "name": "S2060",
+      "navigable": true,
+      "is_goal": true
+    },
+    {
+      "id": 30,
+      "original_id": "room_04QQ2gAZLCSeLxIHZ4ixAh",
+      "type": "room",
+      "x": 16.404513966213365,
+      "y": 48.55853030778006,
+      "z": 15.400021410598873,
+      "name": "S2061",
+      "navigable": true,
+      "is_goal": true
+    },
+    {
+      "id": 31,
+      "original_id": "room_04QQ2gAZLCSeLxIHZ4ixAg",
+      "type": "room",
+      "x": 16.25532894223389,
+      "y": 53.566174767132985,
+      "z": 15.400021410598873,
+      "name": "S2062",
+      "navigable": true,
+      "is_goal": true
+    },
+    {
+      "id": 32,
+      "original_id": "room_04QQ2gAZLCSeLxIHZ4ixAj",
+      "type": "room",
+      "x": 7.380763731990325,
+      "y": 45.59256562530848,
+      "z": 15.400021410598873,
+      "name": "S2063",
+      "navigable": true,
+      "is_goal": true
+    },
+    {
+      "id": 33,
+      "original_id": "room_04QQ2gAZLCSeLxIHZ4ixAi",
+      "type": "room",
+      "x": 6.966338574226383,
+      "y": 52.98190558403688,
+      "z": 15.400021410598873,
+      "name": "S2064",
+      "navigable": true,
+      "is_goal": true
+    },
+    {
+      "id": 34,
+      "original_id": "room_04QQ2gAZLCSeLxIHZ4ixAl",
+      "type": "room",
+      "x": 28.275634226682122,
+      "y": 31.3209670918257,
+      "z": 15.400021410598873,
+      "name": "S2065",
+      "navigable": true,
+      "is_goal": true
+    },
+    {
+      "id": 35,
+      "original_id": "room_04QQ2gAZLCSeLxIHZ4ixAk",
+      "type": "room",
+      "x": 23.745028779649047,
+      "y": 28.492769619833233,
+      "z": 15.400021410598873,
+      "name": "S2066",
+      "navigable": true,
+      "is_goal": true
+    },
+    {
+      "id": 36,
+      "original_id": "room_04QQ2gAZLCSeLxIHZ4ixAX",
+      "type": "room",
+      "x": 16.19504699604299,
+      "y": 3.7978106826949483,
+      "z": 15.400021410598873,
+      "name": "S2067",
+      "navigable": true,
+      "is_goal": true
+    },
+    {
+      "id": 37,
+      "original_id": "room_04QQ2gAZLCSeLxIHZ4ixAW",
+      "type": "room",
+      "x": 16.254584226406003,
+      "y": 9.914500050594715,
+      "z": 15.400021410598873,
+      "name": "S2068",
+      "navigable": true,
+      "is_goal": true
+    },
+    {
+      "id": 38,
+      "original_id": "room_04QQ2gAZLCSeLxIHZ4ixAZ",
+      "type": "room",
+      "x": 16.25263876144157,
+      "y": 20.80858922262938,
+      "z": 15.400021410598873,
+      "name": "S2069",
+      "navigable": true,
+      "is_goal": true
+    },
+    {
+      "id": 39,
+      "original_id": "room_04QQ2gAZLCSeLxIHZ4ixAY",
+      "type": "room",
+      "x": 16.253889600582184,
+      "y": 16.121160450769704,
+      "z": 15.400021410598873,
+      "name": "S2070",
+      "navigable": true,
+      "is_goal": true
+    },
+    {
+      "id": 40,
+      "original_id": "room_04QQ2gAZLCSeLxIHZ4ixAb",
+      "type": "room",
+      "x": 28.091998093183673,
+      "y": 22.267066800812994,
+      "z": 15.400021410598873,
+      "name": "S2071",
+      "navigable": true,
+      "is_goal": true
+    },
+    {
+      "id": 41,
+      "original_id": "room_04QQ2gAZLCSeLxIHZ4ixAa",
+      "type": "room",
+      "x": 7.383332545504282,
+      "y": 48.64028375440793,
+      "z": 15.400021410598873,
+      "name": "S2072",
+      "navigable": true,
+      "is_goal": true
+    },
+    {
+      "id": 42,
+      "original_id": "room_04QQ2gAZLCSeLxIHZ4ixAd",
+      "type": "room",
+      "x": 11.502991634094242,
+      "y": 28.753823495442923,
+      "z": 15.400021410598873,
+      "name": "S2073",
+      "navigable": true,
+      "is_goal": true
+    },
+    {
+      "id": 43,
+      "original_id": "room_04QQ2gAZLCSeLxIHZ4ixAc",
+      "type": "room",
+      "x": 37.06410941282216,
+      "y": 29.65828199950177,
+      "z": 15.400021410598873,
+      "name": "S2074",
+      "navigable": true,
+      "is_goal": true
+    },
+    {
+      "id": 44,
+      "original_id": "room_04QQ2gAZLCSeLxIHZ4ix9h",
+      "type": "room",
+      "x": 35.20193707370044,
+      "y": 42.966321407155,
+      "z": 15.400021410598873,
+      "name": "S2075",
+      "navigable": true,
+      "is_goal": true
+    },
+    {
+      "id": 45,
+      "original_id": "room_04QQ2gAZLCSeLxIHZ4ix9j",
+      "type": "room",
+      "x": 38.2546109603336,
+      "y": 42.87687988349295,
+      "z": 15.400021410598873,
+      "name": "S2076",
+      "navigable": true,
+      "is_goal": true
+    },
+    {
+      "id": 46,
+      "original_id": "room_04QQ2gAZLCSeLxIHZ4ix9l",
+      "type": "room",
+      "x": 36.78441983898811,
+      "y": 48.74400387891565,
+      "z": 15.400021410598873,
+      "name": "S2077",
+      "navigable": true,
+      "is_goal": true
+    },
+    {
+      "id": 47,
+      "original_id": "room_04QQ2gAZLCSeLxIHZ4ix9X",
+      "type": "room",
+      "x": 6.398907081675302,
+      "y": 35.1884702518963,
+      "z": 15.400021410598873,
+      "name": "S2078",
+      "navigable": true,
+      "is_goal": true
+    },
+    {
+      "id": 48,
+      "original_id": "room_04QQ2gAZLCSeLxIHZ4ix9Z",
+      "type": "room",
+      "x": 9.471935409173307,
+      "y": 36.065765644673135,
+      "z": 15.400021410598873,
+      "name": "S2079",
+      "navigable": true,
+      "is_goal": true
+    },
+    {
+      "id": 49,
+      "original_id": "room_04QQ2gAZLCSeLxIHZ4ix9b",
+      "type": "room",
+      "x": 6.046519266512343,
+      "y": 31.6310428166346,
+      "z": 15.400021410598873,
+      "name": "S2080",
+      "navigable": true,
+      "is_goal": true
+    },
+    {
+      "id": 50,
+      "original_id": "room_04QQ2gAZLCSeLxIHZ4ix9d",
+      "type": "room",
+      "x": 5.846370542519437,
+      "y": 28.15723494919508,
+      "z": 15.400021410598873,
+      "name": "S2081",
+      "navigable": true,
+      "is_goal": true
+    },
+    {
+      "id": 51,
+      "original_id": "room_04QQ2gAZLCSeLxIHZ4ix8P",
+      "type": "room",
+      "x": 22.196937073699985,
+      "y": 39.27500147866283,
+      "z": 15.400021410598873,
+      "name": "S2082",
+      "navigable": true,
+      "is_goal": true
+    },
+    {
+      "id": 52,
+      "original_id": "room_04QQ2gAZLCSeLxIHZ4ix8R",
+      "type": "room",
+      "x": 24.573895857211443,
+      "y": 45.33624013308892,
+      "z": 15.400021410598873,
+      "name": "S2083",
+      "navigable": true,
+      "is_goal": true
+    },
+    {
+      "id": 53,
+      "original_id": "room_04QQ2gAZLCSeLxIHZ4ix8T",
+      "type": "room",
+      "x": 38.89566225278357,
+      "y": 52.27000892144858,
+      "z": 15.400021410598873,
+      "name": "S2084",
+      "navigable": true,
+      "is_goal": true
+    },
+    {
+      "id": 54,
+      "original_id": "room_04QQ2gAZLCSeLxIHZ4ix8V",
+      "type": "room",
+      "x": 20.730794044403783,
+      "y": 28.50036980825122,
+      "z": 15.400021410598873,
+      "name": "S2085",
+      "navigable": true,
+      "is_goal": true
+    },
+    {
+      "id": 55,
+      "original_id": "room_04QQ2gAZLCSeLxIHZ4ix8H",
+      "type": "room",
+      "x": 9.421935409173338,
+      "y": 55.1900014786638,
+      "z": 15.400021410598873,
+      "name": "S2086",
+      "navigable": true,
+      "is_goal": true
+    },
+    {
+      "id": 56,
+      "original_id": "room_04QQ2gAZLCSeLxIHZ4ixN5",
+      "type": "room",
+      "x": 14.941936241436519,
+      "y": 38.22000147866285,
+      "z": 15.400021410598873,
+      "name": "S2087",
+      "navigable": true,
+      "is_goal": true
+    },
+    {
+      "id": 57,
+      "original_id": "room_04QQ2gAZLCSeLxIHZ4ixN7",
+      "type": "room",
+      "x": 19.103054406676314,
+      "y": 33.14473566175227,
+      "z": 15.400021410598873,
+      "name": "S2088",
+      "navigable": true,
+      "is_goal": true
+    },
+    {
+      "id": 58,
+      "original_id": "room_04QQ2gAZLCSeLxIHZ4ixNv",
+      "type": "room",
+      "x": 32.606937073700536,
+      "y": 23.287292855316263,
+      "z": 15.400021410598873,
+      "name": "S2089",
+      "navigable": true,
+      "is_goal": true
+    },
+    {
+      "id": 59,
+      "original_id": "room_04QQ2gAZLCSeLxIHZ4ixNx",
+      "type": "room",
+      "x": 36.86223798008243,
+      "y": 26.4479501831182,
+      "z": 15.400021410598873,
+      "name": "S2090",
+      "navigable": true,
+      "is_goal": true
+    },
+    {
+      "id": 60,
+      "original_id": "room_04QQ2gAZLCSeLxIHZ4ixNz",
+      "type": "room",
+      "x": 23.550741370260784,
+      "y": 22.936465961854076,
+      "z": 15.400021410598873,
+      "name": "S2091",
+      "navigable": true,
+      "is_goal": true
+    },
+    {
+      "id": 61,
+      "original_id": "room_04QQ2gAZLCSeLxIHZ4ixN$",
+      "type": "room",
+      "x": 34.0044370737007,
+      "y": 19.884895525461037,
+      "z": 15.400021410598873,
+      "name": "S2092",
+      "navigable": true,
+      "is_goal": true
+    },
+    {
+      "id": 62,
+      "original_id": "room_04QQ2gAZLCSeLxIHZ4ixNn",
+      "type": "room",
+      "x": 35.29943707370056,
+      "y": 23.127795990604454,
+      "z": 15.400021410598873,
+      "name": "S2093",
+      "navigable": true,
+      "is_goal": true
+    },
+    {
+      "id": 63,
+      "original_id": "room_04QQ2gAZLCSeLxIHZ4ixNp",
+      "type": "room",
+      "x": 38.28525880536749,
+      "y": 21.905864115377494,
+      "z": 15.400021410598873,
+      "name": "S2094",
+      "navigable": true,
+      "is_goal": true
+    },
+    {
+      "id": 64,
+      "original_id": "room_04QQ2gAZLCSeLxIHZ4ixNr",
+      "type": "room",
+      "x": 15.119600300905324,
+      "y": 28.615001478662137,
+      "z": 15.400021410598873,
+      "name": "S2095",
+      "navigable": true,
+      "is_goal": true
+    },
+    {
+      "id": 65,
+      "original_id": "door_3J$jYlSrH8d9UzFlnoVeTm_a",
+      "type": "door",
+      "x": 10.384553372749334,
+      "y": 51.67747751054183,
+      "z": 13.650021410598875,
+      "name": "",
+      "navigable": true,
+      "is_goal": false,
+      "is_waypoint": true
+    },
+    {
+      "id": 66,
+      "original_id": "door_3J$jYlSrH8d9UzFlnoVeTm_b",
+      "type": "door",
+      "x": 10.684317445597348,
+      "y": 51.66558211082563,
+      "z": 13.650021410598875,
+      "name": "",
+      "navigable": true,
+      "is_goal": false,
+      "is_waypoint": true
+    },
+    {
+      "id": 67,
+      "original_id": "door_3J$jYlSrH8d9UzFlnoVeTn_a",
+      "type": "door",
+      "x": 13.217147229061334,
+      "y": 51.66558211082563,
+      "z": 13.650021410598875,
+      "name": "",
+      "navigable": true,
+      "is_goal": false,
+      "is_waypoint": true
+    },
+    {
+      "id": 68,
+      "original_id": "door_3J$jYlSrH8d9UzFlnoVeTn_b",
+      "type": "door",
+      "x": 12.91738315621332,
+      "y": 51.67747751054183,
+      "z": 13.650021410598875,
+      "name": "",
+      "navigable": true,
+      "is_goal": false,
+      "is_waypoint": true
+    },
+    {
+      "id": 69,
+      "original_id": "door_3J$jYlSrH8d9UzFlnoVeTs_a",
+      "type": "door",
+      "x": 10.659317445597347,
+      "y": 48.22731794481514,
+      "z": 13.650021410598875,
+      "name": "",
+      "navigable": true,
+      "is_goal": false,
+      "is_waypoint": true
+    },
+    {
+      "id": 70,
+      "original_id": "door_3J$jYlSrH8d9UzFlnoVeTs_b",
+      "type": "door",
+      "x": 10.359553372749334,
+      "y": 48.239213344531336,
+      "z": 13.650021410598875,
+      "name": "",
+      "navigable": true,
+      "is_goal": false,
+      "is_waypoint": true
+    },
+    {
+      "id": 71,
+      "original_id": "door_3J$jYlSrH8d9UzFlnoVeTt_a",
+      "type": "door",
+      "x": 10.659317445597347,
+      "y": 45.12731794481514,
+      "z": 13.650021410598875,
+      "name": "",
+      "navigable": true,
+      "is_goal": false,
+      "is_waypoint": true
+    },
+    {
+      "id": 72,
+      "original_id": "door_3J$jYlSrH8d9UzFlnoVeTt_b",
+      "type": "door",
+      "x": 10.359553372749334,
+      "y": 45.139213344531335,
+      "z": 13.650021410598875,
+      "name": "",
+      "navigable": true,
+      "is_goal": false,
+      "is_waypoint": true
+    },
+    {
+      "id": 73,
+      "original_id": "door_3J$jYlSrH8d9UzFlnoVeTq_a",
+      "type": "door",
+      "x": 10.659317445597347,
+      "y": 42.02731794481514,
+      "z": 13.650021410598875,
+      "name": "",
+      "navigable": true,
+      "is_goal": false,
+      "is_waypoint": true
+    },
+    {
+      "id": 74,
+      "original_id": "door_3J$jYlSrH8d9UzFlnoVeTq_b",
+      "type": "door",
+      "x": 10.359553372749334,
+      "y": 42.03921334453133,
+      "z": 13.650021410598875,
+      "name": "",
+      "navigable": true,
+      "is_goal": false,
+      "is_waypoint": true
+    },
+    {
+      "id": 75,
+      "original_id": "door_3J$jYlSrH8d9UzFlnoVeTr_a",
+      "type": "door",
+      "x": 10.659317445597347,
+      "y": 38.940582110825474,
+      "z": 13.650021410598875,
+      "name": "",
+      "navigable": true,
+      "is_goal": false,
+      "is_waypoint": true
+    },
+    {
+      "id": 76,
+      "original_id": "door_3J$jYlSrH8d9UzFlnoVeTr_b",
+      "type": "door",
+      "x": 10.359553372749334,
+      "y": 38.95247751054167,
+      "z": 13.650021410598875,
+      "name": "",
+      "navigable": true,
+      "is_goal": false,
+      "is_waypoint": true
+    },
+    {
+      "id": 77,
+      "original_id": "door_3J$jYlSrH8d9UzFlnoVeTg_a",
+      "type": "door",
+      "x": 33.76956132695399,
+      "y": 69.94653227587828,
+      "z": 13.650021410598875,
+      "name": "",
+      "navigable": true,
+      "is_goal": false,
+      "is_waypoint": true
+    },
+    {
+      "id": 78,
+      "original_id": "door_3J$jYlSrH8d9UzFlnoVeTg_b",
+      "type": "door",
+      "x": 34.069325399802,
+      "y": 69.93463687616209,
+      "z": 13.650021410598875,
+      "name": "",
+      "navigable": true,
+      "is_goal": false,
+      "is_waypoint": true
+    },
+    {
+      "id": 79,
+      "original_id": "door_3J$jYlSrH8d9UzFlnoVeTh_a",
+      "type": "door",
+      "x": 33.76956132695399,
+      "y": 66.84594917852226,
+      "z": 13.650021410598875,
+      "name": "",
+      "navigable": true,
+      "is_goal": false,
+      "is_waypoint": true
+    },
+    {
+      "id": 80,
+      "original_id": "door_3J$jYlSrH8d9UzFlnoVeTh_b",
+      "type": "door",
+      "x": 34.069325399802,
+      "y": 66.83405377880607,
+      "z": 13.650021410598875,
+      "name": "",
+      "navigable": true,
+      "is_goal": false,
+      "is_waypoint": true
+    },
+    {
+      "id": 81,
+      "original_id": "door_3J$jYlSrH8d9UzFlnoVeTe_a",
+      "type": "door",
+      "x": 33.76956132695399,
+      "y": 63.7465322758781,
+      "z": 13.650021410598875,
+      "name": "",
+      "navigable": true,
+      "is_goal": false,
+      "is_waypoint": true
+    },
+    {
+      "id": 82,
+      "original_id": "door_3J$jYlSrH8d9UzFlnoVeTe_b",
+      "type": "door",
+      "x": 34.069325399802,
+      "y": 63.73463687616191,
+      "z": 13.650021410598875,
+      "name": "",
+      "navigable": true,
+      "is_goal": false,
+      "is_waypoint": true
+    },
+    {
+      "id": 83,
+      "original_id": "door_3J$jYlSrH8d9UzFlnoVeTf_a",
+      "type": "door",
+      "x": 33.76956132695399,
+      "y": 60.64594917852203,
+      "z": 13.650021410598875,
+      "name": "",
+      "navigable": true,
+      "is_goal": false,
+      "is_waypoint": true
+    },
+    {
+      "id": 84,
+      "original_id": "door_3J$jYlSrH8d9UzFlnoVeTf_b",
+      "type": "door",
+      "x": 34.069325399802,
+      "y": 60.634053778805836,
+      "z": 13.650021410598875,
+      "name": "",
+      "navigable": true,
+      "is_goal": false,
+      "is_waypoint": true
+    },
+    {
+      "id": 85,
+      "original_id": "door_3J$jYlSrH8d9UzFlnoVeTk_a",
+      "type": "door",
+      "x": 33.76956132695399,
+      "y": 57.546532275877944,
+      "z": 13.650021410598875,
+      "name": "",
+      "navigable": true,
+      "is_goal": false,
+      "is_waypoint": true
+    },
+    {
+      "id": 86,
+      "original_id": "door_3J$jYlSrH8d9UzFlnoVeTk_b",
+      "type": "door",
+      "x": 34.069325399802,
+      "y": 57.53463687616175,
+      "z": 13.650021410598875,
+      "name": "",
+      "navigable": true,
+      "is_goal": false,
+      "is_waypoint": true
+    },
+    {
+      "id": 87,
+      "original_id": "door_3J$jYlSrH8d9UzFlnoVeTl_a",
+      "type": "door",
+      "x": 33.76956132695399,
+      "y": 54.470964064091966,
+      "z": 13.650021410598875,
+      "name": "",
+      "navigable": true,
+      "is_goal": false,
+      "is_waypoint": true
+    },
+    {
+      "id": 88,
+      "original_id": "door_3J$jYlSrH8d9UzFlnoVeTl_b",
+      "type": "door",
+      "x": 34.069325399802,
+      "y": 54.45906866437577,
+      "z": 13.650021410598875,
+      "name": "",
+      "navigable": true,
+      "is_goal": false,
+      "is_waypoint": true
+    },
+    {
+      "id": 89,
+      "original_id": "door_3J$jYlSrH8d9UzFlnoVeTi_a",
+      "type": "door",
+      "x": 31.149555037276844,
+      "y": 57.859636876161744,
+      "z": 13.650021410598875,
+      "name": "",
+      "navigable": true,
+      "is_goal": false,
+      "is_waypoint": true
+    },
+    {
+      "id": 90,
+      "original_id": "door_3J$jYlSrH8d9UzFlnoVeTi_b",
+      "type": "door",
+      "x": 31.449319110124858,
+      "y": 57.87153227587794,
+      "z": 13.650021410598875,
+      "name": "",
+      "navigable": true,
+      "is_goal": false,
+      "is_waypoint": true
+    },
+    {
+      "id": 91,
+      "original_id": "door_3J$jYlSrH8d9UzFlnoVeTj_a",
+      "type": "door",
+      "x": 31.149555037276844,
+      "y": 60.63405377880571,
+      "z": 13.650021410598875,
+      "name": "",
+      "navigable": true,
+      "is_goal": false,
+      "is_waypoint": true
+    },
+    {
+      "id": 92,
+      "original_id": "door_3J$jYlSrH8d9UzFlnoVeTj_b",
+      "type": "door",
+      "x": 31.449319110124858,
+      "y": 60.6459491785219,
+      "z": 13.650021410598875,
+      "name": "",
+      "navigable": true,
+      "is_goal": false,
+      "is_waypoint": true
+    },
+    {
+      "id": 93,
+      "original_id": "door_3J$jYlSrH8d9UzFlnoVeTY_a",
+      "type": "door",
+      "x": 31.149555037276844,
+      "y": 64.05963687616175,
+      "z": 13.650021410598875,
+      "name": "",
+      "navigable": true,
+      "is_goal": false,
+      "is_waypoint": true
+    },
+    {
+      "id": 94,
+      "original_id": "door_3J$jYlSrH8d9UzFlnoVeTY_b",
+      "type": "door",
+      "x": 31.449319110124858,
+      "y": 64.07153227587794,
+      "z": 13.650021410598875,
+      "name": "",
+      "navigable": true,
+      "is_goal": false,
+      "is_waypoint": true
+    },
+    {
+      "id": 95,
+      "original_id": "door_3J$jYlSrH8d9UzFlnoVeTZ_a",
+      "type": "door",
+      "x": 31.149555037276695,
+      "y": 23.41926272788253,
+      "z": 13.650021410598875,
+      "name": "",
+      "navigable": true,
+      "is_goal": false,
+      "is_waypoint": true
+    },
+    {
+      "id": 96,
+      "original_id": "door_3J$jYlSrH8d9UzFlnoVeTZ_b",
+      "type": "door",
+      "x": 31.44931911012471,
+      "y": 23.431158127598717,
+      "z": 13.650021410598875,
+      "name": "",
+      "navigable": true,
+      "is_goal": false,
+      "is_waypoint": true
+    },
+    {
+      "id": 97,
+      "original_id": "door_3J$jYlSrH8d9UzFlnoVeTW_a",
+      "type": "door",
+      "x": 33.7645550372764,
+      "y": 38.94594917852074,
+      "z": 13.650021410598875,
+      "name": "",
+      "navigable": true,
+      "is_goal": false,
+      "is_waypoint": true
+    },
+    {
+      "id": 98,
+      "original_id": "door_3J$jYlSrH8d9UzFlnoVeTW_b",
+      "type": "door",
+      "x": 34.06431911012441,
+      "y": 38.93405377880455,
+      "z": 13.650021410598875,
+      "name": "",
+      "navigable": true,
+      "is_goal": false,
+      "is_waypoint": true
+    },
+    {
+      "id": 99,
+      "original_id": "door_3J$jYlSrH8d9UzFlnoVeTX_a",
+      "type": "door",
+      "x": 33.7645550372764,
+      "y": 32.74574235956954,
+      "z": 13.650021410598875,
+      "name": "",
+      "navigable": true,
+      "is_goal": false,
+      "is_waypoint": true
+    },
+    {
+      "id": 100,
+      "original_id": "door_3J$jYlSrH8d9UzFlnoVeTX_b",
+      "type": "door",
+      "x": 34.06431911012441,
+      "y": 32.733846959853345,
+      "z": 13.650021410598875,
+      "name": "",
+      "navigable": true,
+      "is_goal": false,
+      "is_waypoint": true
+    },
+    {
+      "id": 101,
+      "original_id": "door_3J$jYlSrH8d9UzFlnoVeTc_a",
+      "type": "door",
+      "x": 33.7645550372764,
+      "y": 30.205742359569538,
+      "z": 13.650021410598875,
+      "name": "",
+      "navigable": true,
+      "is_goal": false,
+      "is_waypoint": true
+    },
+    {
+      "id": 102,
+      "original_id": "door_3J$jYlSrH8d9UzFlnoVeTc_b",
+      "type": "door",
+      "x": 34.06431911012441,
+      "y": 30.19384695985335,
+      "z": 13.650021410598875,
+      "name": "",
+      "navigable": true,
+      "is_goal": false,
+      "is_waypoint": true
+    },
+    {
+      "id": 103,
+      "original_id": "door_3J$jYlSrH8d9UzFlnoVeTd_a",
+      "type": "door",
+      "x": 36.55955503727671,
+      "y": 19.8909476998589,
+      "z": 13.650021410598875,
+      "name": "",
+      "navigable": true,
+      "is_goal": false,
+      "is_waypoint": true
+    },
+    {
+      "id": 104,
+      "original_id": "door_3J$jYlSrH8d9UzFlnoVeTd_b",
+      "type": "door",
+      "x": 36.859319110124716,
+      "y": 19.87905230014271,
+      "z": 13.650021410598875,
+      "name": "",
+      "navigable": true,
+      "is_goal": false,
+      "is_waypoint": true
+    },
+    {
+      "id": 105,
+      "original_id": "door_3J$jYlSrH8d9UzFlnoVeTa_a",
+      "type": "door",
+      "x": 10.654319110123666,
+      "y": 23.434053778803825,
+      "z": 13.650021410598875,
+      "name": "",
+      "navigable": true,
+      "is_goal": false,
+      "is_waypoint": true
+    },
+    {
+      "id": 106,
+      "original_id": "door_3J$jYlSrH8d9UzFlnoVeTa_b",
+      "type": "door",
+      "x": 10.354555037275652,
+      "y": 23.445949178520014,
+      "z": 13.650021410598875,
+      "name": "",
+      "navigable": true,
+      "is_goal": false,
+      "is_waypoint": true
+    },
+    {
+      "id": 107,
+      "original_id": "door_3J$jYlSrH8d9UzFlnoVeTb_a",
+      "type": "door",
+      "x": 10.654319110123666,
+      "y": 20.329946536240243,
+      "z": 13.650021410598875,
+      "name": "",
+      "navigable": true,
+      "is_goal": false,
+      "is_waypoint": true
+    },
+    {
+      "id": 108,
+      "original_id": "door_3J$jYlSrH8d9UzFlnoVeTb_b",
+      "type": "door",
+      "x": 10.354555037275652,
+      "y": 20.34184193595643,
+      "z": 13.650021410598875,
+      "name": "",
+      "navigable": true,
+      "is_goal": false,
+      "is_waypoint": true
+    },
+    {
+      "id": 109,
+      "original_id": "door_3J$jYlSrH8d9UzFlnoVeSQ_a",
+      "type": "door",
+      "x": 10.649316830433953,
+      "y": 14.134053778803414,
+      "z": 13.650021410598875,
+      "name": "",
+      "navigable": true,
+      "is_goal": false,
+      "is_waypoint": true
+    },
+    {
+      "id": 110,
+      "original_id": "door_3J$jYlSrH8d9UzFlnoVeSQ_b",
+      "type": "door",
+      "x": 10.34955275758594,
+      "y": 14.145949178519606,
+      "z": 13.650021410598875,
+      "name": "",
+      "navigable": true,
+      "is_goal": false,
+      "is_waypoint": true
+    },
+    {
+      "id": 111,
+      "original_id": "door_3J$jYlSrH8d9UzFlnoVeSR_a",
+      "type": "door",
+      "x": 10.649316830433953,
+      "y": 9.469053778803074,
+      "z": 13.650021410598875,
+      "name": "",
+      "navigable": true,
+      "is_goal": false,
+      "is_waypoint": true
+    },
+    {
+      "id": 112,
+      "original_id": "door_3J$jYlSrH8d9UzFlnoVeSR_b",
+      "type": "door",
+      "x": 10.34955275758594,
+      "y": 9.480949178519266,
+      "z": 13.650021410598875,
+      "name": "",
+      "navigable": true,
+      "is_goal": false,
+      "is_waypoint": true
+    },
+    {
+      "id": 113,
+      "original_id": "door_3J$jYlSrH8d9UzFlnoVeSO_a",
+      "type": "door",
+      "x": 12.944553372749317,
+      "y": 2.47153227587737,
+      "z": 13.650021410598875,
+      "name": "",
+      "navigable": true,
+      "is_goal": false,
+      "is_waypoint": true
+    },
+    {
+      "id": 114,
+      "original_id": "door_3J$jYlSrH8d9UzFlnoVeSO_b",
+      "type": "door",
+      "x": 13.24431744559733,
+      "y": 2.4596368761611793,
+      "z": 13.650021410598875,
+      "name": "",
+      "navigable": true,
+      "is_goal": false,
+      "is_waypoint": true
+    },
+    {
+      "id": 115,
+      "original_id": "door_3J$jYlSrH8d9UzFlnoVeSP_a",
+      "type": "door",
+      "x": 12.944553372749317,
+      "y": 8.271532275877368,
+      "z": 13.650021410598875,
+      "name": "",
+      "navigable": true,
+      "is_goal": false,
+      "is_waypoint": true
+    },
+    {
+      "id": 116,
+      "original_id": "door_3J$jYlSrH8d9UzFlnoVeSP_b",
+      "type": "door",
+      "x": 13.24431744559733,
+      "y": 8.259636876161176,
+      "z": 13.650021410598875,
+      "name": "",
+      "navigable": true,
+      "is_goal": false,
+      "is_waypoint": true
+    },
+    {
+      "id": 117,
+      "original_id": "door_3J$jYlSrH8d9UzFlnoVeSU_a",
+      "type": "door",
+      "x": 12.944553372749317,
+      "y": 14.47153227587737,
+      "z": 13.650021410598875,
+      "name": "",
+      "navigable": true,
+      "is_goal": false,
+      "is_waypoint": true
+    },
+    {
+      "id": 118,
+      "original_id": "door_3J$jYlSrH8d9UzFlnoVeSU_b",
+      "type": "door",
+      "x": 13.24431744559733,
+      "y": 14.459636876161179,
+      "z": 13.650021410598875,
+      "name": "",
+      "navigable": true,
+      "is_goal": false,
+      "is_waypoint": true
+    },
+    {
+      "id": 119,
+      "original_id": "door_3J$jYlSrH8d9UzFlnoVeSV_a",
+      "type": "door",
+      "x": 12.944553372749317,
+      "y": 20.671532275877368,
+      "z": 13.650021410598875,
+      "name": "",
+      "navigable": true,
+      "is_goal": false,
+      "is_waypoint": true
+    },
+    {
+      "id": 120,
+      "original_id": "door_3J$jYlSrH8d9UzFlnoVeSV_b",
+      "type": "door",
+      "x": 13.24431744559733,
+      "y": 20.65963687616118,
+      "z": 13.650021410598875,
+      "name": "",
+      "navigable": true,
+      "is_goal": false,
+      "is_waypoint": true
+    },
+    {
+      "id": 121,
+      "original_id": "door_3J$jYlSrH8d9UzFlnoVeSS_a",
+      "type": "door",
+      "x": 28.210836858798555,
+      "y": 46.269798694712165,
+      "z": 13.650021410598875,
+      "name": "",
+      "navigable": true,
+      "is_goal": false,
+      "is_waypoint": true
+    },
+    {
+      "id": 122,
+      "original_id": "door_3J$jYlSrH8d9UzFlnoVeSS_b",
+      "type": "door",
+      "x": 28.21303728860295,
+      "y": 46.5697906247114,
+      "z": 13.650021410598875,
+      "name": "",
+      "navigable": true,
+      "is_goal": false,
+      "is_waypoint": true
+    },
+    {
+      "id": 123,
+      "original_id": "door_3J$jYlSrH8d9UzFlnoVeSM_a",
+      "type": "door",
+      "x": 7.604319110123195,
+      "y": 31.608820939860582,
+      "z": 13.650021410598875,
+      "name": "",
+      "navigable": true,
+      "is_goal": false,
+      "is_waypoint": true
+    },
+    {
+      "id": 124,
+      "original_id": "door_3J$jYlSrH8d9UzFlnoVeSM_b",
+      "type": "door",
+      "x": 7.304555037275182,
+      "y": 31.62071633957677,
+      "z": 13.650021410598875,
+      "name": "",
+      "navigable": true,
+      "is_goal": false,
+      "is_waypoint": true
+    },
+    {
+      "id": 125,
+      "original_id": "door_3J$jYlSrH8d9UzFlnoVeSE_a",
+      "type": "door",
+      "x": 13.225245805196291,
+      "y": 42.914297419251604,
+      "z": 13.650021410598875,
+      "name": "",
+      "navigable": true,
+      "is_goal": false,
+      "is_waypoint": true
+    },
+    {
+      "id": 126,
+      "original_id": "door_3J$jYlSrH8d9UzFlnoVeSE_b",
+      "type": "door",
+      "x": 12.938625013150364,
+      "y": 42.82570553807377,
+      "z": 13.650021410598875,
+      "name": "",
+      "navigable": true,
+      "is_goal": false,
+      "is_waypoint": true
+    },
+    {
+      "id": 127,
+      "original_id": "door_3J$jYlSrH8d9UzFlnoVeSF_a",
+      "type": "door",
+      "x": 18.645469252048443,
+      "y": 46.59810505573474,
+      "z": 13.650021410598875,
+      "name": "",
+      "navigable": true,
+      "is_goal": false,
+      "is_waypoint": true
+    },
+    {
+      "id": 128,
+      "original_id": "door_3J$jYlSrH8d9UzFlnoVeSF_b",
+      "type": "door",
+      "x": 18.734061133226277,
+      "y": 46.31148426368882,
+      "z": 13.650021410598875,
+      "name": "",
+      "navigable": true,
+      "is_goal": false,
+      "is_waypoint": true
+    },
+    {
+      "id": 129,
+      "original_id": "door_3J$jYlSrH8d9UzFlnoVeSC_a",
+      "type": "door",
+      "x": 12.936454796614365,
+      "y": 49.14582575127263,
+      "z": 13.650021410598875,
+      "name": "",
+      "navigable": true,
+      "is_goal": false,
+      "is_waypoint": true
+    },
+    {
+      "id": 130,
+      "original_id": "door_3J$jYlSrH8d9UzFlnoVeSC_b",
+      "type": "door",
+      "x": 13.223075588660292,
+      "y": 49.0572338700948,
+      "z": 13.650021410598875,
+      "name": "",
+      "navigable": true,
+      "is_goal": false,
+      "is_waypoint": true
+    },
+    {
+      "id": 131,
+      "original_id": "door_3J$jYlSrH8d9UzFlnoVeSD_a",
+      "type": "door",
+      "x": 18.033075588659926,
+      "y": 45.13570553807411,
+      "z": 13.650021410598875,
+      "name": "",
+      "navigable": true,
+      "is_goal": false,
+      "is_waypoint": true
+    },
+    {
+      "id": 132,
+      "original_id": "door_3J$jYlSrH8d9UzFlnoVeSD_b",
+      "type": "door",
+      "x": 17.746454796614003,
+      "y": 45.22429741925195,
+      "z": 13.650021410598875,
+      "name": "",
+      "navigable": true,
+      "is_goal": false,
+      "is_waypoint": true
+    },
+    {
+      "id": 133,
+      "original_id": "door_3J$jYlSrH8d9UzFlnoVeS2_a",
+      "type": "door",
+      "x": 17.99156113322624,
+      "y": 32.063894972042235,
+      "z": 13.650021410598875,
+      "name": "",
+      "navigable": true,
+      "is_goal": false,
+      "is_waypoint": true
+    },
+    {
+      "id": 134,
+      "original_id": "door_3J$jYlSrH8d9UzFlnoVeS2_b",
+      "type": "door",
+      "x": 17.902969252048408,
+      "y": 31.77727417999631,
+      "z": 13.650021410598875,
+      "name": "",
+      "navigable": true,
+      "is_goal": false,
+      "is_waypoint": true
+    },
+    {
+      "id": 135,
+      "original_id": "door_3J$jYlSrH8d9UzFlnoVeS3_a",
+      "type": "door",
+      "x": 12.938625013150359,
+      "y": 26.889297419251065,
+      "z": 13.650021410598875,
+      "name": "",
+      "navigable": true,
+      "is_goal": false,
+      "is_waypoint": true
+    },
+    {
+      "id": 136,
+      "original_id": "door_3J$jYlSrH8d9UzFlnoVeS3_b",
+      "type": "door",
+      "x": 13.225245805196286,
+      "y": 26.80070553807323,
+      "z": 13.650021410598875,
+      "name": "",
+      "navigable": true,
+      "is_goal": false,
+      "is_waypoint": true
+    },
+    {
+      "id": 137,
+      "original_id": "door_3J$jYlSrH8d9UzFlnoVeS0_a",
+      "type": "door",
+      "x": 31.168626677677736,
+      "y": 33.22570553807366,
+      "z": 13.650021410598875,
+      "name": "",
+      "navigable": true,
+      "is_goal": false,
+      "is_waypoint": true
+    },
+    {
+      "id": 138,
+      "original_id": "door_3J$jYlSrH8d9UzFlnoVeS0_b",
+      "type": "door",
+      "x": 31.455247469723666,
+      "y": 33.314297419251496,
+      "z": 13.650021410598875,
+      "name": "",
+      "navigable": true,
+      "is_goal": false,
+      "is_waypoint": true
+    },
+    {
+      "id": 139,
+      "original_id": "door_3J$jYlSrH8d9UzFlnoVeS6_a",
+      "type": "door",
+      "x": 37.292351856760625,
+      "y": 52.525720423644934,
+      "z": 13.650021410598875,
+      "name": "",
+      "navigable": true,
+      "is_goal": false,
+      "is_waypoint": true
+    },
+    {
+      "id": 140,
+      "original_id": "door_3J$jYlSrH8d9UzFlnoVeS6_b",
+      "type": "door",
+      "x": 37.57897264880655,
+      "y": 52.61431230482277,
+      "z": 13.650021410598875,
+      "name": "",
+      "navigable": true,
+      "is_goal": false,
+      "is_waypoint": true
+    },
+    {
+      "id": 141,
+      "original_id": "door_3J$jYlSrH8d9UzFlnoVeS7_a",
+      "type": "door",
+      "x": 31.45395298528959,
+      "y": 70.6717160687244,
+      "z": 13.650021410598875,
+      "name": "",
+      "navigable": true,
+      "is_goal": false,
+      "is_waypoint": true
+    },
+    {
+      "id": 142,
+      "original_id": "door_3J$jYlSrH8d9UzFlnoVeS7_b",
+      "type": "door",
+      "x": 31.169921162112587,
+      "y": 70.76828688860458,
+      "z": 13.650021410598875,
+      "name": "",
+      "navigable": true,
+      "is_goal": false,
+      "is_waypoint": true
+    },
+    {
+      "id": 143,
+      "original_id": "door_3J$jYlSrH8d9UzFlnoVeS4_a",
+      "type": "door",
+      "x": 29.903651663761,
+      "y": 72.77101739025298,
+      "z": 13.650021410598875,
+      "name": "",
+      "navigable": true,
+      "is_goal": false,
+      "is_waypoint": true
+    },
+    {
+      "id": 144,
+      "original_id": "door_3J$jYlSrH8d9UzFlnoVeS4_b",
+      "type": "door",
+      "x": 30.000222483641178,
+      "y": 72.48698556707598,
+      "z": 13.650021410598875,
+      "name": "",
+      "navigable": true,
+      "is_goal": false,
+      "is_waypoint": true
+    },
+    {
+      "id": 145,
+      "original_id": "door_3J$jYlSrH8d9UzFlnoVeS5_a",
+      "type": "door",
+      "x": 29.519808856784728,
+      "y": 44.071069952963946,
+      "z": 13.650021410598875,
+      "name": "",
+      "navigable": true,
+      "is_goal": false,
+      "is_waypoint": true
+    },
+    {
+      "id": 146,
+      "original_id": "door_3J$jYlSrH8d9UzFlnoVeS5_b",
+      "type": "door",
+      "x": 29.48406529061694,
+      "y": 44.368933004362155,
+      "z": 13.650021410598875,
+      "name": "",
+      "navigable": true,
+      "is_goal": false,
+      "is_waypoint": true
+    },
+    {
+      "id": 147,
+      "original_id": "door_3J$jYlSrH8d9UzFlnoVeSw_a",
+      "type": "door",
+      "x": 29.519808856784685,
+      "y": 42.57086313401244,
+      "z": 13.650021410598875,
+      "name": "",
+      "navigable": true,
+      "is_goal": false,
+      "is_waypoint": true
+    },
+    {
+      "id": 148,
+      "original_id": "door_3J$jYlSrH8d9UzFlnoVeSw_b",
+      "type": "door",
+      "x": 29.484065290616904,
+      "y": 42.86872618541065,
+      "z": 13.650021410598875,
+      "name": "",
+      "navigable": true,
+      "is_goal": false,
+      "is_waypoint": true
+    },
+    {
+      "id": 149,
+      "original_id": "door_3J$jYlSrH8d9UzFlnoVeSx_a",
+      "type": "door",
+      "x": 9.200222483639415,
+      "y": 3.1520173902496738,
+      "z": 13.650021410598875,
+      "name": "",
+      "navigable": true,
+      "is_goal": false,
+      "is_waypoint": true
+    },
+    {
+      "id": 150,
+      "original_id": "door_3J$jYlSrH8d9UzFlnoVeSx_b",
+      "type": "door",
+      "x": 9.103651663759234,
+      "y": 2.8679855670726737,
+      "z": 13.650021410598875,
+      "name": "",
+      "navigable": true,
+      "is_goal": false,
+      "is_waypoint": true
+    },
+    {
+      "id": 151,
+      "original_id": "door_3J$jYlSrH8d9UzFlnoVeSu_a",
+      "type": "door",
+      "x": 10.369918882421432,
+      "y": 4.741716068721084,
+      "z": 13.650021410598875,
+      "name": "",
+      "navigable": true,
+      "is_goal": false,
+      "is_waypoint": true
+    },
+    {
+      "id": 152,
+      "original_id": "door_3J$jYlSrH8d9UzFlnoVeSu_b",
+      "type": "door",
+      "x": 10.653950705598431,
+      "y": 4.8382868886012655,
+      "z": 13.650021410598875,
+      "name": "",
+      "navigable": true,
+      "is_goal": false,
+      "is_waypoint": true
+    },
+    {
+      "id": 153,
+      "original_id": "door_3J$jYlSrH8d9UzFlnoVeSz_a",
+      "type": "door",
+      "x": 8.50225622307751,
+      "y": 54.08301156391638,
+      "z": 13.650021410598875,
+      "name": "",
+      "navigable": true,
+      "is_goal": false,
+      "is_waypoint": true
+    },
+    {
+      "id": 154,
+      "original_id": "door_3J$jYlSrH8d9UzFlnoVeSz_b",
+      "type": "door",
+      "x": 8.221614595269166,
+      "y": 53.976991393411005,
+      "z": 13.650021410598875,
+      "name": "",
+      "navigable": true,
+      "is_goal": false,
+      "is_waypoint": true
+    },
+    {
+      "id": 155,
+      "original_id": "door_3J$jYlSrH8d9UzFlnoVeSo_a",
+      "type": "door",
+      "x": 13.21931744559733,
+      "y": 23.422080774358097,
+      "z": 13.650021410598875,
+      "name": "",
+      "navigable": true,
+      "is_goal": false,
+      "is_waypoint": true
+    },
+    {
+      "id": 156,
+      "original_id": "door_3J$jYlSrH8d9UzFlnoVeSo_b",
+      "type": "door",
+      "x": 12.919553372749316,
+      "y": 23.433976174074285,
+      "z": 13.650021410598875,
+      "name": "",
+      "navigable": true,
+      "is_goal": false,
+      "is_waypoint": true
+    },
+    {
+      "id": 157,
+      "original_id": "door_3J$jYlSrH8d9UzFlnoVeSp_a",
+      "type": "door",
+      "x": 31.174555037276694,
+      "y": 27.35741366171198,
+      "z": 13.650021410598875,
+      "name": "",
+      "navigable": true,
+      "is_goal": false,
+      "is_waypoint": true
+    },
+    {
+      "id": 158,
+      "original_id": "door_3J$jYlSrH8d9UzFlnoVeSp_b",
+      "type": "door",
+      "x": 31.474319110124707,
+      "y": 27.345518261995792,
+      "z": 13.650021410598875,
+      "name": "",
+      "navigable": true,
+      "is_goal": false,
+      "is_waypoint": true
+    },
+    {
+      "id": 159,
+      "original_id": "door_3J$jYlSrH8d9UzFlnoVeVo_a",
+      "type": "door",
+      "x": 19.155360619235964,
+      "y": 43.20686592528524,
+      "z": 13.650021410598875,
+      "name": "",
+      "navigable": true,
+      "is_goal": false,
+      "is_waypoint": true
+    },
+    {
+      "id": 160,
+      "original_id": "door_3J$jYlSrH8d9UzFlnoVeVo_b",
+      "type": "door",
+      "x": 19.44851352816371,
+      "y": 43.14313703204009,
+      "z": 13.650021410598875,
+      "name": "",
+      "navigable": true,
+      "is_goal": false,
+      "is_waypoint": true
+    },
+    {
+      "id": 161,
+      "original_id": "door_3J$jYlSrH8d9UzFlnoVeUN_a",
+      "type": "door",
+      "x": 20.71164152212235,
+      "y": 31.78320253959527,
+      "z": 13.650021410598875,
+      "name": "",
+      "navigable": true,
+      "is_goal": false,
+      "is_waypoint": true
+    },
+    {
+      "id": 162,
+      "original_id": "door_3J$jYlSrH8d9UzFlnoVeUN_b",
+      "type": "door",
+      "x": 20.723536921838537,
+      "y": 32.08296661244328,
+      "z": 13.650021410598875,
+      "name": "",
+      "navigable": true,
+      "is_goal": false,
+      "is_waypoint": true
+    },
+    {
+      "id": 163,
+      "original_id": "door_3J$jYlSrH8d9UzFlnoVeUK_a",
+      "type": "door",
+      "x": 23.626641522122362,
+      "y": 31.78320253959527,
+      "z": 13.650021410598875,
+      "name": "",
+      "navigable": true,
+      "is_goal": false,
+      "is_waypoint": true
+    },
+    {
+      "id": 164,
+      "original_id": "door_3J$jYlSrH8d9UzFlnoVeUK_b",
+      "type": "door",
+      "x": 23.63853692183855,
+      "y": 32.08296661244328,
+      "z": 13.650021410598875,
+      "name": "",
+      "navigable": true,
+      "is_goal": false,
+      "is_waypoint": true
+    },
+    {
+      "id": 165,
+      "original_id": "door_3J$jYlSrH8d9UzFlnoVeG9_a",
+      "type": "door",
+      "x": 32.650989373842584,
+      "y": 25.282412623287268,
+      "z": 13.650021410598875,
+      "name": "",
+      "navigable": true,
+      "is_goal": false,
+      "is_waypoint": true
+    },
+    {
+      "id": 166,
+      "original_id": "door_3J$jYlSrH8d9UzFlnoVeG9_b",
+      "type": "door",
+      "x": 32.66288477355878,
+      "y": 25.58217669613528,
+      "z": 13.650021410598875,
+      "name": "",
+      "navigable": true,
+      "is_goal": false,
+      "is_waypoint": true
+    },
+    {
+      "id": 167,
+      "original_id": "door_3J$jYlSrH8d9UzFlnoVeGF_a",
+      "type": "door",
+      "x": 34.0393191101244,
+      "y": 26.598803778803724,
+      "z": 13.650021410598875,
+      "name": "",
+      "navigable": true,
+      "is_goal": false,
+      "is_waypoint": true
+    },
+    {
+      "id": 168,
+      "original_id": "door_3J$jYlSrH8d9UzFlnoVeGF_b",
+      "type": "door",
+      "x": 33.739555037276396,
+      "y": 26.610699178519912,
+      "z": 13.650021410598875,
+      "name": "",
+      "navigable": true,
+      "is_goal": false,
+      "is_waypoint": true
+    },
+    {
+      "id": 169,
+      "original_id": "door_3J$jYlSrH8d9UzFlnoVeG1_a",
+      "type": "door",
+      "x": 25.010623406684775,
+      "y": 23.09848357633135,
+      "z": 13.650021410598875,
+      "name": "",
+      "navigable": true,
+      "is_goal": false,
+      "is_waypoint": true
+    },
+    {
+      "id": 170,
+      "original_id": "door_3J$jYlSrH8d9UzFlnoVeG1_b",
+      "type": "door",
+      "x": 24.710859333836762,
+      "y": 23.11037897604754,
+      "z": 13.650021410598875,
+      "name": "",
+      "navigable": true,
+      "is_goal": false,
+      "is_waypoint": true
+    },
+    {
+      "id": 171,
+      "original_id": "door_3J$jYlSrH8d9UzFlnoVeGw_a",
+      "type": "door",
+      "x": 36.837257887604885,
+      "y": 21.826780965668565,
+      "z": 13.650021410598875,
+      "name": "",
+      "navigable": true,
+      "is_goal": false,
+      "is_waypoint": true
+    },
+    {
+      "id": 172,
+      "original_id": "door_3J$jYlSrH8d9UzFlnoVeGw_b",
+      "type": "door",
+      "x": 36.556616259796535,
+      "y": 21.93280113617394,
+      "z": 13.650021410598875,
+      "name": "",
+      "navigable": true,
+      "is_goal": false,
+      "is_waypoint": true
+    },
+    {
+      "id": 173,
+      "original_id": "door_3J$jYlSrH8d9UzFlnoVeGu_a",
+      "type": "door",
+      "x": 38.3578847735585,
+      "y": 25.23818296671166,
+      "z": 13.650021410598875,
+      "name": "",
+      "navigable": true,
+      "is_goal": false,
+      "is_waypoint": true
+    },
+    {
+      "id": 174,
+      "original_id": "door_3J$jYlSrH8d9UzFlnoVeGu_b",
+      "type": "door",
+      "x": 38.34598937384231,
+      "y": 24.938418893863645,
+      "z": 13.650021410598875,
+      "name": "",
+      "navigable": true,
+      "is_goal": false,
+      "is_waypoint": true
+    },
+    {
+      "id": 175,
+      "original_id": "door_3J$jYlSrH8d9UzFlnoVeJy_a",
+      "type": "door",
+      "x": 17.260575588660302,
+      "y": 30.340705538073227,
+      "z": 13.650021410598875,
+      "name": "",
+      "navigable": true,
+      "is_goal": false,
+      "is_waypoint": true
+    },
+    {
+      "id": 176,
+      "original_id": "door_3J$jYlSrH8d9UzFlnoVeJy_b",
+      "type": "door",
+      "x": 16.97395479661438,
+      "y": 30.42929741925106,
+      "z": 13.650021410598875,
+      "name": "",
+      "navigable": true,
+      "is_goal": false,
+      "is_waypoint": true
+    },
+    {
+      "id": 177,
+      "original_id": "door_3J$jYlSrH8d9UzFlnoVeJo_a",
+      "type": "door",
+      "x": 16.362969252048416,
+      "y": 27.69831187468511,
+      "z": 13.650021410598875,
+      "name": "",
+      "navigable": true,
+      "is_goal": false,
+      "is_waypoint": true
+    },
+    {
+      "id": 178,
+      "original_id": "door_3J$jYlSrH8d9UzFlnoVeJo_b",
+      "type": "door",
+      "x": 16.45156113322625,
+      "y": 27.411691082639187,
+      "z": 13.650021410598875,
+      "name": "",
+      "navigable": true,
+      "is_goal": false,
+      "is_waypoint": true
+    }
+  ],
+  "edges": [
+    {
+      "id": 0,
+      "source": 33,
+      "target": 65,
+      "cost": 0.1,
+      "distance": 3.6586507086306166,
+      "type": "room_to_door",
+      "bidirectional": true
+    },
+    {
+      "id": 1,
+      "source": 31,
+      "target": 67,
+      "cost": 0.1,
+      "distance": 3.583685333210154,
+      "type": "room_to_door",
+      "bidirectional": true
+    },
+    {
+      "id": 2,
+      "source": 41,
+      "target": 70,
+      "cost": 0.1,
+      "distance": 3.0031230221564016,
+      "type": "room_to_door",
+      "bidirectional": true
+    },
+    {
+      "id": 3,
+      "source": 32,
+      "target": 72,
+      "cost": 0.1,
+      "distance": 3.0130907743343918,
+      "type": "room_to_door",
+      "bidirectional": true
+    },
+    {
+      "id": 4,
+      "source": 13,
+      "target": 74,
+      "cost": 0.1,
+      "distance": 3.0113931965787297,
+      "type": "room_to_door",
+      "bidirectional": true
+    },
+    {
+      "id": 5,
+      "source": 12,
+      "target": 76,
+      "cost": 0.1,
+      "distance": 3.019670093548666,
+      "type": "room_to_door",
+      "bidirectional": true
+    },
+    {
+      "id": 6,
+      "source": 19,
+      "target": 78,
+      "cost": 0.1,
+      "distance": 3.035215296197674,
+      "type": "room_to_door",
+      "bidirectional": true
+    },
+    {
+      "id": 7,
+      "source": 20,
+      "target": 80,
+      "cost": 0.1,
+      "distance": 3.011407636968621,
+      "type": "room_to_door",
+      "bidirectional": true
+    },
+    {
+      "id": 8,
+      "source": 21,
+      "target": 82,
+      "cost": 0.1,
+      "distance": 2.943211978751302,
+      "type": "room_to_door",
+      "bidirectional": true
+    },
+    {
+      "id": 9,
+      "source": 22,
+      "target": 84,
+      "cost": 0.1,
+      "distance": 3.0145703149503706,
+      "type": "room_to_door",
+      "bidirectional": true
+    },
+    {
+      "id": 10,
+      "source": 25,
+      "target": 86,
+      "cost": 0.1,
+      "distance": 3.0219537858495547,
+      "type": "room_to_door",
+      "bidirectional": true
+    },
+    {
+      "id": 11,
+      "source": 26,
+      "target": 88,
+      "cost": 0.1,
+      "distance": 3.005465021278713,
+      "type": "room_to_door",
+      "bidirectional": true
+    },
+    {
+      "id": 12,
+      "source": 27,
+      "target": 89,
+      "cost": 0.1,
+      "distance": 2.9671547928998874,
+      "type": "room_to_door",
+      "bidirectional": true
+    },
+    {
+      "id": 13,
+      "source": 23,
+      "target": 91,
+      "cost": 0.1,
+      "distance": 2.9906993678597202,
+      "type": "room_to_door",
+      "bidirectional": true
+    },
+    {
+      "id": 14,
+      "source": 24,
+      "target": 93,
+      "cost": 0.1,
+      "distance": 3.213526552491942,
+      "type": "room_to_door",
+      "bidirectional": true
+    },
+    {
+      "id": 15,
+      "source": 40,
+      "target": 95,
+      "cost": 0.1,
+      "distance": 3.2674470035070327,
+      "type": "room_to_door",
+      "bidirectional": true
+    },
+    {
+      "id": 16,
+      "source": 58,
+      "target": 96,
+      "cost": 0.1,
+      "distance": 1.1665232814489175,
+      "type": "room_to_door",
+      "bidirectional": true
+    },
+    {
+      "id": 17,
+      "source": 1,
+      "target": 98,
+      "cost": 0.1,
+      "distance": 3.024247778053088,
+      "type": "room_to_door",
+      "bidirectional": true
+    },
+    {
+      "id": 18,
+      "source": 3,
+      "target": 100,
+      "cost": 0.1,
+      "distance": 3.5709412337567232,
+      "type": "room_to_door",
+      "bidirectional": true
+    },
+    {
+      "id": 19,
+      "source": 43,
+      "target": 102,
+      "cost": 0.1,
+      "distance": 3.047223603038653,
+      "type": "room_to_door",
+      "bidirectional": true
+    },
+    {
+      "id": 20,
+      "source": 61,
+      "target": 103,
+      "cost": 0.1,
+      "distance": 2.55512513130057,
+      "type": "room_to_door",
+      "bidirectional": true
+    },
+    {
+      "id": 21,
+      "source": 63,
+      "target": 104,
+      "cost": 0.1,
+      "distance": 2.478158620598039,
+      "type": "room_to_door",
+      "bidirectional": true
+    },
+    {
+      "id": 22,
+      "source": 11,
+      "target": 106,
+      "cost": 0.1,
+      "distance": 2.999812120834806,
+      "type": "room_to_door",
+      "bidirectional": true
+    },
+    {
+      "id": 23,
+      "source": 8,
+      "target": 108,
+      "cost": 0.1,
+      "distance": 3.006574088376125,
+      "type": "room_to_door",
+      "bidirectional": true
+    },
+    {
+      "id": 24,
+      "source": 10,
+      "target": 110,
+      "cost": 0.1,
+      "distance": 3.567664187063097,
+      "type": "room_to_door",
+      "bidirectional": true
+    },
+    {
+      "id": 25,
+      "source": 9,
+      "target": 112,
+      "cost": 0.1,
+      "distance": 3.2411163296826127,
+      "type": "room_to_door",
+      "bidirectional": true
+    },
+    {
+      "id": 26,
+      "source": 36,
+      "target": 114,
+      "cost": 0.1,
+      "distance": 3.2399867308935573,
+      "type": "room_to_door",
+      "bidirectional": true
+    },
+    {
+      "id": 27,
+      "source": 37,
+      "target": 116,
+      "cost": 0.1,
+      "distance": 3.435153303382027,
+      "type": "room_to_door",
+      "bidirectional": true
+    },
+    {
+      "id": 28,
+      "source": 39,
+      "target": 118,
+      "cost": 0.1,
+      "distance": 3.437758738631911,
+      "type": "room_to_door",
+      "bidirectional": true
+    },
+    {
+      "id": 29,
+      "source": 38,
+      "target": 120,
+      "cost": 0.1,
+      "distance": 3.0120066302850668,
+      "type": "room_to_door",
+      "bidirectional": true
+    },
+    {
+      "id": 30,
+      "source": 49,
+      "target": 124,
+      "cost": 0.1,
+      "distance": 1.2580781520427402,
+      "type": "room_to_door",
+      "bidirectional": true
+    },
+    {
+      "id": 31,
+      "source": 6,
+      "target": 125,
+      "cost": 0.1,
+      "distance": 1.9084946858162501,
+      "type": "room_to_door",
+      "bidirectional": true
+    },
+    {
+      "id": 32,
+      "source": 30,
+      "target": 130,
+      "cost": 0.1,
+      "distance": 3.2202880916515744,
+      "type": "room_to_door",
+      "bidirectional": true
+    },
+    {
+      "id": 33,
+      "source": 2,
+      "target": 132,
+      "cost": 0.1,
+      "distance": 2.3091175435558307,
+      "type": "room_to_door",
+      "bidirectional": true
+    },
+    {
+      "id": 34,
+      "source": 57,
+      "target": 133,
+      "cost": 0.1,
+      "distance": 1.5503657289354749,
+      "type": "room_to_door",
+      "bidirectional": true
+    },
+    {
+      "id": 35,
+      "source": 15,
+      "target": 134,
+      "cost": 0.1,
+      "distance": 2.603799311193696,
+      "type": "room_to_door",
+      "bidirectional": true
+    },
+    {
+      "id": 36,
+      "source": 17,
+      "target": 136,
+      "cost": 0.1,
+      "distance": 1.9580657296119681,
+      "type": "room_to_door",
+      "bidirectional": true
+    },
+    {
+      "id": 37,
+      "source": 34,
+      "target": 137,
+      "cost": 0.1,
+      "distance": 3.463731206391845,
+      "type": "room_to_door",
+      "bidirectional": true
+    },
+    {
+      "id": 38,
+      "source": 46,
+      "target": 139,
+      "cost": 0.1,
+      "distance": 3.8156749022103105,
+      "type": "room_to_door",
+      "bidirectional": true
+    },
+    {
+      "id": 39,
+      "source": 53,
+      "target": 140,
+      "cost": 0.1,
+      "distance": 1.360961547224641,
+      "type": "room_to_door",
+      "bidirectional": true
+    },
+    {
+      "id": 40,
+      "source": 5,
+      "target": 142,
+      "cost": 0.1,
+      "distance": 1.3903580975133472,
+      "type": "room_to_door",
+      "bidirectional": true
+    },
+    {
+      "id": 41,
+      "source": 5,
+      "target": 143,
+      "cost": 0.1,
+      "distance": 1.9253669364361197,
+      "type": "room_to_door",
+      "bidirectional": true
+    },
+    {
+      "id": 42,
+      "source": 5,
+      "target": 144,
+      "cost": 0.1,
+      "distance": 1.6519693278004883,
+      "type": "room_to_door",
+      "bidirectional": true
+    },
+    {
+      "id": 43,
+      "source": 4,
+      "target": 145,
+      "cost": 0.1,
+      "distance": 0.6662208693765141,
+      "type": "room_to_door",
+      "bidirectional": true
+    },
+    {
+      "id": 44,
+      "source": 4,
+      "target": 147,
+      "cost": 0.1,
+      "distance": 0.9437724448267033,
+      "type": "room_to_door",
+      "bidirectional": true
+    },
+    {
+      "id": 45,
+      "source": 4,
+      "target": 148,
+      "cost": 0.1,
+      "distance": 0.6823883221122664,
+      "type": "room_to_door",
+      "bidirectional": true
+    },
+    {
+      "id": 46,
+      "source": 0,
+      "target": 149,
+      "cost": 0.1,
+      "distance": 1.6466062786008537,
+      "type": "room_to_door",
+      "bidirectional": true
+    },
+    {
+      "id": 47,
+      "source": 0,
+      "target": 150,
+      "cost": 0.1,
+      "distance": 1.9233534023457974,
+      "type": "room_to_door",
+      "bidirectional": true
+    },
+    {
+      "id": 48,
+      "source": 0,
+      "target": 151,
+      "cost": 0.1,
+      "distance": 1.338853932088435,
+      "type": "room_to_door",
+      "bidirectional": true
+    },
+    {
+      "id": 49,
+      "source": 55,
+      "target": 153,
+      "cost": 0.1,
+      "distance": 1.4391790981981336,
+      "type": "room_to_door",
+      "bidirectional": true
+    },
+    {
+      "id": 50,
+      "source": 33,
+      "target": 154,
+      "cost": 0.1,
+      "distance": 1.601846951809928,
+      "type": "room_to_door",
+      "bidirectional": true
+    },
+    {
+      "id": 51,
+      "source": 18,
+      "target": 155,
+      "cost": 0.1,
+      "distance": 3.0617852136994506,
+      "type": "room_to_door",
+      "bidirectional": true
+    },
+    {
+      "id": 52,
+      "source": 7,
+      "target": 157,
+      "cost": 0.1,
+      "distance": 2.8625099974506765,
+      "type": "room_to_door",
+      "bidirectional": true
+    },
+    {
+      "id": 53,
+      "source": 57,
+      "target": 162,
+      "cost": 0.1,
+      "distance": 1.9373479542965446,
+      "type": "room_to_door",
+      "bidirectional": true
+    },
+    {
+      "id": 54,
+      "source": 57,
+      "target": 164,
+      "cost": 0.1,
+      "distance": 4.6581063920237895,
+      "type": "room_to_door",
+      "bidirectional": true
+    },
+    {
+      "id": 55,
+      "source": 58,
+      "target": 165,
+      "cost": 0.1,
+      "distance": 1.9956060467177588,
+      "type": "room_to_door",
+      "bidirectional": true
+    },
+    {
+      "id": 56,
+      "source": 59,
+      "target": 167,
+      "cost": 0.1,
+      "distance": 2.8269467192885642,
+      "type": "room_to_door",
+      "bidirectional": true
+    },
+    {
+      "id": 57,
+      "source": 40,
+      "target": 169,
+      "cost": 0.1,
+      "distance": 3.191570743882942,
+      "type": "room_to_door",
+      "bidirectional": true
+    },
+    {
+      "id": 58,
+      "source": 60,
+      "target": 170,
+      "cost": 0.1,
+      "distance": 1.1730811676595654,
+      "type": "room_to_door",
+      "bidirectional": true
+    },
+    {
+      "id": 59,
+      "source": 63,
+      "target": 171,
+      "cost": 0.1,
+      "distance": 1.450158888677111,
+      "type": "room_to_door",
+      "bidirectional": true
+    },
+    {
+      "id": 60,
+      "source": 62,
+      "target": 172,
+      "cost": 0.1,
+      "distance": 1.7345063297861862,
+      "type": "room_to_door",
+      "bidirectional": true
+    },
+    {
+      "id": 61,
+      "source": 59,
+      "target": 173,
+      "cost": 0.1,
+      "distance": 1.9236673435724994,
+      "type": "room_to_door",
+      "bidirectional": true
+    },
+    {
+      "id": 62,
+      "source": 63,
+      "target": 174,
+      "cost": 0.1,
+      "distance": 3.0331628189839175,
+      "type": "room_to_door",
+      "bidirectional": true
+    },
+    {
+      "id": 63,
+      "source": 15,
+      "target": 175,
+      "cost": 0.1,
+      "distance": 1.4359056694713577,
+      "type": "room_to_door",
+      "bidirectional": true
+    },
+    {
+      "id": 64,
+      "source": 16,
+      "target": 176,
+      "cost": 0.1,
+      "distance": 1.8055003602604607,
+      "type": "room_to_door",
+      "bidirectional": true
+    },
+    {
+      "id": 65,
+      "source": 64,
+      "target": 177,
+      "cost": 0.1,
+      "distance": 1.5447608807534678,
+      "type": "room_to_door",
+      "bidirectional": true
+    },
+    {
+      "id": 66,
+      "source": 17,
+      "target": 178,
+      "cost": 0.1,
+      "distance": 1.5690458900919235,
+      "type": "room_to_door",
+      "bidirectional": true
+    },
+    {
+      "id": 67,
+      "source": 65,
+      "target": 66,
+      "cost": 0.29999999984139536,
+      "distance": 0.29999999984139536,
+      "type": "through_door",
+      "bidirectional": true
+    },
+    {
+      "id": 68,
+      "source": 67,
+      "target": 68,
+      "cost": 0.29999999984139536,
+      "distance": 0.29999999984139536,
+      "type": "through_door",
+      "bidirectional": true
+    },
+    {
+      "id": 69,
+      "source": 69,
+      "target": 70,
+      "cost": 0.29999999984139536,
+      "distance": 0.29999999984139536,
+      "type": "through_door",
+      "bidirectional": true
+    },
+    {
+      "id": 70,
+      "source": 71,
+      "target": 72,
+      "cost": 0.29999999984139536,
+      "distance": 0.29999999984139536,
+      "type": "through_door",
+      "bidirectional": true
+    },
+    {
+      "id": 71,
+      "source": 73,
+      "target": 74,
+      "cost": 0.29999999984139536,
+      "distance": 0.29999999984139536,
+      "type": "through_door",
+      "bidirectional": true
+    },
+    {
+      "id": 72,
+      "source": 75,
+      "target": 76,
+      "cost": 0.29999999984139536,
+      "distance": 0.29999999984139536,
+      "type": "through_door",
+      "bidirectional": true
+    },
+    {
+      "id": 73,
+      "source": 77,
+      "target": 78,
+      "cost": 0.2999999998413883,
+      "distance": 0.2999999998413883,
+      "type": "through_door",
+      "bidirectional": true
+    },
+    {
+      "id": 74,
+      "source": 79,
+      "target": 80,
+      "cost": 0.2999999998413883,
+      "distance": 0.2999999998413883,
+      "type": "through_door",
+      "bidirectional": true
+    },
+    {
+      "id": 75,
+      "source": 81,
+      "target": 82,
+      "cost": 0.2999999998413883,
+      "distance": 0.2999999998413883,
+      "type": "through_door",
+      "bidirectional": true
+    },
+    {
+      "id": 76,
+      "source": 83,
+      "target": 84,
+      "cost": 0.2999999998413883,
+      "distance": 0.2999999998413883,
+      "type": "through_door",
+      "bidirectional": true
+    },
+    {
+      "id": 77,
+      "source": 85,
+      "target": 86,
+      "cost": 0.2999999998413883,
+      "distance": 0.2999999998413883,
+      "type": "through_door",
+      "bidirectional": true
+    },
+    {
+      "id": 78,
+      "source": 87,
+      "target": 88,
+      "cost": 0.2999999998413883,
+      "distance": 0.2999999998413883,
+      "type": "through_door",
+      "bidirectional": true
+    },
+    {
+      "id": 79,
+      "source": 89,
+      "target": 90,
+      "cost": 0.29999999984139536,
+      "distance": 0.29999999984139536,
+      "type": "through_door",
+      "bidirectional": true
+    },
+    {
+      "id": 80,
+      "source": 91,
+      "target": 92,
+      "cost": 0.29999999984139536,
+      "distance": 0.29999999984139536,
+      "type": "through_door",
+      "bidirectional": true
+    },
+    {
+      "id": 81,
+      "source": 93,
+      "target": 94,
+      "cost": 0.29999999984139536,
+      "distance": 0.29999999984139536,
+      "type": "through_door",
+      "bidirectional": true
+    },
+    {
+      "id": 82,
+      "source": 95,
+      "target": 96,
+      "cost": 0.2999999998413951,
+      "distance": 0.2999999998413951,
+      "type": "through_door",
+      "bidirectional": true
+    },
+    {
+      "id": 83,
+      "source": 97,
+      "target": 98,
+      "cost": 0.2999999998413883,
+      "distance": 0.2999999998413883,
+      "type": "through_door",
+      "bidirectional": true
+    },
+    {
+      "id": 84,
+      "source": 99,
+      "target": 100,
+      "cost": 0.2999999998413883,
+      "distance": 0.2999999998413883,
+      "type": "through_door",
+      "bidirectional": true
+    },
+    {
+      "id": 85,
+      "source": 101,
+      "target": 102,
+      "cost": 0.29999999984138803,
+      "distance": 0.29999999984138803,
+      "type": "through_door",
+      "bidirectional": true
+    },
+    {
+      "id": 86,
+      "source": 103,
+      "target": 104,
+      "cost": 0.29999999984138803,
+      "distance": 0.29999999984138803,
+      "type": "through_door",
+      "bidirectional": true
+    },
+    {
+      "id": 87,
+      "source": 105,
+      "target": 106,
+      "cost": 0.2999999998413951,
+      "distance": 0.2999999998413951,
+      "type": "through_door",
+      "bidirectional": true
+    },
+    {
+      "id": 88,
+      "source": 107,
+      "target": 108,
+      "cost": 0.2999999998413951,
+      "distance": 0.2999999998413951,
+      "type": "through_door",
+      "bidirectional": true
+    },
+    {
+      "id": 89,
+      "source": 109,
+      "target": 110,
+      "cost": 0.29999999984139525,
+      "distance": 0.29999999984139525,
+      "type": "through_door",
+      "bidirectional": true
+    },
+    {
+      "id": 90,
+      "source": 111,
+      "target": 112,
+      "cost": 0.29999999984139525,
+      "distance": 0.29999999984139525,
+      "type": "through_door",
+      "bidirectional": true
+    },
+    {
+      "id": 91,
+      "source": 113,
+      "target": 114,
+      "cost": 0.2999999998413952,
+      "distance": 0.2999999998413952,
+      "type": "through_door",
+      "bidirectional": true
+    },
+    {
+      "id": 92,
+      "source": 115,
+      "target": 116,
+      "cost": 0.29999999984139525,
+      "distance": 0.29999999984139525,
+      "type": "through_door",
+      "bidirectional": true
+    },
+    {
+      "id": 93,
+      "source": 117,
+      "target": 118,
+      "cost": 0.29999999984139525,
+      "distance": 0.29999999984139525,
+      "type": "through_door",
+      "bidirectional": true
+    },
+    {
+      "id": 94,
+      "source": 119,
+      "target": 120,
+      "cost": 0.2999999998413951,
+      "distance": 0.2999999998413951,
+      "type": "through_door",
+      "bidirectional": true
+    },
+    {
+      "id": 95,
+      "source": 121,
+      "target": 122,
+      "cost": 0.29999999992665205,
+      "distance": 0.29999999992665205,
+      "type": "through_door",
+      "bidirectional": true
+    },
+    {
+      "id": 96,
+      "source": 123,
+      "target": 124,
+      "cost": 0.2999999998413951,
+      "distance": 0.2999999998413951,
+      "type": "through_door",
+      "bidirectional": true
+    },
+    {
+      "id": 97,
+      "source": 125,
+      "target": 126,
+      "cost": 0.29999999973943636,
+      "distance": 0.29999999973943636,
+      "type": "through_door",
+      "bidirectional": true
+    },
+    {
+      "id": 98,
+      "source": 127,
+      "target": 128,
+      "cost": 0.299999999739433,
+      "distance": 0.299999999739433,
+      "type": "through_door",
+      "bidirectional": true
+    },
+    {
+      "id": 99,
+      "source": 129,
+      "target": 130,
+      "cost": 0.29999999973943636,
+      "distance": 0.29999999973943636,
+      "type": "through_door",
+      "bidirectional": true
+    },
+    {
+      "id": 100,
+      "source": 131,
+      "target": 132,
+      "cost": 0.299999999739433,
+      "distance": 0.299999999739433,
+      "type": "through_door",
+      "bidirectional": true
+    },
+    {
+      "id": 101,
+      "source": 133,
+      "target": 134,
+      "cost": 0.299999999739433,
+      "distance": 0.299999999739433,
+      "type": "through_door",
+      "bidirectional": true
+    },
+    {
+      "id": 102,
+      "source": 135,
+      "target": 136,
+      "cost": 0.29999999973943636,
+      "distance": 0.29999999973943636,
+      "type": "through_door",
+      "bidirectional": true
+    },
+    {
+      "id": 103,
+      "source": 137,
+      "target": 138,
+      "cost": 0.29999999973943975,
+      "distance": 0.29999999973943975,
+      "type": "through_door",
+      "bidirectional": true
+    },
+    {
+      "id": 104,
+      "source": 139,
+      "target": 140,
+      "cost": 0.299999999739433,
+      "distance": 0.299999999739433,
+      "type": "through_door",
+      "bidirectional": true
+    },
+    {
+      "id": 105,
+      "source": 141,
+      "target": 142,
+      "cost": 0.2999999997159721,
+      "distance": 0.2999999997159721,
+      "type": "through_door",
+      "bidirectional": true
+    },
+    {
+      "id": 106,
+      "source": 143,
+      "target": 144,
+      "cost": 0.2999999997159698,
+      "distance": 0.2999999997159698,
+      "type": "through_door",
+      "bidirectional": true
+    },
+    {
+      "id": 107,
+      "source": 145,
+      "target": 146,
+      "cost": 0.2999999998510726,
+      "distance": 0.2999999998510726,
+      "type": "through_door",
+      "bidirectional": true
+    },
+    {
+      "id": 108,
+      "source": 147,
+      "target": 148,
+      "cost": 0.29999999985107173,
+      "distance": 0.29999999985107173,
+      "type": "through_door",
+      "bidirectional": true
+    },
+    {
+      "id": 109,
+      "source": 149,
+      "target": 150,
+      "cost": 0.2999999997159684,
+      "distance": 0.2999999997159684,
+      "type": "through_door",
+      "bidirectional": true
+    },
+    {
+      "id": 110,
+      "source": 151,
+      "target": 152,
+      "cost": 0.2999999997159676,
+      "distance": 0.2999999997159676,
+      "type": "through_door",
+      "bidirectional": true
+    },
+    {
+      "id": 111,
+      "source": 153,
+      "target": 154,
+      "cost": 0.2999999996881754,
+      "distance": 0.2999999996881754,
+      "type": "through_door",
+      "bidirectional": true
+    },
+    {
+      "id": 112,
+      "source": 155,
+      "target": 156,
+      "cost": 0.2999999998413951,
+      "distance": 0.2999999998413951,
+      "type": "through_door",
+      "bidirectional": true
+    },
+    {
+      "id": 113,
+      "source": 157,
+      "target": 158,
+      "cost": 0.2999999998413951,
+      "distance": 0.2999999998413951,
+      "type": "through_door",
+      "bidirectional": true
+    },
+    {
+      "id": 114,
+      "source": 159,
+      "target": 160,
+      "cost": 0.299999999745085,
+      "distance": 0.299999999745085,
+      "type": "through_door",
+      "bidirectional": true
+    },
+    {
+      "id": 115,
+      "source": 161,
+      "target": 162,
+      "cost": 0.2999999998413916,
+      "distance": 0.2999999998413916,
+      "type": "through_door",
+      "bidirectional": true
+    },
+    {
+      "id": 116,
+      "source": 163,
+      "target": 164,
+      "cost": 0.2999999998413916,
+      "distance": 0.2999999998413916,
+      "type": "through_door",
+      "bidirectional": true
+    },
+    {
+      "id": 117,
+      "source": 165,
+      "target": 166,
+      "cost": 0.29999999984139536,
+      "distance": 0.29999999984139536,
+      "type": "through_door",
+      "bidirectional": true
+    },
+    {
+      "id": 118,
+      "source": 167,
+      "target": 168,
+      "cost": 0.29999999984138803,
+      "distance": 0.29999999984138803,
+      "type": "through_door",
+      "bidirectional": true
+    },
+    {
+      "id": 119,
+      "source": 169,
+      "target": 170,
+      "cost": 0.2999999998413951,
+      "distance": 0.2999999998413951,
+      "type": "through_door",
+      "bidirectional": true
+    },
+    {
+      "id": 120,
+      "source": 171,
+      "target": 172,
+      "cost": 0.2999999996881821,
+      "distance": 0.2999999996881821,
+      "type": "through_door",
+      "bidirectional": true
+    },
+    {
+      "id": 121,
+      "source": 173,
+      "target": 174,
+      "cost": 0.29999999984139536,
+      "distance": 0.29999999984139536,
+      "type": "through_door",
+      "bidirectional": true
+    },
+    {
+      "id": 122,
+      "source": 175,
+      "target": 176,
+      "cost": 0.299999999739433,
+      "distance": 0.299999999739433,
+      "type": "through_door",
+      "bidirectional": true
+    },
+    {
+      "id": 123,
+      "source": 177,
+      "target": 178,
+      "cost": 0.299999999739433,
+      "distance": 0.299999999739433,
+      "type": "through_door",
+      "bidirectional": true
+    },
+    {
+      "id": 124,
+      "source": 28,
+      "target": 14,
+      "cost": 5.10322347441869,
+      "distance": 5.10322347441869,
+      "type": "room_to_room_open",
+      "bidirectional": true
+    },
+    {
+      "id": 125,
+      "source": 44,
+      "target": 45,
+      "cost": 3.0539838971885533,
+      "distance": 3.0539838971885533,
+      "type": "room_to_room_open",
+      "bidirectional": true
+    },
+    {
+      "id": 126,
+      "source": 45,
+      "target": 44,
+      "cost": 3.0539838971885533,
+      "distance": 3.0539838971885533,
+      "type": "room_to_room_open",
+      "bidirectional": true
+    },
+    {
+      "id": 127,
+      "source": 47,
+      "target": 48,
+      "cost": 3.195801981943288,
+      "distance": 3.195801981943288,
+      "type": "room_to_room_open",
+      "bidirectional": true
+    },
+    {
+      "id": 128,
+      "source": 48,
+      "target": 47,
+      "cost": 3.195801981943288,
+      "distance": 3.195801981943288,
+      "type": "room_to_room_open",
+      "bidirectional": true
+    },
+    {
+      "id": 129,
+      "source": 50,
+      "target": 42,
+      "cost": 5.687994380022105,
+      "distance": 5.687994380022105,
+      "type": "room_to_room_open",
+      "bidirectional": true
+    },
+    {
+      "id": 130,
+      "source": 14,
+      "target": 28,
+      "cost": 5.10322347441869,
+      "distance": 5.10322347441869,
+      "type": "room_to_room_open",
+      "bidirectional": true
+    },
+    {
+      "id": 131,
+      "source": 42,
+      "target": 50,
+      "cost": 5.687994380022105,
+      "distance": 5.687994380022105,
+      "type": "room_to_room_open",
+      "bidirectional": true
+    },
+    {
+      "id": 132,
+      "source": 44,
+      "target": 45,
+      "cost": 3.0539838971885533,
+      "distance": 3.0539838971885533,
+      "type": "room_to_room_open",
+      "bidirectional": true
+    },
+    {
+      "id": 133,
+      "source": 47,
+      "target": 48,
+      "cost": 3.195801981943288,
+      "distance": 3.195801981943288,
+      "type": "room_to_room_open",
+      "bidirectional": true
+    }
+  ],
+  "semantic_locations": {
+    "S2024": {
+      "node_id": 0,
+      "type": "room",
+      "position": [
+        9.031935933854605,
+        4.790001478661181
+      ]
+    },
+    "S2030": {
+      "node_id": 1,
+      "type": "room",
+      "position": [
+        37.05109426868819,
+        39.40865758751803
+      ]
+    },
+    "S2031": {
+      "node_id": 2,
+      "type": "room",
+      "position": [
+        15.484765192637138,
+        45.689898069187365
+      ]
+    },
+    "S2032": {
+      "node_id": 3,
+      "type": "room",
+      "position": [
+        37.032154011748375,
+        34.71969118628367
+      ]
+    },
+    "S2034": {
+      "node_id": 4,
+      "type": "room",
+      "position": [
+        29.806937073700546,
+        43.469898069187316
+      ]
+    },
+    "S2035": {
+      "node_id": 5,
+      "type": "room",
+      "position": [
+        29.781937073701503,
+        70.84950147866441
+      ]
+    },
+    "S2036": {
+      "node_id": 6,
+      "type": "room",
+      "position": [
+        15.115850300905343,
+        43.17500147866301
+      ]
+    },
+    "S2037": {
+      "node_id": 7,
+      "type": "room",
+      "position": [
+        28.33693707370033,
+        26.98073372025796
+      ]
+    },
+    "S2038": {
+      "node_id": 8,
+      "type": "room",
+      "position": [
+        7.382609195947547,
+        20.79684266684299
+      ]
+    },
+    "S2040": {
+      "node_id": 9,
+      "type": "room",
+      "position": [
+        7.320810068534462,
+        10.634878459737363
+      ]
+    },
+    "S2041": {
+      "node_id": 10,
+      "type": "room",
+      "position": [
+        7.376907177984913,
+        16.118664568465928
+      ]
+    },
+    "S2042": {
+      "node_id": 11,
+      "type": "room",
+      "position": [
+        7.381261923357752,
+        23.84394518231379
+      ]
+    },
+    "S2043": {
+      "node_id": 12,
+      "type": "room",
+      "position": [
+        7.373210146656513,
+        39.39987175485169
+      ]
+    },
+    "S2044": {
+      "node_id": 13,
+      "type": "room",
+      "position": [
+        7.374026899093221,
+        42.43306694613878
+      ]
+    },
+    "S2045": {
+      "node_id": 14,
+      "type": "room",
+      "position": [
+        32.643609594008346,
+        50.82432681374068
+      ]
+    },
+    "S2046": {
+      "node_id": 15,
+      "type": "room",
+      "position": [
+        18.10805164223585,
+        29.18156385983195
+      ]
+    },
+    "S2047": {
+      "node_id": 16,
+      "type": "room",
+      "position": [
+        15.195945128102206,
+        30.743165495961463
+      ]
+    },
+    "S2048": {
+      "node_id": 17,
+      "type": "room",
+      "position": [
+        15.162639952152645,
+        26.51693570031719
+      ]
+    },
+    "S2049": {
+      "node_id": 18,
+      "type": "room",
+      "position": [
+        16.255050636549647,
+        23.820644054376526
+      ]
+    },
+    "S2050": {
+      "node_id": 19,
+      "type": "room",
+      "position": [
+        37.05724120626153,
+        70.46838871717213
+      ]
+    },
+    "S2051": {
+      "node_id": 20,
+      "type": "room",
+      "position": [
+        37.05384481957261,
+        67.23557562006133
+      ]
+    },
+    "S2052": {
+      "node_id": 21,
+      "type": "room",
+      "position": [
+        36.97872512633728,
+        64.17948514591416
+      ]
+    },
+    "S2053": {
+      "node_id": 22,
+      "type": "room",
+      "position": [
+        37.056948250782916,
+        61.03622772634175
+      ]
+    },
+    "S2054": {
+      "node_id": 23,
+      "type": "room",
+      "position": [
+        28.184898750897016,
+        61.02787583576176
+      ]
+    },
+    "S2055": {
+      "node_id": 24,
+      "type": "room",
+      "position": [
+        28.147529919785644,
+        65.20619611908062
+      ]
+    },
+    "S2056": {
+      "node_id": 25,
+      "type": "room",
+      "position": [
+        37.05444287913421,
+        58.00503917036934
+      ]
+    },
+    "S2057": {
+      "node_id": 26,
+      "type": "room",
+      "position": [
+        37.04955580568566,
+        54.847715962033135
+      ]
+    },
+    "S2058": {
+      "node_id": 27,
+      "type": "room",
+      "position": [
+        28.186398777765966,
+        58.01362566390382
+      ]
+    },
+    "S2059": {
+      "node_id": 28,
+      "type": "room",
+      "position": [
+        28.182953340257857,
+        53.30332572776518
+      ]
+    },
+    "S2060": {
+      "node_id": 29,
+      "type": "room",
+      "position": [
+        23.89313383774033,
+        50.72970669044011
+      ]
+    },
+    "S2061": {
+      "node_id": 30,
+      "type": "room",
+      "position": [
+        16.404513966213365,
+        48.55853030778006
+      ]
+    },
+    "S2062": {
+      "node_id": 31,
+      "type": "room",
+      "position": [
+        16.25532894223389,
+        53.566174767132985
+      ]
+    },
+    "S2063": {
+      "node_id": 32,
+      "type": "room",
+      "position": [
+        7.380763731990325,
+        45.59256562530848
+      ]
+    },
+    "S2064": {
+      "node_id": 33,
+      "type": "room",
+      "position": [
+        6.966338574226383,
+        52.98190558403688
+      ]
+    },
+    "S2065": {
+      "node_id": 34,
+      "type": "room",
+      "position": [
+        28.275634226682122,
+        31.3209670918257
+      ]
+    },
+    "S2066": {
+      "node_id": 35,
+      "type": "room",
+      "position": [
+        23.745028779649047,
+        28.492769619833233
+      ]
+    },
+    "S2067": {
+      "node_id": 36,
+      "type": "room",
+      "position": [
+        16.19504699604299,
+        3.7978106826949483
+      ]
+    },
+    "S2068": {
+      "node_id": 37,
+      "type": "room",
+      "position": [
+        16.254584226406003,
+        9.914500050594715
+      ]
+    },
+    "S2069": {
+      "node_id": 38,
+      "type": "room",
+      "position": [
+        16.25263876144157,
+        20.80858922262938
+      ]
+    },
+    "S2070": {
+      "node_id": 39,
+      "type": "room",
+      "position": [
+        16.253889600582184,
+        16.121160450769704
+      ]
+    },
+    "S2071": {
+      "node_id": 40,
+      "type": "room",
+      "position": [
+        28.091998093183673,
+        22.267066800812994
+      ]
+    },
+    "S2072": {
+      "node_id": 41,
+      "type": "room",
+      "position": [
+        7.383332545504282,
+        48.64028375440793
+      ]
+    },
+    "S2073": {
+      "node_id": 42,
+      "type": "room",
+      "position": [
+        11.502991634094242,
+        28.753823495442923
+      ]
+    },
+    "S2074": {
+      "node_id": 43,
+      "type": "room",
+      "position": [
+        37.06410941282216,
+        29.65828199950177
+      ]
+    },
+    "S2075": {
+      "node_id": 44,
+      "type": "room",
+      "position": [
+        35.20193707370044,
+        42.966321407155
+      ]
+    },
+    "S2076": {
+      "node_id": 45,
+      "type": "room",
+      "position": [
+        38.2546109603336,
+        42.87687988349295
+      ]
+    },
+    "S2077": {
+      "node_id": 46,
+      "type": "room",
+      "position": [
+        36.78441983898811,
+        48.74400387891565
+      ]
+    },
+    "S2078": {
+      "node_id": 47,
+      "type": "room",
+      "position": [
+        6.398907081675302,
+        35.1884702518963
+      ]
+    },
+    "S2079": {
+      "node_id": 48,
+      "type": "room",
+      "position": [
+        9.471935409173307,
+        36.065765644673135
+      ]
+    },
+    "S2080": {
+      "node_id": 49,
+      "type": "room",
+      "position": [
+        6.046519266512343,
+        31.6310428166346
+      ]
+    },
+    "S2081": {
+      "node_id": 50,
+      "type": "room",
+      "position": [
+        5.846370542519437,
+        28.15723494919508
+      ]
+    },
+    "S2082": {
+      "node_id": 51,
+      "type": "room",
+      "position": [
+        22.196937073699985,
+        39.27500147866283
+      ]
+    },
+    "S2083": {
+      "node_id": 52,
+      "type": "room",
+      "position": [
+        24.573895857211443,
+        45.33624013308892
+      ]
+    },
+    "S2084": {
+      "node_id": 53,
+      "type": "room",
+      "position": [
+        38.89566225278357,
+        52.27000892144858
+      ]
+    },
+    "S2085": {
+      "node_id": 54,
+      "type": "room",
+      "position": [
+        20.730794044403783,
+        28.50036980825122
+      ]
+    },
+    "S2086": {
+      "node_id": 55,
+      "type": "room",
+      "position": [
+        9.421935409173338,
+        55.1900014786638
+      ]
+    },
+    "S2087": {
+      "node_id": 56,
+      "type": "room",
+      "position": [
+        14.941936241436519,
+        38.22000147866285
+      ]
+    },
+    "S2088": {
+      "node_id": 57,
+      "type": "room",
+      "position": [
+        19.103054406676314,
+        33.14473566175227
+      ]
+    },
+    "S2089": {
+      "node_id": 58,
+      "type": "room",
+      "position": [
+        32.606937073700536,
+        23.287292855316263
+      ]
+    },
+    "S2090": {
+      "node_id": 59,
+      "type": "room",
+      "position": [
+        36.86223798008243,
+        26.4479501831182
+      ]
+    },
+    "S2091": {
+      "node_id": 60,
+      "type": "room",
+      "position": [
+        23.550741370260784,
+        22.936465961854076
+      ]
+    },
+    "S2092": {
+      "node_id": 61,
+      "type": "room",
+      "position": [
+        34.0044370737007,
+        19.884895525461037
+      ]
+    },
+    "S2093": {
+      "node_id": 62,
+      "type": "room",
+      "position": [
+        35.29943707370056,
+        23.127795990604454
+      ]
+    },
+    "S2094": {
+      "node_id": 63,
+      "type": "room",
+      "position": [
+        38.28525880536749,
+        21.905864115377494
+      ]
+    },
+    "S2095": {
+      "node_id": 64,
+      "type": "room",
+      "position": [
+        15.119600300905324,
+        28.615001478662137
+      ]
+    }
+  }
+}

@@ -1,0 +1,200 @@
+<?xml version="1.0" ?>
+<sdf version="1.6">
+  <world name="3f">
+    
+    <!-- Physics settings for navigation simulation -->
+    <physics type="ode">
+      <max_step_size>0.001</max_step_size>
+      <real_time_factor>1.0</real_time_factor>
+      <real_time_update_rate>1000</real_time_update_rate>
+    </physics>
+    
+    <!-- Global illumination -->
+    <include>
+      <uri>model://sun</uri>
+    </include>
+    
+    <!-- Ground plane -->
+    <model name="ground_plane">
+      <static>true</static>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>63.049291710264136 100.3113805140918</size>
+            </plane>
+          </geometry>
+          <surface>
+            <friction>
+              <ode>
+                <mu>100</mu>
+                <mu2>50</mu2>
+              </ode>
+            </friction>
+          </surface>
+        </collision>
+        <visual name="visual">
+          <cast_shadows>false</cast_shadows>
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>63.049291710264136 100.3113805140918</size>
+            </plane>
+          </geometry>
+          <material>
+            <ambient>0.8 0.8 0.8 1</ambient>
+            <diffuse>0.8 0.8 0.8 1</diffuse>
+          </material>
+        </visual>
+      </link>
+      <pose>22.371016397651506 37.61532713320708 0 0 0 0</pose>
+    </model>
+    
+    <!-- Building outer walls -->
+    <model name="building_walls">
+      <static>true</static>
+      
+      <!-- North wall -->
+      <link name="north_wall">
+        <pose>22.371016397651506 74.77101739025298 1.25 0 0 0</pose>
+        <collision name="collision">
+          <geometry>
+            <box><size>43.049291710264136 0.15 2.5</size></box>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <box><size>43.049291710264136 0.15 2.5</size></box>
+          </geometry>
+          <material>
+            <ambient>0.7 0.7 0.7 1</ambient>
+            <diffuse>0.9 0.9 0.9 1</diffuse>
+          </material>
+        </visual>
+      </link>
+      
+      <!-- South wall -->
+      <link name="south_wall">
+        <pose>22.371016397651506 0.4596368761611793 1.25 0 0 0</pose>
+        <collision name="collision">
+          <geometry>
+            <box><size>43.049291710264136 0.15 2.5</size></box>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <box><size>43.049291710264136 0.15 2.5</size></box>
+          </geometry>
+          <material>
+            <ambient>0.7 0.7 0.7 1</ambient>
+            <diffuse>0.9 0.9 0.9 1</diffuse>
+          </material>
+        </visual>
+      </link>
+      
+      <!-- East wall -->
+      <link name="east_wall">
+        <pose>40.89566225278357 37.61532713320708 1.25 0 0 0</pose>
+        <collision name="collision">
+          <geometry>
+            <box><size>0.15 80.3113805140918 2.5</size></box>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <box><size>0.15 80.3113805140918 2.5</size></box>
+          </geometry>
+          <material>
+            <ambient>0.7 0.7 0.7 1</ambient>
+            <diffuse>0.9 0.9 0.9 1</diffuse>
+          </material>
+        </visual>
+      </link>
+      
+      <!-- West wall -->
+      <link name="west_wall">
+        <pose>3.8463705425194394 37.61532713320708 1.25 0 0 0</pose>
+        <collision name="collision">
+          <geometry>
+            <box><size>0.15 80.3113805140918 2.5</size></box>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <box><size>0.15 80.3113805140918 2.5</size></box>
+          </geometry>
+          <material>
+            <ambient>0.7 0.7 0.7 1</ambient>
+            <diffuse>0.9 0.9 0.9 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- Corridor walls (estimated from room layout) -->
+    <model name="corridor_walls">
+      <static>true</static>
+      
+      <!-- Upper corridor wall -->
+      <link name="upper_corridor">
+        <pose>22.371016397651506 39.065765644673135 1.25 0 0 0</pose>
+        <collision name="collision">
+          <geometry>
+            <box><size>34.43943336821131 0.15 2.5</size></box>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <box><size>34.43943336821131 0.15 2.5</size></box>
+          </geometry>
+          <material>
+            <ambient>0.85 0.85 0.85 1</ambient>
+            <diffuse>0.95 0.95 0.95 1</diffuse>
+          </material>
+        </visual>
+      </link>
+      
+      <!-- Lower corridor wall -->
+      <link name="lower_corridor">
+        <pose>22.371016397651506 33.065765644673135 1.25 0 0 0</pose>
+        <collision name="collision">
+          <geometry>
+            <box><size>34.43943336821131 0.15 2.5</size></box>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <box><size>34.43943336821131 0.15 2.5</size></box>
+          </geometry>
+          <material>
+            <ambient>0.85 0.85 0.85 1</ambient>
+            <diffuse>0.95 0.95 0.95 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- Gazebo ROS plugins -->
+    <plugin name="gazebo_ros_init" filename="libgazebo_ros_init.so">
+      <ros>
+        <namespace>/</namespace>
+      </ros>
+    </plugin>
+    
+    <plugin name="gazebo_ros_factory" filename="libgazebo_ros_factory.so">
+      <ros>
+        <namespace>/</namespace>
+      </ros>
+    </plugin>
+    
+    <plugin name="gazebo_ros_state" filename="libgazebo_ros_state.so">
+      <ros>
+        <namespace>/</namespace>
+        <remapping>model_states:=model_states</remapping>
+      </ros>
+      <update_rate>50.0</update_rate>
+    </plugin>
+    
+  </world>
+</sdf>

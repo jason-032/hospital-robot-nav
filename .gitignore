@@ -1,0 +1,21 @@
+# ROS2 workspace build artifacts
+../build/
+../install/
+../log/
+
+# VSCode
+.vscode/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+
+# Compiled ROS messages
+*.so
+*.o
+
+# OS
+.DS_Store
+Thumbs.db
