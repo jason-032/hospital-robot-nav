@@ -1,0 +1,19 @@
+{
+  "metadata": {
+    "type": "navigation_network",
+    "floor": "1dXwzFajj3$8WqDXO6rRIH",
+    "timestamp": "2026-03-11T00:09:23",
+    "source": "Spatial_Map Pipeline",
+    "statistics": {
+      "total_nodes": 0,
+      "room_nodes": 0,
+      "door_nodes": 0,
+      "step_nodes": 0,
+      "total_edges": 0,
+      "semantic_locations": 0
+    }
+  },
+  "nodes": [],
+  "edges": [],
+  "semantic_locations": {}
+}

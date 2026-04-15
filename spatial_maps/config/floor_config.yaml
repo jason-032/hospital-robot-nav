@@ -1,0 +1,56 @@
+spatial_map_navigation:
+  ros__parameters:
+    collision_avoidance: true
+    floors:
+      10F:
+        elevation: 39.40006423179662
+        yaml: 10F.yaml
+      11F:
+        elevation: 43.60007136866291
+        yaml: 11F.yaml
+      12F:
+        elevation: 47.8000785055292
+        yaml: 12F.yaml
+      13F:
+        elevation: 52.0
+        yaml: 13F.yaml
+      14F:
+        elevation: 56.2
+        yaml: 14F.yaml
+      1F:
+        elevation: 1.6
+        yaml: 1F.yaml
+      2F:
+        elevation: 5.800007136866291
+        yaml: 2F.yaml
+      3F:
+        elevation: 10.000014273732582
+        yaml: 3F.yaml
+      4F:
+        elevation: 14.200021410598874
+        yaml: 4F.yaml
+      5F:
+        elevation: 18.400028547465165
+        yaml: 5F.yaml
+      6F:
+        elevation: 22.600035684331456
+        yaml: 6F.yaml
+      7F:
+        elevation: 26.80004282119775
+        yaml: 7F.yaml
+      8F:
+        elevation: 31.00004995806404
+        yaml: 8F.yaml
+      9F:
+        elevation: 35.20005709493033
+        yaml: 9F.yaml
+      B1F:
+        elevation: -1.4
+        yaml: B1F.yaml
+    network_enabled: true
+    network_stats:
+      door_nodes: 1446
+      room_nodes: 856
+      step_nodes: 2194
+      total_nodes: 5542
+    total_floors: 15

@@ -1,0 +1,10 @@
+door_nodes: 1446
+floors: 15
+network_type: SPATIAL_MAP_Navigation
+research_compliance: A BIM Based Hybrid 3D Indoor Map Model for Indoor Positioning
+  and Navigation
+room_nodes: 856
+step_nodes: 2194
+total_edges: 3259
+total_nodes: 5542
+version: '1.1'

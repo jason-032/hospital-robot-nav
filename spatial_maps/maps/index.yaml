@@ -1,0 +1,301 @@
+resolution: 0.02
+global_origin:
+- 0.9106622527818615
+- -2.0
+- 0.0
+size:
+- 2075
+- 3982
+generator: working_grid_with_spatial_map_model_3d
+grid_capabilities:
+  2d_grids: true
+  3d_grids: true
+  voxel_size: 0.5
+  height_layers: 6
+  vertical_connections: 0
+floors:
+- guid: 0WT8TMa8z2fw0ayr6F4SLA
+  name: B1F
+  z: -1.4
+  image: B1F.pgm
+  yaml: B1F.yaml
+  origin:
+  - 0.9106622527818615
+  - -2.0
+  - 0.0
+  size:
+  - 2075
+  - 3982
+  grid_3d:
+    enabled: true
+    voxel_size: 0.5
+    height_layers: 6
+    files:
+      npz: B1F_3d.npz
+      json: B1F_3d.json
+- guid: 3CVX8mMyD5sQfx46rkucC_
+  name: 1F
+  z: 1.6
+  image: 1F.pgm
+  yaml: 1F.yaml
+  origin:
+  - 0.9106622527818615
+  - -2.0
+  - 0.0
+  size:
+  - 2075
+  - 3982
+  grid_3d:
+    enabled: true
+    voxel_size: 0.5
+    height_layers: 6
+    files:
+      npz: 1F_3d.npz
+      json: 1F_3d.json
+- guid: 3hYv1zPtv848kfdXPIsWTC
+  name: 2F
+  z: 5.800007136866291
+  image: 2F.pgm
+  yaml: 2F.yaml
+  origin:
+  - 0.9106622527818615
+  - -2.0
+  - 0.0
+  size:
+  - 2075
+  - 3982
+  grid_3d:
+    enabled: true
+    voxel_size: 0.5
+    height_layers: 6
+    files:
+      npz: 2F_3d.npz
+      json: 2F_3d.json
+- guid: 11Ep$YG2zB2x9a4C72JNWK
+  name: 3F
+  z: 10.000014273732582
+  image: 3F.pgm
+  yaml: 3F.yaml
+  origin:
+  - 0.9106622527818615
+  - -2.0
+  - 0.0
+  size:
+  - 2075
+  - 3982
+  grid_3d:
+    enabled: true
+    voxel_size: 0.5
+    height_layers: 6
+    files:
+      npz: 3F_3d.npz
+      json: 3F_3d.json
+- guid: 11Ep$YG2zB2x9a4C72JNWj
+  name: 4F
+  z: 14.200021410598874
+  image: 4F.pgm
+  yaml: 4F.yaml
+  origin:
+  - 0.9106622527818615
+  - -2.0
+  - 0.0
+  size:
+  - 2075
+  - 3982
+  grid_3d:
+    enabled: true
+    voxel_size: 0.5
+    height_layers: 6
+    files:
+      npz: 4F_3d.npz
+      json: 4F_3d.json
+- guid: 11Ep$YG2zB2x9a4C72JNWa
+  name: 5F
+  z: 18.400028547465165
+  image: 5F.pgm
+  yaml: 5F.yaml
+  origin:
+  - 0.9106622527818615
+  - -2.0
+  - 0.0
+  size:
+  - 2075
+  - 3982
+  grid_3d:
+    enabled: true
+    voxel_size: 0.5
+    height_layers: 6
+    files:
+      npz: 5F_3d.npz
+      json: 5F_3d.json
+- guid: 11Ep$YG2zB2x9a4C72JNWz
+  name: 6F
+  z: 22.600035684331456
+  image: 6F.pgm
+  yaml: 6F.yaml
+  origin:
+  - 0.9106622527818615
+  - -2.0
+  - 0.0
+  size:
+  - 2075
+  - 3982
+  grid_3d:
+    enabled: true
+    voxel_size: 0.5
+    height_layers: 6
+    files:
+      npz: 6F_3d.npz
+      json: 6F_3d.json
+- guid: 11Ep$YG2zB2x9a4C72JNWs
+  name: 7F
+  z: 26.80004282119775
+  image: 7F.pgm
+  yaml: 7F.yaml
+  origin:
+  - 0.9106622527818615
+  - -2.0
+  - 0.0
+  size:
+  - 2075
+  - 3982
+  grid_3d:
+    enabled: true
+    voxel_size: 0.5
+    height_layers: 6
+    files:
+      npz: 7F_3d.npz
+      json: 7F_3d.json
+- guid: 11Ep$YG2zB2x9a4C72JNZF
+  name: 8F
+  z: 31.00004995806404
+  image: 8F.pgm
+  yaml: 8F.yaml
+  origin:
+  - 0.9106622527818615
+  - -2.0
+  - 0.0
+  size:
+  - 2075
+  - 3982
+  grid_3d:
+    enabled: true
+    voxel_size: 0.5
+    height_layers: 6
+    files:
+      npz: 8F_3d.npz
+      json: 8F_3d.json
+- guid: 11Ep$YG2zB2x9a4C72JNZ8
+  name: 9F
+  z: 35.20005709493033
+  image: 9F.pgm
+  yaml: 9F.yaml
+  origin:
+  - 0.9106622527818615
+  - -2.0
+  - 0.0
+  size:
+  - 2075
+  - 3982
+  grid_3d:
+    enabled: true
+    voxel_size: 0.5
+    height_layers: 6
+    files:
+      npz: 9F_3d.npz
+      json: 9F_3d.json
+- guid: 11Ep$YG2zB2x9a4C72JNZ1
+  name: 10F
+  z: 39.40006423179662
+  image: 10F.pgm
+  yaml: 10F.yaml
+  origin:
+  - 0.9106622527818615
+  - -2.0
+  - 0.0
+  size:
+  - 2075
+  - 3982
+  grid_3d:
+    enabled: true
+    voxel_size: 0.5
+    height_layers: 6
+    files:
+      npz: 10F_3d.npz
+      json: 10F_3d.json
+- guid: 11Ep$YG2zB2x9a4C72JNZQ
+  name: 11F
+  z: 43.60007136866291
+  image: 11F.pgm
+  yaml: 11F.yaml
+  origin:
+  - 0.9106622527818615
+  - -2.0
+  - 0.0
+  size:
+  - 2075
+  - 3982
+  grid_3d:
+    enabled: true
+    voxel_size: 0.5
+    height_layers: 6
+    files:
+      npz: 11F_3d.npz
+      json: 11F_3d.json
+- guid: 11Ep$YG2zB2x9a4C72JNZJ
+  name: 12F
+  z: 47.8000785055292
+  image: 12F.pgm
+  yaml: 12F.yaml
+  origin:
+  - 0.9106622527818615
+  - -2.0
+  - 0.0
+  size:
+  - 2075
+  - 3982
+  grid_3d:
+    enabled: true
+    voxel_size: 0.5
+    height_layers: 6
+    files:
+      npz: 12F_3d.npz
+      json: 12F_3d.json
+- guid: 0uFS9_MOf6lPkAVPs4MQ_1
+  name: 13F
+  z: 52.0
+  image: 13F.pgm
+  yaml: 13F.yaml
+  origin:
+  - 0.9106622527818615
+  - -2.0
+  - 0.0
+  size:
+  - 2075
+  - 3982
+  grid_3d:
+    enabled: true
+    voxel_size: 0.5
+    height_layers: 6
+    files:
+      npz: 13F_3d.npz
+      json: 13F_3d.json
+- guid: 1dXwzFajj3$8WqDXO6rRIH
+  name: 14F
+  z: 56.2
+  image: 14F.pgm
+  yaml: 14F.yaml
+  origin:
+  - 0.9106622527818615
+  - -2.0
+  - 0.0
+  size:
+  - 2075
+  - 3982
+  grid_3d:
+    enabled: true
+    voxel_size: 0.5
+    height_layers: 6
+    files:
+      npz: 14F_3d.npz
+      json: 14F_3d.json
