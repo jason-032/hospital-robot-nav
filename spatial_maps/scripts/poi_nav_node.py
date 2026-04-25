@@ -21,6 +21,9 @@ import struct
 import yaml
 from collections import deque
 
+import numpy as np
+from scipy.ndimage import distance_transform_edt
+
 import rclpy
 from rclpy.node import Node
 from rclpy.action import ActionClient
@@ -125,20 +128,22 @@ class POINavNode(Node):
             occ = 1.0 - (p / maxval) if not negate else p / maxval
             return occ < free_thresh
 
-        def wall_clearance_px(col, row, max_check):
-            """Return min distance to nearest occupied cell within max_check pixels."""
-            for r in range(1, max_check + 1):
-                for dc, dr in ((-r,0),(r,0),(0,-r),(0,r),
-                               (-r,-r),(-r,r),(r,-r),(r,r)):
-                    c2, r2 = col + dc, row + dr
-                    if 0 <= c2 < width and 0 <= r2 < height:
-                        if not is_free(c2, r2):
-                            return r
-            return max_check + 1
+        # Euclidean distance transform: for every pixel, exact distance in
+        # pixels to the nearest occupied cell. Computed once; O(W*H).
+        obstacle_mask = np.zeros((height, width), dtype=bool)
+        for r in range(height):
+            for c in range(width):
+                if not is_free(c, r):
+                    obstacle_mask[r, c] = True
+        dist_px = distance_transform_edt(~obstacle_mask)   # float64 array
 
-        # Minimum clearance: inflation_radius / resolution rounded up
-        # Use 0.60 m so the goal is safely outside the inflated zone
-        self._min_clearance_px = max(1, int(0.60 / resolution) + 1)
+        def wall_clearance_px(col, row, _max_check=None):
+            """Return exact Euclidean distance in pixels to the nearest wall."""
+            return float(dist_px[row, col])
+
+        # Minimum clearance: inflation_radius (0.55 m) + small buffer → 0.65 m
+        # so the projected goal is safely outside the inflated lethal zone.
+        self._min_clearance_px = math.ceil(0.65 / resolution)
 
         self._map_meta = {
             'origin_x': origin_x, 'origin_y': origin_y,

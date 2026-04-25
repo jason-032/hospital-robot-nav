@@ -17,6 +17,7 @@
   <depend>nav_msgs</depend>
   <depend>sensor_msgs</depend>
   <depend>visualization_msgs</depend>
+  <depend>interactive_markers</depend>
   <depend>tf2_ros</depend>
   
   <exec_depend>nav2_map_server</exec_depend>
