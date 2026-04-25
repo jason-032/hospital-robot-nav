@@ -11,8 +11,8 @@ Send a robot to a POI:
 
 import os
 from launch import LaunchDescription
-from launch.actions import (DeclareLaunchArgument, IncludeLaunchDescription,
-                             TimerAction)
+from launch.actions import (DeclareLaunchArgument, ExecuteProcess,
+                             IncludeLaunchDescription, TimerAction)
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import Command, LaunchConfiguration
 from launch_ros.actions import Node
@@ -33,6 +33,23 @@ def generate_launch_description():
     semantic_json = '/home/jason/Downloads/OneDrive_1_4-10-2026/entity/semantic.json'
 
     use_sim_time = LaunchConfiguration('use_sim_time', default='true')
+
+    # Kill any leftover processes from previous launches before starting fresh.
+    # Without this, orphaned nodes accumulate across Ctrl+C relaunches and
+    # produce ghost robots, duplicate TF publishers, and TF_OLD_DATA floods.
+    cleanup = ExecuteProcess(
+        cmd=['bash', '-c',
+             # -O 10: only kill processes older than 10 s — spares the newly
+             # spawned Gz while still evicting zombie Gz servers from prior
+             # launches that weren't stopped with Ctrl+C.
+             'pkill -9 -O 10 -f "gz sim" 2>/dev/null; '
+             # -O 10 on both commands: only kills processes older than 10 s,
+             # so freshly spawned nodes from this launch are always safe.
+             'pkill -9 -O 10 -f "lib/spatial_maps/" 2>/dev/null; '
+             'true'],
+        output='screen',
+        name='pre_launch_cleanup',
+    )
 
     declare_use_sim_time = DeclareLaunchArgument(
         'use_sim_time', default_value='true',
@@ -94,12 +111,26 @@ def generate_launch_description():
     )
 
     # ── Odom TF republisher ───────────────────────────────────────────────────
-    # Reads /odom and re-stamps odom→base_footprint TF with current clock,
-    # eliminating TF_OLD_DATA warnings from ros_gz_bridge latency.
+    # The bridge converts Gz odometry to /odom but does NOT publish TF.
+    # This node is the sole publisher of odom → base_footprint.
+    # Monotonic guard + odom_publish_frequency=50 keeps it at one TF per
+    # sim clock tick — no race, no TF_OLD_DATA flood.
     odom_tf_republisher = Node(
         package='spatial_maps',
         executable='odom_tf_republisher.py',
         name='odom_tf_republisher',
+        output='screen',
+        parameters=[{'use_sim_time': use_sim_time}]
+    )
+
+    # ── Joint state relay ─────────────────────────────────────────────────────
+    # Bridge publishes to /joint_states_gz with Gz timestamps.
+    # Relay re-stamps with now() so RSP publishes fresh joint TF,
+    # fixing "No transform" for wheel/arm links in RViz.
+    joint_state_relay = Node(
+        package='spatial_maps',
+        executable='joint_state_relay.py',
+        name='joint_state_relay',
         output='screen',
         parameters=[{'use_sim_time': use_sim_time}]
     )
@@ -195,6 +226,18 @@ def generate_launch_description():
         ]
     )
 
+    # ── POI click node (Publish Point tool → nearest room → /goal_poi) ──────
+    poi_click_node = Node(
+        package='spatial_maps',
+        executable='poi_click_node.py',
+        name='poi_click_node',
+        output='screen',
+        parameters=[
+            {'semantic_json': semantic_json},
+            {'floor': '1F'},
+        ]
+    )
+
     # ── POI navigation node ───────────────────────────────────────────────────
     poi_nav_node = Node(
         package='spatial_maps',
@@ -222,12 +265,14 @@ def generate_launch_description():
     )
 
     return LaunchDescription([
+        cleanup,
         declare_use_sim_time,
         gz_sim,
         robot_state_publisher,
         ros_gz_bridge,
         map_to_odom_tf,
         odom_tf_republisher,
+        joint_state_relay,
         map_publisher,
         bt_navigator,
         planner_server,
@@ -236,6 +281,7 @@ def generate_launch_description():
         smoother_server,
         nav2_lifecycle_manager,
         poi_publisher,
+        poi_click_node,
         poi_nav_node,
         rviz,
         spawn_robot,      # delayed 5 s

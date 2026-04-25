@@ -16,15 +16,22 @@ class OdomTFRepublisher(Node):
 
     def __init__(self):
         super().__init__('odom_tf_republisher')
-        self._br  = TransformBroadcaster(self)
+        self._br = TransformBroadcaster(self)
+        self._last_stamp_ns = -1  # sentinel: publish first message unconditionally
         self._sub = self.create_subscription(
             Odometry, '/odom', self._on_odom, 10)
         self.get_logger().info('odom_tf_republisher ready')
 
     def _on_odom(self, msg: Odometry):
+        now = self.get_clock().now()
+        # Only publish when the clock has actually advanced — prevents TF_OLD_DATA
+        # floods caused by multiple callbacks firing within the same sim clock tick.
+        if now.nanoseconds <= self._last_stamp_ns:
+            return
+        self._last_stamp_ns = now.nanoseconds
+
         t = TransformStamped()
-        # Stamp with NOW (current sim/wall clock) instead of the Gz timestamp
-        t.header.stamp    = self.get_clock().now().to_msg()
+        t.header.stamp    = now.to_msg()
         t.header.frame_id = msg.header.frame_id   # odom
         t.child_frame_id  = msg.child_frame_id    # base_footprint
         p = msg.pose.pose

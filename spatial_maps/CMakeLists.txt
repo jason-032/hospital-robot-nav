@@ -14,6 +14,8 @@ install(PROGRAMS
   scripts/map_publisher_node.py
   scripts/poi_publisher_node.py
   scripts/poi_nav_node.py
+  scripts/poi_click_node.py
+  scripts/joint_state_relay.py
   scripts/odom_tf_republisher.py
   DESTINATION lib/${PROJECT_NAME}
 )
