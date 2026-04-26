@@ -44,9 +44,27 @@ _DIM = '\033[2m'
 _RST = '\033[0m'
 
 # Keywords in a room's display name that mark it as physically inaccessible
-# to a wheeled robot (stairwells, fire-evacuation shafts).
+# to a wheeled robot (stairwells, elevator shafts, BIM-tagged inaccessible zones).
 # Matched as substrings against both the IFC name and the display label.
-_DEFAULT_SKIP_KEYWORDS = ['계단', 'ELEV']
+_DEFAULT_SKIP_KEYWORDS = ['계단', 'ELEV', '접근불가']
+
+# Manual goal-coordinate overrides for rooms whose BIM centroid lands inside
+# an inflated obstacle and whose auto-projection still fails.  Values were
+# chosen by picking the nearest reachable corridor point visible on the map.
+# Key = IFC room name (as it appears in the sweep output).
+_GOAL_OVERRIDES = {
+    # South vestibule — centroid at (9.03, 4.79) is inside a tight alcove;
+    # shift north into the open south corridor.
+    'S1310':  (9.0,  8.0),
+    # Nurse station — centroid (27.34, 53.33) is inside the station desk area;
+    # S1347 휴게실 at (24.28, 49.47) succeeded, so target the corridor just west.
+    'S1346':  (25.5, 53.0),
+    # Same nurse-station zone as S1346 (T01 overlay entity).
+    'T01-40': (25.5, 53.0),
+    # North evacuation zone — centroid (29.72, 73.35) is inside the stairwell
+    # footprint; S1322 전실 at (29.78, 70.85) succeeded, so pull 2 m south.
+    'T01-49': (29.72, 71.0),
+}
 
 
 class SweepTest(Node):
@@ -347,13 +365,18 @@ class SweepTest(Node):
                     counts['SKIPPED'] += 1
                     continue
 
-                raw_x, raw_y   = centroid[0], centroid[1]
-                goal_x, goal_y = self._project_goal(raw_x, raw_y)
-                projected      = goal_x != raw_x or goal_y != raw_y
+                raw_x, raw_y = centroid[0], centroid[1]
+                override = name in _GOAL_OVERRIDES
+                if override:
+                    goal_x, goal_y = _GOAL_OVERRIDES[name]
+                    projected      = True
+                else:
+                    goal_x, goal_y = self._project_goal(raw_x, raw_y)
+                    projected      = goal_x != raw_x or goal_y != raw_y
 
+                tag = ' [ovr]' if override else (' [proj]' if projected else '')
                 print(f'[{idx:>3}/{total}] {name:<12} {label:<30} '
-                      f'→ ({goal_x:.2f}, {goal_y:.2f})'
-                      + (' [proj]' if projected else ''),
+                      f'→ ({goal_x:.2f}, {goal_y:.2f}){tag}',
                       end='  ', flush=True)
 
                 t_start          = time.time()
@@ -367,9 +390,11 @@ class SweepTest(Node):
                 print(f'{colour}{result}{_RST} ({duration:.1f}s)'
                       + (f'  {notes}' if notes else ''))
 
+                extra = 'manual override' if override else ''
                 w.writerow([idx, name, label,
                             f'{goal_x:.3f}', f'{goal_y:.3f}', projected,
-                            result, f'{duration:.1f}', notes])
+                            result, f'{duration:.1f}',
+                            '; '.join(filter(None, [extra, notes]))])
                 f.flush()
 
         # ── Summary ────────────────────────────────────────────────────────────
