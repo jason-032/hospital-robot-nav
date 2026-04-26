@@ -10,8 +10,9 @@ second terminal once nav2 reports "Managed nodes are active".
 
 Usage:
   ros2 run spatial_maps sweep_test.py
-  ros2 run spatial_maps sweep_test.py --ros-args -p timeout_sec:=90
+  ros2 run spatial_maps sweep_test.py --ros-args -p timeout_sec:=180
   ros2 run spatial_maps sweep_test.py --ros-args -p floor:=2F
+  ros2 run spatial_maps sweep_test.py --ros-args -p skip_inaccessible:=true
 
 Output: ~/sweep_<floor>_<timestamp>.csv
 """
@@ -39,7 +40,13 @@ from nav2_msgs.action import NavigateToPose
 _GRN = '\033[92m'
 _RED = '\033[91m'
 _YLW = '\033[93m'
+_DIM = '\033[2m'
 _RST = '\033[0m'
+
+# Keywords in a room's display name that mark it as physically inaccessible
+# to a wheeled robot (stairwells, fire-evacuation shafts).
+# Matched as substrings against both the IFC name and the display label.
+_DEFAULT_SKIP_KEYWORDS = ['계단', 'ELEV']
 
 
 class SweepTest(Node):
@@ -55,7 +62,11 @@ class SweepTest(Node):
                 '~/ros2_ws/install/spatial_maps/share/spatial_maps/maps/1F.yaml'))
         self.declare_parameter('robot_start_x', 21.0)
         self.declare_parameter('robot_start_y', 38.0)
-        self.declare_parameter('timeout_sec', 120.0)
+        self.declare_parameter('timeout_sec', 180.0)
+        self.declare_parameter('skip_inaccessible', False)
+        # Comma-separated substrings; matched against name and display label.
+        self.declare_parameter('skip_keywords',
+                               ','.join(_DEFAULT_SKIP_KEYWORDS))
 
         semantic_json = self.get_parameter('semantic_json').value
         self.floor     = self.get_parameter('floor').value
@@ -63,6 +74,16 @@ class SweepTest(Node):
         start_x        = self.get_parameter('robot_start_x').value
         start_y        = self.get_parameter('robot_start_y').value
         self.timeout   = self.get_parameter('timeout_sec').value
+
+        skip_flag      = self.get_parameter('skip_inaccessible').value
+        kw_raw         = self.get_parameter('skip_keywords').value
+        self._skip_kws = (
+            [k.strip() for k in kw_raw.split(',') if k.strip()]
+            if skip_flag else []
+        )
+        if self._skip_kws:
+            self.get_logger().info(
+                f'skip_inaccessible ON — keywords: {self._skip_kws}')
 
         self.pois = self._load_pois(semantic_json)
         self.get_logger().info(f'Loaded {len(self.pois)} POIs for floor {self.floor}')
@@ -75,6 +96,14 @@ class SweepTest(Node):
             self.get_logger().warn('map_yaml not found — goal projection disabled')
 
         self._nav = ActionClient(self, NavigateToPose, 'navigate_to_pose')
+
+    # ── Skip filter ────────────────────────────────────────────────────────────
+
+    def _should_skip(self, name: str, label: str) -> bool:
+        for kw in self._skip_kws:
+            if kw in name or kw in label:
+                return True
+        return False
 
     # ── Map / reachability (mirrors poi_nav_node) ──────────────────────────────
 
@@ -296,7 +325,7 @@ class SweepTest(Node):
             f'\nResults → {csv_path}\n{"="*60}')
 
         counts = {'SUCCESS': 0, 'FAILED': 0, 'REJECTED': 0,
-                  'TIMEOUT': 0, 'CANCELLED': 0}
+                  'TIMEOUT': 0, 'CANCELLED': 0, 'SKIPPED': 0}
 
         with open(csv_path, 'w', newline='') as f:
             w = csv.writer(f)
@@ -308,6 +337,15 @@ class SweepTest(Node):
                 centroid = entity['geometry']['centroid']
                 id_data  = entity.get('properties', {}).get('Identity Data', {})
                 label    = id_data.get('Name', name)
+
+                # ── Skip filter ────────────────────────────────────────────────
+                if self._should_skip(name, label):
+                    print(f'[{idx:>3}/{total}] {name:<12} {label:<30}  '
+                          f'{_DIM}SKIPPED{_RST}')
+                    w.writerow([idx, name, label, '', '', '',
+                                'SKIPPED', '', 'inaccessible keyword'])
+                    counts['SKIPPED'] += 1
+                    continue
 
                 raw_x, raw_y   = centroid[0], centroid[1]
                 goal_x, goal_y = self._project_goal(raw_x, raw_y)
@@ -335,9 +373,12 @@ class SweepTest(Node):
                 f.flush()
 
         # ── Summary ────────────────────────────────────────────────────────────
+        navigated = total - counts['SKIPPED']
         print(f'\n{"="*60}')
         print(f'Sweep complete  —  floor {self.floor}  —  {total} rooms')
-        print(f'  {_GRN}SUCCESS  {counts["SUCCESS"]:>3}{_RST}')
+        print(f'  {_DIM}SKIPPED  {counts["SKIPPED"]:>3}{_RST}  (inaccessible)')
+        print(f'  {_GRN}SUCCESS  {counts["SUCCESS"]:>3}{_RST}'
+              f'  ({100*counts["SUCCESS"]//navigated if navigated else 0}% of navigated)')
         print(f'  {_RED}FAILED   {counts["FAILED"]:>3}{_RST}')
         print(f'  {_RED}REJECTED {counts.get("REJECTED",0):>3}{_RST}')
         print(f'  {_YLW}TIMEOUT  {counts["TIMEOUT"]:>3}{_RST}')
