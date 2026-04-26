@@ -17,6 +17,7 @@ install(PROGRAMS
   scripts/poi_click_node.py
   scripts/joint_state_relay.py
   scripts/odom_tf_republisher.py
+  scripts/sweep_test.py
   DESTINATION lib/${PROJECT_NAME}
 )
 
