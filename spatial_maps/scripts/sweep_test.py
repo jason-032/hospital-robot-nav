@@ -46,24 +46,27 @@ _RST = '\033[0m'
 # Keywords in a room's display name that mark it as physically inaccessible
 # to a wheeled robot (stairwells, elevator shafts, BIM-tagged inaccessible zones).
 # Matched as substrings against both the IFC name and the display label.
-_DEFAULT_SKIP_KEYWORDS = ['계단', 'ELEV', '접근불가']
+_DEFAULT_SKIP_KEYWORDS = ['계단', 'ELEV', '접근불가', '테라스']
 
 # Manual goal-coordinate overrides for rooms whose BIM centroid lands inside
 # an inflated obstacle and whose auto-projection still fails.  Values were
-# chosen by picking the nearest reachable corridor point visible on the map.
+# derived from nearby rooms whose goals succeeded in sweep runs.
 # Key = IFC room name (as it appears in the sweep output).
 _GOAL_OVERRIDES = {
-    # South vestibule — centroid at (9.03, 4.79) is inside a tight alcove;
-    # shift north into the open south corridor.
-    'S1310':  (9.0,  8.0),
-    # Nurse station — centroid (27.34, 53.33) is inside the station desk area;
-    # S1347 휴게실 at (24.28, 49.47) succeeded, so target the corridor just west.
-    'S1346':  (25.5, 53.0),
+    # South vestibule — centroid (9.03, 4.79) inside tight alcove.
+    # T01-33 공용구역 at (8.32, 5.35) succeeded in 8.5s → use that corridor.
+    'S1310':  (8.3,  5.5),
+    # Nurse station — centroid (27.34, 53.33) inside desk area.
+    # T01-23 호출/임무수행 at (24.14, 51.61) succeeded → use adjacent corridor.
+    'S1346':  (24.1, 51.6),
     # Same nurse-station zone as S1346 (T01 overlay entity).
-    'T01-40': (25.5, 53.0),
-    # North evacuation zone — centroid (29.72, 73.35) is inside the stairwell
-    # footprint; S1322 전실 at (29.78, 70.85) succeeded, so pull 2 m south.
-    'T01-49': (29.72, 71.0),
+    'T01-40': (24.1, 51.6),
+    # North evacuation zone — centroid (29.72, 73.35) inside stairwell footprint.
+    # S1322 북측 전실 at (29.78, 70.85) succeeded at 116s → use its exact point.
+    'T01-49': (29.78, 70.85),
+    # Staff zone south — centroid (18.04, 6.13) in obstacle.
+    # S1379 원내약국 at (16.32, 6.13) succeeded in 10.8s → shift to same corridor.
+    'T01-48': (16.5, 6.13),
 }
 
 
@@ -389,6 +392,11 @@ class SweepTest(Node):
                          _YLW if result in ('TIMEOUT', 'CANCELLED') else _RED)
                 print(f'{colour}{result}{_RST} ({duration:.1f}s)'
                       + (f'  {notes}' if notes else ''))
+
+                # Brief pause after a FAILED (status=6 abort) so nav2 can
+                # clear its state before the next goal is sent.
+                if result == 'FAILED':
+                    time.sleep(3.0)
 
                 extra = 'manual override' if override else ''
                 w.writerow([idx, name, label,
