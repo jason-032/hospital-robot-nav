@@ -48,6 +48,13 @@ _RST = '\033[0m'
 # Matched as substrings against both the IFC name and the display label.
 _DEFAULT_SKIP_KEYWORDS = ['계단', 'ELEV', '접근불가', '테라스']
 
+# Individual rooms to skip regardless of keyword matching.
+# Used for rooms that are confirmed inaccessible across multiple sweep runs
+# but whose display names don't match any skip keyword.
+_SKIP_ROOMS = {
+    'T01-49',   # 피난구역 — north stairwell evacuation zone, FAILED every run
+}
+
 # Manual goal-coordinate overrides for rooms whose BIM centroid lands inside
 # an inflated obstacle and whose auto-projection still fails.  Values were
 # derived from nearby rooms whose goals succeeded in sweep runs.
@@ -121,6 +128,8 @@ class SweepTest(Node):
     # ── Skip filter ────────────────────────────────────────────────────────────
 
     def _should_skip(self, name: str, label: str) -> bool:
+        if name in _SKIP_ROOMS:
+            return True
         for kw in self._skip_kws:
             if kw in name or kw in label:
                 return True
@@ -393,10 +402,12 @@ class SweepTest(Node):
                 print(f'{colour}{result}{_RST} ({duration:.1f}s)'
                       + (f'  {notes}' if notes else ''))
 
-                # Brief pause after a FAILED (status=6 abort) so nav2 can
-                # clear its state before the next goal is sent.
-                if result == 'FAILED':
-                    time.sleep(3.0)
+                # Pause after FAILED or TIMEOUT so nav2 can clear its state
+                # before the next goal is sent.  TIMEOUT leaves the robot
+                # stranded mid-journey after cancel; without this pause the
+                # next goal aborts immediately and cascades into more failures.
+                if result in ('FAILED', 'TIMEOUT'):
+                    time.sleep(5.0)
 
                 extra = 'manual override' if override else ''
                 w.writerow([idx, name, label,
