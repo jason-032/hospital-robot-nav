@@ -53,7 +53,9 @@ def generate_launch_description():
         map_yaml      = os.path.join(spatial_maps_share, 'maps',   f'{floor_val}.yaml')
         bridge_config = os.path.join(spatial_maps_share, 'config', f'gz_bridge_{world_val}.yaml')
 
-        use_sim = context.launch_configurations.get('use_sim_time', 'true')
+        # context.launch_configurations always returns strings; convert to bool
+        # so nodes that declare use_sim_time as bool don't throw InvalidParameterType.
+        use_sim = context.launch_configurations.get('use_sim_time', 'true').lower() == 'true'
 
         cleanup = ExecuteProcess(
             cmd=['bash', '-c',
