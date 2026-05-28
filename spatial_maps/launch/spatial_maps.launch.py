@@ -107,22 +107,15 @@ def generate_launch_description():
             parameters=[{'config_file': bridge_config}]
         )
 
-        # Static map→odom TF as startup fallback — AMCL overrides this once it
-        # localises, but the TF chain must exist before AMCL's first scan update.
+        # Static map→odom TF — fixes the map frame at the robot's spawn origin.
+        # AMCL is disabled: the Gazebo walls are visual-only (no collision mesh),
+        # so the LiDAR sees nothing and AMCL would broadcast a bad TF.
         map_to_odom_tf = Node(
             package='tf2_ros',
             executable='static_transform_publisher',
             name='map_to_odom_tf',
             output='screen',
             arguments=['21.0', '38.0', '0.1', '0', '0', '0', 'map', 'odom']
-        )
-
-        amcl = Node(
-            package='nav2_amcl',
-            executable='amcl',
-            name='amcl',
-            output='screen',
-            parameters=[nav2_params, {'use_sim_time': use_sim}]
         )
 
         odom_tf_republisher = Node(
@@ -207,7 +200,6 @@ def generate_launch_description():
                     {'autostart': True},
                     {'bond_timeout': 30.0},
                     {'node_names': [
-                        'amcl',
                         'planner_server',
                         'controller_server',
                         'behavior_server',
@@ -272,7 +264,6 @@ def generate_launch_description():
             robot_state_publisher,
             ros_gz_bridge,
             map_to_odom_tf,
-            amcl,
             odom_tf_republisher,
             joint_state_relay,
             map_publisher,
