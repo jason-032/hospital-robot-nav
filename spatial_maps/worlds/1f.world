@@ -3,7 +3,12 @@
   <world name="1f">
 
     <!-- Gz Sim required plugins -->
-    <plugin name="gz::sim::systems::Physics" filename="gz-sim-physics-system"/>
+    <!-- Bullet Featherstone handles the 17k-face wall mesh via BVH; DART crashes on it -->
+    <plugin name="gz::sim::systems::Physics" filename="gz-sim-physics-system">
+      <engine>
+        <filename>gz-physics7-bullet-featherstone-plugin</filename>
+      </engine>
+    </plugin>
     <plugin name="gz::sim::systems::UserCommands" filename="gz-sim-user-commands-system"/>
     <plugin name="gz::sim::systems::SceneBroadcaster" filename="gz-sim-scene-broadcaster-system"/>
     <plugin name="gz::sim::systems::Contact" filename="gz-sim-contact-system"/>
@@ -87,6 +92,13 @@
     <model name="hospital_1f_walls">
       <static>true</static>
       <link name="link">
+        <collision name="collision">
+          <geometry>
+            <mesh>
+              <uri>file:///home/jason/ros2_ws/src/spatial_maps/meshes/floor_1F_walls_only.obj</uri>
+            </mesh>
+          </geometry>
+        </collision>
         <visual name="visual">
           <geometry>
             <mesh>
