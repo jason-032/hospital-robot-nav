@@ -111,8 +111,15 @@ class MapPublisherNode(Node):
             reliability=ReliabilityPolicy.RELIABLE
         )
         self.pub = self.create_publisher(OccupancyGrid, '/map', latched_qos)
+        # Publish once at startup (1s delay lets sim clock start) so AMCL
+        # doesn't wait for the first slow periodic tick.
+        self._startup_timer = self.create_timer(1.0, self._startup_publish)
         self.timer = self.create_timer(1.0 / rate_hz, self._publish)
         self.get_logger().info('Map publisher ready, publishing on /map')
+
+    def _startup_publish(self):
+        self._publish()
+        self._startup_timer.cancel()
 
     def _publish(self):
         self.msg.header.stamp = self.get_clock().now().to_msg()
