@@ -150,7 +150,7 @@ def generate_launch_description():
                 {'yaml_filename': map_yaml},
                 {'frame_id': 'map'},
                 {'use_sim_time': use_sim},
-                {'publish_rate_hz': 0.01},
+                {'publish_rate_hz': 0.001},
             ]
         )
 
