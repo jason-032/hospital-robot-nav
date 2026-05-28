@@ -107,12 +107,12 @@ def generate_launch_description():
             parameters=[{'config_file': bridge_config}]
         )
 
-        map_to_odom_tf = Node(
-            package='tf2_ros',
-            executable='static_transform_publisher',
-            name='map_to_odom_tf',
+        amcl = Node(
+            package='nav2_amcl',
+            executable='amcl',
+            name='amcl',
             output='screen',
-            arguments=['21.0', '38.0', '0.1', '0', '0', '0', 'map', 'odom']
+            parameters=[nav2_params, {'use_sim_time': use_sim}]
         )
 
         odom_tf_republisher = Node(
@@ -195,6 +195,7 @@ def generate_launch_description():
                     {'use_sim_time': use_sim},
                     {'autostart': True},
                     {'node_names': [
+                        'amcl',
                         'planner_server',
                         'controller_server',
                         'behavior_server',
@@ -258,7 +259,7 @@ def generate_launch_description():
             gz_sim,
             robot_state_publisher,
             ros_gz_bridge,
-            map_to_odom_tf,
+            amcl,
             odom_tf_republisher,
             joint_state_relay,
             map_publisher,

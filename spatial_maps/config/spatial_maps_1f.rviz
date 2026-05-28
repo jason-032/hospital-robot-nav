@@ -60,6 +60,20 @@ Visualization Manager:
       Use Timestamp: false
       Value: true
 
+    - Class: rviz_default_plugins/LaserScan
+      Enabled: true
+      Name: LiDAR Scan
+      Size (m): 0.05
+      Style: Points
+      Color: 255; 50; 50
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        History Policy: Keep Last
+        Reliability Policy: Best Effort
+        Value: /scan
+      Value: true
+
     - Class: rviz_default_plugins/MarkerArray
       Enabled: true
       Name: POI Markers
