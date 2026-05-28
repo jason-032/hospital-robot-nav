@@ -141,9 +141,9 @@ class POINavNode(Node):
             """Return exact Euclidean distance in pixels to the nearest wall."""
             return float(dist_px[row, col])
 
-        # Minimum clearance: inflation_radius (0.55 m) + small buffer → 0.65 m
+        # Minimum clearance: inflation_radius (0.35 m) + small buffer → 0.45 m
         # so the projected goal is safely outside the inflated lethal zone.
-        self._min_clearance_px = math.ceil(0.65 / resolution)
+        self._min_clearance_px = math.ceil(0.45 / resolution)
 
         self._map_meta = {
             'origin_x': origin_x, 'origin_y': origin_y,

@@ -188,7 +188,7 @@ class SweepTest(Node):
                     obstacle_mask[r, c] = True
         dist_px = distance_transform_edt(~obstacle_mask)
 
-        self._min_clearance_px = math.ceil(0.65 / resolution)
+        self._min_clearance_px = math.ceil(0.45 / resolution)
         self._map_meta    = {'origin_x': origin_x, 'origin_y': origin_y,
                              'resolution': resolution,
                              'width': width, 'height': height}
