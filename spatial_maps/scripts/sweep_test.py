@@ -85,9 +85,7 @@ class SweepTest(Node):
         self.declare_parameter('semantic_json',
             '/home/jason/Downloads/OneDrive_1_4-10-2026/entity/semantic.json')
         self.declare_parameter('floor', '1F')
-        self.declare_parameter('map_yaml',
-            os.path.expanduser(
-                '~/ros2_ws/install/spatial_maps/share/spatial_maps/maps/1F.yaml'))
+        self.declare_parameter('map_yaml', '')   # auto-derived from floor if empty
         self.declare_parameter('robot_start_x', 21.0)
         self.declare_parameter('robot_start_y', 38.0)
         self.declare_parameter('timeout_sec', 180.0)
@@ -99,6 +97,10 @@ class SweepTest(Node):
         semantic_json = self.get_parameter('semantic_json').value
         self.floor     = self.get_parameter('floor').value
         map_yaml       = self.get_parameter('map_yaml').value
+        if not map_yaml:
+            _maps_dir = os.path.expanduser(
+                '~/ros2_ws/install/spatial_maps/share/spatial_maps/maps')
+            map_yaml = os.path.join(_maps_dir, f'{self.floor}.yaml')
         start_x        = self.get_parameter('robot_start_x').value
         start_y        = self.get_parameter('robot_start_y').value
         self.timeout   = self.get_parameter('timeout_sec').value
@@ -188,7 +190,7 @@ class SweepTest(Node):
                     obstacle_mask[r, c] = True
         dist_px = distance_transform_edt(~obstacle_mask)
 
-        self._min_clearance_px = math.ceil(0.45 / resolution)
+        self._min_clearance_px = math.ceil(0.65 / resolution)
         self._map_meta    = {'origin_x': origin_x, 'origin_y': origin_y,
                              'resolution': resolution,
                              'width': width, 'height': height}
@@ -217,8 +219,15 @@ class SweepTest(Node):
         self.get_logger().info(f'Reachable-set: {len(visited):,} cells')
 
     def _project_goal(self, wx, wy):
+        """Return (proj_x, proj_y, reachable_bool).
+
+        reachable_bool is True when the returned coordinate is inside the
+        reachable set with adequate wall clearance.  False means projection
+        failed — the returned coordinate is the raw centroid fallback.
+        """
         if self._reachable is None:
-            return wx, wy
+            return wx, wy, True   # no map loaded, assume reachable
+
         res   = self._map_meta['resolution']
         min_c = self._min_clearance_px
         gc, gr = self._world_to_pgm(wx, wy)
@@ -228,7 +237,7 @@ class SweepTest(Node):
                     self._clearance(col, row) >= min_c)
 
         if good(gc, gr):
-            return wx, wy
+            return wx, wy, True
 
         max_r = int(10.0 / res)
 
@@ -240,7 +249,8 @@ class SweepTest(Node):
             if abs(col - gc) + abs(row - gr) > max_r:
                 break
             if good(col, row):
-                return self._pgm_to_world(col, row)
+                px, py = self._pgm_to_world(col, row)
+                return px, py, True
             for dc, dr in ((-1,0),(1,0),(0,-1),(0,1),
                            (-1,-1),(-1,1),(1,-1),(1,1)):
                 nc, nr = col + dc, row + dr
@@ -256,14 +266,15 @@ class SweepTest(Node):
             if abs(col - gc) + abs(row - gr) > max_r:
                 break
             if good(col, row):
-                return self._pgm_to_world(col, row)
+                px, py = self._pgm_to_world(col, row)
+                return px, py, True
             for dc, dr in ((-1,0),(1,0),(0,-1),(0,1)):
                 nc, nr = col + dc, row + dr
                 if (nc, nr) not in seen2:
                     seen2.add((nc, nr))
                     bfs_q2.append((nc, nr))
 
-        return wx, wy  # fallback: original centroid
+        return wx, wy, False   # no reachable projection within 10 m
 
     # ── POI loading ────────────────────────────────────────────────────────────
 
@@ -355,7 +366,8 @@ class SweepTest(Node):
             f'\nResults → {csv_path}\n{"="*60}')
 
         counts = {'SUCCESS': 0, 'FAILED': 0, 'REJECTED': 0,
-                  'TIMEOUT': 0, 'CANCELLED': 0, 'SKIPPED': 0}
+                  'TIMEOUT': 0, 'CANCELLED': 0, 'SKIPPED': 0,
+                  'DISCONNECTED': 0}
 
         with open(csv_path, 'w', newline='') as f:
             w = csv.writer(f)
@@ -381,10 +393,21 @@ class SweepTest(Node):
                 override = name in _GOAL_OVERRIDES
                 if override:
                     goal_x, goal_y = _GOAL_OVERRIDES[name]
-                    projected      = True
+                    reachable  = True
+                    projected  = True
                 else:
-                    goal_x, goal_y = self._project_goal(raw_x, raw_y)
-                    projected      = goal_x != raw_x or goal_y != raw_y
+                    goal_x, goal_y, reachable = self._project_goal(raw_x, raw_y)
+                    projected  = goal_x != raw_x or goal_y != raw_y
+
+                # ── Skip rooms with no reachable projection within 10m ─────────
+                if not reachable:
+                    print(f'[{idx:>3}/{total}] {name:<12} {label:<30}  '
+                          f'{_DIM}DISCONNECTED{_RST}')
+                    w.writerow([idx, name, label,
+                                f'{raw_x:.3f}', f'{raw_y:.3f}', False,
+                                'DISCONNECTED', '', 'no reachable projection within 10 m'])
+                    counts['DISCONNECTED'] += 1
+                    continue
 
                 tag = ' [ovr]' if override else (' [proj]' if projected else '')
                 print(f'[{idx:>3}/{total}] {name:<12} {label:<30} '
@@ -417,16 +440,18 @@ class SweepTest(Node):
                 f.flush()
 
         # ── Summary ────────────────────────────────────────────────────────────
-        navigated = total - counts['SKIPPED']
+        n_disc = counts['DISCONNECTED']
+        navigated = total - counts['SKIPPED'] - n_disc
         print(f'\n{"="*60}')
         print(f'Sweep complete  —  floor {self.floor}  —  {total} rooms')
-        print(f'  {_DIM}SKIPPED  {counts["SKIPPED"]:>3}{_RST}  (inaccessible)')
-        print(f'  {_GRN}SUCCESS  {counts["SUCCESS"]:>3}{_RST}'
-              f'  ({100*counts["SUCCESS"]//navigated if navigated else 0}% of navigated)')
-        print(f'  {_RED}FAILED   {counts["FAILED"]:>3}{_RST}')
-        print(f'  {_RED}REJECTED {counts.get("REJECTED",0):>3}{_RST}')
-        print(f'  {_YLW}TIMEOUT  {counts["TIMEOUT"]:>3}{_RST}')
-        print(f'  {_YLW}CANCELLED{counts.get("CANCELLED",0):>3}{_RST}')
+        print(f'  {_DIM}SKIPPED       {counts["SKIPPED"]:>3}{_RST}  (inaccessible keyword)')
+        print(f'  {_DIM}DISCONNECTED  {n_disc:>3}{_RST}  (no reachable path on map)')
+        print(f'  {_GRN}SUCCESS       {counts["SUCCESS"]:>3}{_RST}'
+              f'  ({100*counts["SUCCESS"]//navigated if navigated else 0}% of attempted)')
+        print(f'  {_RED}FAILED        {counts["FAILED"]:>3}{_RST}')
+        print(f'  {_RED}REJECTED      {counts.get("REJECTED",0):>3}{_RST}')
+        print(f'  {_YLW}TIMEOUT       {counts["TIMEOUT"]:>3}{_RST}')
+        print(f'  {_YLW}CANCELLED     {counts.get("CANCELLED",0):>3}{_RST}')
         print(f'{"="*60}')
         print(f'CSV saved to: {csv_path}')
 
