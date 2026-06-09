@@ -92,13 +92,6 @@
     <model name="hospital_1f_walls">
       <static>true</static>
       <link name="link">
-        <collision name="collision">
-          <geometry>
-            <mesh>
-              <uri>file:///home/jason/ros2_ws/src/spatial_maps/meshes/floor_1F_walls_only.obj</uri>
-            </mesh>
-          </geometry>
-        </collision>
         <visual name="visual">
           <geometry>
             <mesh>
