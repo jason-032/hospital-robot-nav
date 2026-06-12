@@ -111,5 +111,47 @@
       <pose>-1 0 -1.05 0 0 0</pose>
     </model>
 
+    <!-- Invisible perimeter fence: collision-only walls 1 m outside each PGM map edge.     -->
+    <!-- Map edges: x=0.91..42.41, y=−2.0..77.64 → fence at x=−0.1/43.4, y=−3.0/78.6.   -->
+    <!-- Prevents the robot from physically escaping the map area when walls are visual-only. -->
+    <!-- No visual element = invisible in Gazebo. LiDAR may see them at map edges (harmless  -->
+    <!-- since costmaps are static-layer only; no obstacle_layer).                           -->
+    <model name="fence_west">
+      <static>true</static>
+      <link name="link">
+        <collision name="col">
+          <geometry><box><size>0.2 82.0 3.0</size></box></geometry>
+        </collision>
+      </link>
+      <pose>-0.1 37.8 1.5 0 0 0</pose>
+    </model>
+    <model name="fence_east">
+      <static>true</static>
+      <link name="link">
+        <collision name="col">
+          <geometry><box><size>0.2 82.0 3.0</size></box></geometry>
+        </collision>
+      </link>
+      <pose>43.4 37.8 1.5 0 0 0</pose>
+    </model>
+    <model name="fence_south">
+      <static>true</static>
+      <link name="link">
+        <collision name="col">
+          <geometry><box><size>44.0 0.2 3.0</size></box></geometry>
+        </collision>
+      </link>
+      <pose>21.65 -3.0 1.5 0 0 0</pose>
+    </model>
+    <model name="fence_north">
+      <static>true</static>
+      <link name="link">
+        <collision name="col">
+          <geometry><box><size>44.0 0.2 3.0</size></box></geometry>
+        </collision>
+      </link>
+      <pose>21.65 78.6 1.5 0 0 0</pose>
+    </model>
+
   </world>
 </sdf>
