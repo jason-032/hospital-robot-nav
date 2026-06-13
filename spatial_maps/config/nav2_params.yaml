@@ -200,7 +200,7 @@ amcl:
     robot_model_type: "nav2_amcl::DifferentialMotionModel"
     save_pose_rate: 0.5
     sigma_hit: 0.2
-    tf_broadcast: false  # wall mesh ~0.9m offset from PGM → AMCL corrupts TF; use static TF
+    tf_broadcast: true   # PGM-derived walls match costmap exactly → AMCL TF is correct
     transform_tolerance: 1.0
     update_min_a: 0.2
     update_min_d: 0.25
