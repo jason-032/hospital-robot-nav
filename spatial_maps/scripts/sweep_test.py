@@ -93,6 +93,16 @@ class SweepTest(Node):
         # Comma-separated substrings; matched against name and display label.
         self.declare_parameter('skip_keywords',
                                ','.join(_DEFAULT_SKIP_KEYWORDS))
+        # ── Cascade-recovery parameters ─────────────────────────────────────────
+        # After this many consecutive FAILED results that each finish faster than
+        # cascade_max_sec, the robot is assumed stuck: it navigates back to spawn
+        # before continuing.  "Fast fail" (< 30 s) reliably distinguishes the
+        # planner immediately rejecting goals from a stuck position versus a normal
+        # failure where the robot actually drove and then gave up.
+        self.declare_parameter('cascade_threshold', 3)
+        self.declare_parameter('cascade_max_sec',   30.0)
+        self.declare_parameter('recovery_timeout_sec', 120.0)
+        self.declare_parameter('max_recoveries',    5)
 
         semantic_json = self.get_parameter('semantic_json').value
         self.floor     = self.get_parameter('floor').value
@@ -104,6 +114,13 @@ class SweepTest(Node):
         start_x        = self.get_parameter('robot_start_x').value
         start_y        = self.get_parameter('robot_start_y').value
         self.timeout   = self.get_parameter('timeout_sec').value
+
+        self._spawn_x           = start_x
+        self._spawn_y           = start_y
+        self._cascade_threshold = self.get_parameter('cascade_threshold').value
+        self._cascade_max_sec   = self.get_parameter('cascade_max_sec').value
+        self._recovery_timeout  = self.get_parameter('recovery_timeout_sec').value
+        self._max_recoveries    = self.get_parameter('max_recoveries').value
 
         skip_flag      = self.get_parameter('skip_inaccessible').value
         kw_raw         = self.get_parameter('skip_keywords').value
@@ -348,6 +365,37 @@ class SweepTest(Node):
         else:
             return 'FAILED', f'nav2 status={status}'
 
+    # ── Cascade recovery ───────────────────────────────────────────────────────
+
+    def _do_recovery(self, recovery_num: int, csv_writer, csv_file) -> str:
+        """Navigate back to spawn to break a stuck-robot cascade.
+
+        Returns the recovery result string ('SUCCESS', 'FAILED', etc.).
+        """
+        sx, sy = self._spawn_x, self._spawn_y
+        print(f'\n  {_YLW}[RECOVERY {recovery_num}/{self._max_recoveries}]{_RST} '
+              f'{self._cascade_threshold} consecutive fast-FAILs detected — '
+              f'navigating back to spawn ({sx:.1f}, {sy:.1f}) …',
+              flush=True)
+
+        old_timeout   = self.timeout
+        self.timeout  = self._recovery_timeout
+        rec_res, notes = self._navigate_blocking(sx, sy)
+        self.timeout  = old_timeout
+
+        colour = _GRN if rec_res == 'SUCCESS' else _RED
+        print(f'  Recovery {colour}{rec_res}{_RST}'
+              + (f' — {notes}' if notes else ''))
+        print()
+
+        csv_writer.writerow(['R', 'RECOVERY', f'cascade x{recovery_num}',
+                             f'{sx:.3f}', f'{sy:.3f}', False,
+                             rec_res, '',
+                             f'triggered after {self._cascade_threshold} fast-FAILs; {notes}'])
+        csv_file.flush()
+        time.sleep(2.0)   # let nav2 settle after recovery
+        return rec_res
+
     # ── Main sweep ─────────────────────────────────────────────────────────────
 
     def run(self):
@@ -368,6 +416,9 @@ class SweepTest(Node):
         counts = {'SUCCESS': 0, 'FAILED': 0, 'REJECTED': 0,
                   'TIMEOUT': 0, 'CANCELLED': 0, 'SKIPPED': 0,
                   'DISCONNECTED': 0}
+
+        consec_fast_fail = 0   # consecutive FAILED results that finished quickly
+        recovery_count   = 0   # total recoveries performed this sweep
 
         with open(csv_path, 'w', newline='') as f:
             w = csv.writer(f)
@@ -439,8 +490,25 @@ class SweepTest(Node):
                             '; '.join(filter(None, [extra, notes]))])
                 f.flush()
 
+                # ── Cascade detection ──────────────────────────────────────────
+                # A "fast FAIL" (< cascade_max_sec) means the planner rejected
+                # the goal immediately, almost always because the robot's current
+                # odometry position is inside a PGM occupied cell.  N consecutive
+                # fast-FAILs → robot is stuck somewhere.  Navigate back to spawn
+                # to reset its position relative to the costmap, then continue.
+                if result == 'FAILED' and duration < self._cascade_max_sec:
+                    consec_fast_fail += 1
+                else:
+                    consec_fast_fail = 0   # any other outcome breaks the streak
+
+                if (consec_fast_fail >= self._cascade_threshold
+                        and recovery_count < self._max_recoveries):
+                    recovery_count  += 1
+                    consec_fast_fail = 0
+                    self._do_recovery(recovery_count, w, f)
+
         # ── Summary ────────────────────────────────────────────────────────────
-        n_disc = counts['DISCONNECTED']
+        n_disc    = counts['DISCONNECTED']
         navigated = total - counts['SKIPPED'] - n_disc
         print(f'\n{"="*60}')
         print(f'Sweep complete  —  floor {self.floor}  —  {total} rooms')
@@ -452,6 +520,8 @@ class SweepTest(Node):
         print(f'  {_RED}REJECTED      {counts.get("REJECTED",0):>3}{_RST}')
         print(f'  {_YLW}TIMEOUT       {counts["TIMEOUT"]:>3}{_RST}')
         print(f'  {_YLW}CANCELLED     {counts.get("CANCELLED",0):>3}{_RST}')
+        if recovery_count:
+            print(f'  {_YLW}RECOVERIES    {recovery_count:>3}{_RST}  (cascade-reset to spawn)')
         print(f'{"="*60}')
         print(f'CSV saved to: {csv_path}')
 
