@@ -33,8 +33,10 @@ import rclpy
 from rclpy.node import Node
 from rclpy.action import ActionClient
 from action_msgs.msg import GoalStatus
-from geometry_msgs.msg import PoseStamped
+from geometry_msgs.msg import PoseStamped, TransformStamped
 from nav2_msgs.action import NavigateToPose
+from nav_msgs.msg import Odometry
+from tf2_ros import StaticTransformBroadcaster
 
 # ── ANSI colours for the terminal summary ─────────────────────────────────────
 _GRN = '\033[92m'
@@ -143,6 +145,10 @@ class SweepTest(Node):
             self.get_logger().warn('map_yaml not found — goal projection disabled')
 
         self._nav = ActionClient(self, NavigateToPose, 'navigate_to_pose')
+
+        self._latest_odom = None
+        self.create_subscription(Odometry, '/odom', self._on_odom, 10)
+        self._static_br = StaticTransformBroadcaster(self)
 
     # ── Skip filter ────────────────────────────────────────────────────────────
 
@@ -365,6 +371,11 @@ class SweepTest(Node):
         else:
             return 'FAILED', f'nav2 status={status}'
 
+    # ── Odom subscriber ───────────────────────────────────────────────────────
+
+    def _on_odom(self, msg):
+        self._latest_odom = msg
+
     # ── Cascade recovery ───────────────────────────────────────────────────────
 
     def _do_recovery(self, recovery_num: int, csv_writer, csv_file) -> str:
@@ -377,6 +388,38 @@ class SweepTest(Node):
               f'{self._cascade_threshold} consecutive fast-FAILs detected — '
               f'navigating back to spawn ({sx:.1f}, {sy:.1f}) …',
               flush=True)
+
+        # ── TF correction ─────────────────────────────────────────────────────
+        # Fast-FAILs (status=6) happen because the robot's computed map
+        # position (static TF + odom) has drifted into a PGM occupied cell.
+        # The NavFn planner refuses to plan from any lethal-cost start,
+        # including the recovery goal itself.
+        #
+        # Fix: read the current odom and publish a corrected map->odom static
+        # TF so that the robot's map position equals spawn exactly.  After this
+        # the planner sees the robot in free space and accepts the goal.
+        t_wait = time.time()
+        while self._latest_odom is None and time.time() - t_wait < 5.0:
+            rclpy.spin_once(self, timeout_sec=0.1)
+        odom = self._latest_odom
+        if odom is not None:
+            ox = odom.pose.pose.position.x
+            oy = odom.pose.pose.position.y
+            tf_msg = TransformStamped()
+            tf_msg.header.stamp    = self.get_clock().now().to_msg()
+            tf_msg.header.frame_id = 'map'
+            tf_msg.child_frame_id  = 'odom'
+            tf_msg.transform.translation.x = sx - ox
+            tf_msg.transform.translation.y = sy - oy
+            tf_msg.transform.translation.z = 0.1
+            tf_msg.transform.rotation.w    = 1.0
+            self._static_br.sendTransform(tf_msg)
+            time.sleep(1.0)   # let TF propagate through tf2 buffer
+            print(f'    TF corrected: map→odom=({sx-ox:.2f}, {sy-oy:.2f})'
+                  f'  [odom was ({ox:.2f}, {oy:.2f})]', flush=True)
+        else:
+            print('    Warning: no /odom received — skipping TF correction',
+                  flush=True)
 
         old_timeout   = self.timeout
         self.timeout  = self._recovery_timeout
