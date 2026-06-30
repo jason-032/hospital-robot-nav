@@ -9,7 +9,7 @@ This project implements a physics-based, multi-floor autonomous robot navigation
 
 The original research brief was to generate a Gazebo simulation environment from the outputs of an Indoor Spatial Map Generation Pipeline and validate POI (Point of Interest) integration by deploying a robot on a single floor. The Indoor Spatial Map Generation Pipeline is an upstream process that parses IFC-format BIM models to extract spatial entities (IfcSpace objects), room connectivity, door positions, stairwell geometry, and floor-level occupancy grids, producing both 2D navigable maps and semantic topology graphs as structured outputs.
 
-This implementation goes substantially beyond the original brief. Rather than validating a single floor, the system spans all 15 floors of the hospital (B1F through 14F), provides fully parameterised launch infrastructure, integrates a dual-layer navigation architecture combining grid-based and topological planning, and includes an automated 90-room sweep test with cascade recovery. Floor 2F has been empirically validated at an 83% navigation success rate. Floor 1F presents additional challenges arising from BIM-to-PGM coordinate misalignment and is under active investigation. Each floor is independently launchable using a single parameterised entry point, and every floor carries its own occupancy map, semantic POI layer, topological network graph, and Gazebo simulation world.
+This implementation goes substantially beyond the original brief. Rather than validating a single floor, the system spans all 15 floors of the hospital (B1F through 14F), provides fully parameterised launch infrastructure, and includes an automated full-POI sweep test with cascade recovery. Floor 2F has been empirically validated at an 83% navigation success rate (requires the upstream semantic.json dataset; see Installation). Floor 1F presents additional challenges arising from BIM-to-PGM coordinate misalignment and is under active investigation, currently achieving 38%. A Dijkstra-based topological navigation module over the BIM-derived graph (5,542 nodes, 3,259 edges) is implemented as a standalone research prototype and is a planned integration target for the metric Nav2 stack. Each floor is independently launchable using a single parameterised entry point, and every floor carries its own occupancy map, semantic POI layer, topological network graph, and Gazebo simulation world.
 
 This work demonstrates that IFC/BIM spatial data can be translated into a fully operational, multi-floor robot navigation stack without manual environment modelling, and that POI-aware goal-directed navigation in complex built environments is achievable using open-source robotics middleware at research quality.
 
@@ -78,22 +78,27 @@ The pipeline flows from raw BIM data through to autonomous robot behaviour in si
  |  lifecycle_manager    ->  autostart, 12s delay, bond 30s     |
  +----------------------------+---------------------------------+
                               ^
-          +-------------------+------------------+
-          |                                      |
- +--------+---------+                +-----------+---------+
- |   POI Layer      |                |  Topological Layer  |
- |                  |                |                     |
- | poi_publisher    |                | network_navigation  |
- |  (sphere+text    |                |  _node              |
- |   markers in     |                |  (Dijkstra over     |
- |   RViz, colour-  |                |   BIM-derived graph,|
- |   coded by       |                |   5,542 nodes)      |
- |   robot_response |                |                     |
- |   class)         |                +---------------------+
+          +-------------------+
+          |
+ +--------+---------+
+ |   POI Layer      |
+ |                  |
+ | poi_publisher    |
+ |  (sphere+text    |
+ |   markers in     |
+ |   RViz, colour-  |
+ |   coded by       |
+ |   robot_response |
+ |   class)         |
  |                  |
  | poi_click_node   |  <- RViz Publish Point click -> nearest room
  | poi_nav_node     |  -> goal projection (EDT + BFS) -> Nav2 goal
  +------------------+
+
+ [Topological Layer -- research prototype, not yet wired into launch system]
+ network_navigation_node.py: Dijkstra over BIM graph (5,542 nodes, 3,259 edges)
+ Status: standalone functional module; cmd_vel arbitration with Nav2 controller
+         and goal-subscription wiring are outstanding integration tasks.
 ```
 
 ### Goal Projection
@@ -166,7 +171,9 @@ ros2_ws/src/
 +-- spatial_maps/                   Multi-floor hospital navigation package
     +-- scripts/
     |   +-- map_publisher_node.py        Map server (PGM->/map, TransientLocal
-    |   |                                QoS, 1s startup timer, 0.001 Hz repeat)
+    |   |                                QoS, 1s startup timer; repeat rate is a
+    |   |                                launch-time parameter, default 1.0 Hz,
+    |   |                                set to 0.001 Hz by spatial_maps.launch.py)
     |   +-- poi_publisher_node.py        BIM semantic layer -> RViz MarkerArray
     |   +-- poi_nav_node.py              POI goal projection + Nav2 action client
     |   +-- poi_click_node.py            RViz click -> nearest room -> /goal_poi
@@ -179,12 +186,15 @@ ros2_ws/src/
     |                                    wall boxes (pixel-accurate alignment)
     +-- launch/
     |   +-- spatial_maps.launch.py       Multi-floor parameterised entry point
-    |   +-- spatial_maps_1f.launch.py    Floor 1F explicit launch (reference)
-    |   +-- floor_1f.launch.py           )
-    |   +-- floor_2f.launch.py           ) Per-floor explicit launch files,
-    |   +-- ...                          ) one per floor (B1F, 1F through 14F)
-    |   +-- floor_b1f.launch.py          )
-    |   +-- multi_robot_simulation.launch.py  Multi-robot stub (B1F)
+    |   |                                (recommended; includes AMCL)
+    |   +-- spatial_maps_1f.launch.py    Floor 1F full simulation launch
+    |   |                                (no AMCL node; use spatial_maps.launch.py
+    |   |                                 for AMCL-enabled localization)
+    |   +-- floor_1f.launch.py           )  Map-server stubs: each starts only
+    |   +-- floor_2f.launch.py           )  map_server + lifecycle manager for
+    |   +-- ...                          )  that floor's PGM. Do NOT start Gazebo,
+    |   +-- floor_b1f.launch.py          )  the robot, or Nav2 navigation nodes.
+    |   +-- multi_robot_simulation.launch.py  Multi-robot stub (B1F, non-functional)
     +-- maps/                            15 x (*.pgm, *.yaml, *_map.png)
     +-- network/                         15 x network_*.json, graph.json,
     |                                    summary.yaml
@@ -193,7 +203,10 @@ ros2_ws/src/
     +-- models/
     |   +-- pgm_walls_1f/                Gazebo model: 1108 PGM-derived collision
     |       +-- model.config             boxes for Floor 1F (generated by
-    |       +-- model.sdf                pgm_to_sdf_walls.py, not loaded by default)
+    |       +-- model.sdf                pgm_to_sdf_walls.py, not loaded by default;
+    |                                    note: models/ is not installed to the ROS2
+    |                                    share path by CMakeLists.txt -- reference
+    |                                    by full path or add to install() block)
     +-- config/
         +-- nav2_params.yaml             Full Nav2 + AMCL stack configuration
         +-- gz_bridge_*.yaml             Per-floor Gz<->ROS bridge configs (15 files)
@@ -225,11 +238,11 @@ The following has been implemented and empirically validated:
 
 **POI-aware navigation**: Three-node pipeline: (1) semantic visualisation of all BIM rooms as labelled markers in RViz, colour-coded by robot_response class (A: blue autonomous patrol, B: green passive monitoring, C: yellow interactive, H: orange human-sensitive); (2) click-to-navigate via RViz Publish Point tool with nearest-room lookup; (3) obstacle-aware goal projection placing Nav2 goals in reachable, clearance-validated free space.
 
-**Topological navigation layer**: Dijkstra pathfinding over a BIM-derived graph of 5,542 nodes (856 rooms, 1,446 door waypoints, 2,194 step nodes) and 3,259 edges across all 15 floors, providing room-to-room semantic routing independent of the metric grid.
+**Topological navigation module (research prototype)**: `network_navigation_node.py` implements Dijkstra pathfinding over a BIM-derived graph of 5,542 nodes (856 rooms, 1,446 door waypoints, 2,194 step nodes) and 3,259 edges across all 15 floors. The graph structure and shortest-path computation are fully implemented. However, this node is not yet launched by any launch file in the repository and is not connected to the running Nav2 stack. Two outstanding integration steps remain: resolving cmd_vel arbitration between topological waypoint-following and Nav2's controller server, and subscribing the node's goal input to the same POI pipeline used by `poi_nav_node.py`. Until these are addressed, the topological module operates as a standalone prototype rather than a live navigation layer.
 
 **Automated sweep test with cascade recovery**: `sweep_test.py` iterates every POI on a given floor, sends Nav2 goals, and records results to a timestamped CSV. Configurable skip keywords filter physically inaccessible spaces (stairwells, elevators, tagged zones). Manual coordinate overrides handle rooms whose BIM centroids land inside inflated obstacles. Cascade recovery detects stuck-robot episodes from the failure signature (three consecutive FAILEDs under 30 s) and navigates the robot back to the spawn point before resuming, breaking cascading failures caused by odometry drift into occupied costmap cells.
 
-**Empirical results**: Floor 2F has been validated at an 83% navigation success rate across the floor's full POI set. Floor 1F achieves 38% in the current configuration; this lower rate is attributable to the BIM-to-PGM coordinate misalignment and is the primary focus of ongoing investigation. Both measurements were obtained using the automated sweep test.
+**Empirical results**: Floor 2F has been validated at an 83% navigation success rate across the floor's full POI set. Floor 1F achieves 38% in the current configuration; this lower rate is attributable to the BIM-to-PGM coordinate misalignment and is the primary focus of ongoing investigation. Both measurements were obtained using `sweep_test.py` with the upstream `semantic.json` dataset (see External data dependency under Installation). The sweep test infrastructure and cascade recovery logic are fully implemented and reproducible given that dataset; the pass-rate figures depend on it and cannot be reproduced from repository contents alone.
 
 ---
 
@@ -379,7 +392,7 @@ The translation of BIM data into operational robot environments without manual g
 
 A specific technical challenge that has emerged is the coordinate misalignment between BIM-exported geometry and PGM-derived occupancy maps. The 1F wall mesh was exported from the BIM model in a coordinate frame approximately 0.9 m offset from the PGM origin, with a scale discrepancy that prevents correction by a single rigid transform. This misalignment prevents physical collision geometry from being used alongside the Nav2 static costmap without trapping the robot inside inflation zones, and it prevents AMCL from localizing correctly because the LiDAR-visible geometry does not match the PGM occupied cells. Resolving this requires re-exporting wall geometry from the BIM model in the same coordinate frame used to generate the PGM, which is the highest-priority outstanding technical item.
 
-The dual-layer navigation architecture (metric grid combined with semantic topological graph) reflects current consensus in mobile robotics on the complementary roles of dense metric maps for collision avoidance and sparse topological representations for semantic goal reasoning. The BIM-derived topological graph carries stair connectivity, elevator waypoints, and door-mediated access constraints that are invisible to a purely metric planner; this is the foundation for genuine multi-floor navigation rather than floor-by-floor operation.
+The intended navigation architecture combines a metric grid layer (Nav2, currently operational) with a semantic topological layer (Dijkstra over BIM graph, currently a standalone prototype). Combining both layers reflects established practice in mobile robotics: dense metric maps handle local collision avoidance while sparse topological graphs encode semantic constraints -- stair connectivity, elevator waypoints, door-mediated access -- that are invisible to a grid planner. The BIM-derived graph already carries these relationships across all 15 floors; the remaining work is the integration interface between the two planners (waypoint handoff from topological to Nav2 action server, and cmd_vel arbitration). This integration is the primary architectural objective for the next development phase.
 
 **Identified next development phases:**
 
@@ -396,6 +409,30 @@ The dual-layer navigation architecture (metric grid combined with semantic topol
 6. **Real-building validation**: Transfer the pipeline to a different IFC building model to validate generalisability of the BIM-to-navigation translation approach.
 
 7. **Performance characterisation**: Systematic analysis of navigation success rate as a function of map resolution, inflation radius, and corridor width to inform parameter selection guidelines for BIM-derived environments.
+
+---
+
+## Known Limitations and Open Problems
+
+The following limitations are acknowledged and documented here for completeness. They are active research problems, not oversights.
+
+**1. BIM-to-PGM coordinate misalignment (1F)**
+The 1F BIM wall mesh is exported in a coordinate frame approximately 0.9 m offset from the PGM occupancy grid origin, with a scale discrepancy that prevents correction by a single rigid transform. This misalignment has three downstream consequences: (a) the wall mesh cannot carry collision geometry without trapping the robot inside Nav2 inflation zones; (b) AMCL cannot localise correctly because LiDAR-visible geometry does not match PGM occupied cells; (c) the robot can physically pass through the visual-only walls, causing odometry to drift into PGM-occupied cells and triggering cascading planner failures. The root fix is re-exporting the wall mesh from the BIM model in the same coordinate frame used to generate the PGM.
+
+**2. Odometry drift on Floor 1F**
+Without physical interior walls and with AMCL TF broadcast disabled, accumulated odometry error over long navigations can place the robot's computed map-frame position inside a PGM occupied cell. The Nav2 NavFn planner rejects all goals when the start position is lethal. The cascade recovery in `sweep_test.py` detects this state (three consecutive fast-FAILs) and corrects the `map->odom` static TF before retrying, but this is a mitigation, not a fix. The underlying cause is addressed by item 1.
+
+**3. Topological navigation module not integrated into launch system**
+`network_navigation_node.py` implements Dijkstra over the BIM graph but is not launched by any launch file and publishes `cmd_vel` directly, conflicting with Nav2's controller server if both run simultaneously. Integration requires a waypoint-handoff interface to Nav2 and cmd_vel arbitration logic.
+
+**4. Pass-rate figures require external dataset**
+The 83% (2F) and 38% (1F) navigation success rates were measured using `sweep_test.py` against the upstream `semantic.json` POI dataset, which is not included in this repository. The sweep test code and cascade recovery logic are fully implemented and reproducible; the figures themselves are dataset-dependent.
+
+**5. Per-floor map-server launch files are stubs**
+The 13 `floor_Xf.launch.py` files each start only a `map_server` node and its lifecycle manager. They do not launch Gazebo, the robot, Nav2, or any bridge nodes. Full simulation on any floor requires `spatial_maps.launch.py` with the `floor` parameter.
+
+**6. `models/pgm_walls_1f/` is not installed by the build system**
+The `models/` directory is not included in `CMakeLists.txt`'s `install(DIRECTORY ...)` block and is therefore not deployed to the ROS2 share path after `colcon build`. The model must be referenced by its full source path or the CMakeLists.txt must be extended to include it.
 
 ---
 

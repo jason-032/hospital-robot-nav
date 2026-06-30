@@ -107,8 +107,9 @@ def generate_launch_description():
             parameters=[{'config_file': bridge_config}]
         )
 
-        # Static map→odom TF as startup fallback — AMCL overrides this once it
-        # localises, but the TF chain must exist before AMCL's first scan update.
+        # Static map->odom TF — primary localization source. AMCL runs with
+        # tf_broadcast: false (nav2_params.yaml) so it does NOT override this TF.
+        # The static TF remains authoritative for the full session.
         map_to_odom_tf = Node(
             package='tf2_ros',
             executable='static_transform_publisher',
