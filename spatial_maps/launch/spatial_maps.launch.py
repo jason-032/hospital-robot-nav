@@ -13,7 +13,8 @@ All floors share the same map coordinate system and robot spawn point (21, 38).
 import os
 from launch import LaunchDescription
 from launch.actions import (DeclareLaunchArgument, ExecuteProcess,
-                             IncludeLaunchDescription, TimerAction)
+                             IncludeLaunchDescription, SetEnvironmentVariable,
+                             TimerAction)
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import Command, LaunchConfiguration
 from launch_ros.actions import Node
@@ -57,6 +58,20 @@ def generate_launch_description():
         # so nodes that declare use_sim_time as bool don't throw InvalidParameterType.
         use_sim = context.launch_configurations.get('use_sim_time', 'true').lower() == 'true'
 
+        # 1F loads 1108 PGM-derived collision boxes — Gz Sim needs more time
+        # to finish loading before the robot spawn and Nav2 startup timers fire.
+        _is_1f = (floor_val == '1F')
+        spawn_delay = 30.0 if _is_1f else 5.0
+        nav2_delay  = 42.0 if _is_1f else 12.0
+
+        # Expose spatial_maps/models/ so Gz Sim resolves model://pgm_walls_1f.
+        _pkg_src = os.path.normpath(
+            os.path.join(os.path.dirname(os.path.realpath(__file__)), '..'))
+        _models_dir = os.path.join(_pkg_src, 'models')
+        set_gz_resource_path = SetEnvironmentVariable(
+            'GZ_SIM_RESOURCE_PATH',
+            _models_dir + ':' + os.environ.get('GZ_SIM_RESOURCE_PATH', ''))
+
         cleanup = ExecuteProcess(
             cmd=['bash', '-c',
                  'pkill -9 -O 10 -f "gz sim" 2>/dev/null; '
@@ -85,7 +100,7 @@ def generate_launch_description():
         )
 
         spawn_robot = TimerAction(
-            period=5.0,
+            period=spawn_delay,   # 30 s for 1F (1108 wall boxes), 5 s otherwise
             actions=[Node(
                 package='ros_gz_sim',
                 executable='create',
@@ -197,7 +212,7 @@ def generate_launch_description():
         )
 
         nav2_lifecycle_manager = TimerAction(
-            period=12.0,
+            period=nav2_delay,    # 42 s for 1F, 12 s otherwise
             actions=[Node(
                 package='nav2_lifecycle_manager',
                 executable='lifecycle_manager',
@@ -268,6 +283,7 @@ def generate_launch_description():
         )
 
         return [
+            set_gz_resource_path,   # must precede gz_sim so Gz finds model://pgm_walls_1f
             cleanup,
             gz_sim,
             robot_state_publisher,

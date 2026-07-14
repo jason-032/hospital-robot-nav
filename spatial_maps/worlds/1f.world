@@ -153,5 +153,14 @@
       <pose>21.65 78.6 1.5 0 0 0</pose>
     </model>
 
+    <!-- PGM-derived collision walls: 1108 axis-aligned boxes generated from  -->
+    <!-- 1F.pgm at 0.06 m/px (downsample=3) by pgm_to_sdf_walls.py.          -->
+    <!-- Pixel-perfectly aligned with Nav2 costmap and AMCL scan-matching.    -->
+    <!-- GZ_SIM_RESOURCE_PATH must include spatial_maps/models/ (set in       -->
+    <!-- launch file) so Gz Sim can resolve model://pgm_walls_1f.             -->
+    <include>
+      <uri>model://pgm_walls_1f</uri>
+    </include>
+
   </world>
 </sdf>

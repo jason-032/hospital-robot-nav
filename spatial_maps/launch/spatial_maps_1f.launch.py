@@ -12,7 +12,8 @@ Send a robot to a POI:
 import os
 from launch import LaunchDescription
 from launch.actions import (DeclareLaunchArgument, ExecuteProcess,
-                             IncludeLaunchDescription, TimerAction)
+                             IncludeLaunchDescription, SetEnvironmentVariable,
+                             TimerAction)
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import Command, LaunchConfiguration
 from launch_ros.actions import Node
@@ -31,6 +32,16 @@ def generate_launch_description():
     map_yaml      = os.path.join(spatial_maps_share, 'maps',   '1F.yaml')
     nav2_params   = os.path.join(spatial_maps_share, 'config', 'nav2_params.yaml')
     semantic_json = '/home/jason/Downloads/OneDrive_1_4-10-2026/entity/semantic.json'
+
+    # Expose spatial_maps/models/ to Gz Sim so model://pgm_walls_1f resolves.
+    # The models/ directory is not installed to the ROS2 share path, so we
+    # derive its location from this launch file's real path (symlink-safe).
+    _pkg_src = os.path.normpath(
+        os.path.join(os.path.dirname(os.path.realpath(__file__)), '..'))
+    _models_dir = os.path.join(_pkg_src, 'models')
+    set_gz_resource_path = SetEnvironmentVariable(
+        'GZ_SIM_RESOURCE_PATH',
+        _models_dir + ':' + os.environ.get('GZ_SIM_RESOURCE_PATH', ''))
 
     use_sim_time = LaunchConfiguration('use_sim_time', default='true')
 
@@ -75,9 +86,9 @@ def generate_launch_description():
         ]
     )
 
-    # ── Spawn robot (delayed 5 s to let Gz Sim finish loading) ────────────────
+    # ── Spawn robot (delayed 30 s — 1F loads 1108 PGM wall collision boxes)  ──
     spawn_robot = TimerAction(
-        period=5.0,
+        period=30.0,
         actions=[Node(
             package='ros_gz_sim',
             executable='create',
@@ -190,9 +201,9 @@ def generate_launch_description():
         parameters=[nav2_params, {'use_sim_time': use_sim_time}]
     )
 
-    # Delayed 12 s — robot spawns at 5 s, odom TF needs a moment to flow
+    # Delayed 42 s — robot spawns at 30 s, odom TF needs ~12 s to flow
     nav2_lifecycle_manager = TimerAction(
-        period=12.0,
+        period=42.0,
         actions=[Node(
             package='nav2_lifecycle_manager',
             executable='lifecycle_manager',
@@ -265,6 +276,7 @@ def generate_launch_description():
     )
 
     return LaunchDescription([
+        set_gz_resource_path,   # must precede gz_sim so Gz finds model://pgm_walls_1f
         cleanup,
         declare_use_sim_time,
         gz_sim,
