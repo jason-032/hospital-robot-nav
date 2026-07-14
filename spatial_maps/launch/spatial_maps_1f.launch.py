@@ -146,6 +146,18 @@ def generate_launch_description():
         parameters=[{'use_sim_time': use_sim_time}]
     )
 
+    # ── AMCL ─────────────────────────────────────────────────────────────────
+    # PGM-derived collision walls now align with the map, so LiDAR can match.
+    # static_transform_publisher above bootstraps map->odom at spawn; AMCL
+    # takes over once it has enough particles (dynamic TF overrides static).
+    amcl = Node(
+        package='nav2_amcl',
+        executable='amcl',
+        name='amcl',
+        output='screen',
+        parameters=[nav2_params, {'use_sim_time': use_sim_time}]
+    )
+
     # ── Map publisher (no lifecycle dependency — always publishing) ───────────
     map_publisher = Node(
         package='spatial_maps',
@@ -213,6 +225,7 @@ def generate_launch_description():
                 {'use_sim_time': use_sim_time},
                 {'autostart': True},
                 {'node_names': [
+                    'amcl',
                     'planner_server',
                     'controller_server',
                     'behavior_server',
@@ -283,6 +296,7 @@ def generate_launch_description():
         robot_state_publisher,
         ros_gz_bridge,
         map_to_odom_tf,
+        amcl,
         odom_tf_republisher,
         joint_state_relay,
         map_publisher,
