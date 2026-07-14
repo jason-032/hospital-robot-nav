@@ -90,6 +90,8 @@ class POIPublisherNode(Node):
             return []
 
         entities = data.get('entities', {})
+        if isinstance(entities, list):
+            entities = {e['guid']: e for e in entities}
         markers = []
         marker_id = 0
 

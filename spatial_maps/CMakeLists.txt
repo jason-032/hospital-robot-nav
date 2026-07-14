@@ -18,6 +18,7 @@ install(PROGRAMS
   scripts/joint_state_relay.py
   scripts/odom_tf_republisher.py
   scripts/sweep_test.py
+  scripts/pgm_to_sdf_walls.py
   DESTINATION lib/${PROJECT_NAME}
 )
 

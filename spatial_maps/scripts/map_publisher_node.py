@@ -54,7 +54,7 @@ class MapPublisherNode(Node):
 
         if not yaml_file or not os.path.isfile(yaml_file):
             self.get_logger().error(f'Map YAML not found: {yaml_file}')
-            return
+            raise SystemExit(1)
 
         # Load YAML metadata
         with open(yaml_file) as f:

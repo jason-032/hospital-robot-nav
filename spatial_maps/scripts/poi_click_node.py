@@ -55,8 +55,12 @@ class POIClickNode(Node):
             self.get_logger().error(f'semantic.json not found: {path}')
             return []
 
+        entities = data.get('entities', {})
+        if isinstance(entities, list):
+            entities = {e['guid']: e for e in entities}
+
         pois = []
-        for entity in data.get('entities', {}).values():
+        for entity in entities.values():
             if entity.get('ifc_type') != 'IfcSpace':
                 continue
             if entity.get('storey_name') != self.floor:

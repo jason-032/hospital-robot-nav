@@ -29,6 +29,7 @@ from rclpy.node import Node
 from rclpy.action import ActionClient
 from std_msgs.msg import String
 from geometry_msgs.msg import PoseStamped
+from action_msgs.msg import GoalStatus
 from nav2_msgs.action import NavigateToPose
 
 
@@ -361,7 +362,7 @@ class POINavNode(Node):
     def _on_result(self, future):
         result = future.result()
         status = result.status
-        if status == 4:  # SUCCEEDED
+        if status == GoalStatus.STATUS_SUCCEEDED:
             self.get_logger().info('Navigation succeeded — arrived at POI.')
         else:
             self.get_logger().warn(f'Navigation finished with status: {status}')

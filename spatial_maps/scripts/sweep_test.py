@@ -148,7 +148,6 @@ class SweepTest(Node):
 
         self._latest_odom = None
         self.create_subscription(Odometry, '/odom', self._on_odom, 10)
-        self._static_br = StaticTransformBroadcaster(self)
 
     # ── Skip filter ────────────────────────────────────────────────────────────
 
@@ -413,7 +412,12 @@ class SweepTest(Node):
             tf_msg.transform.translation.y = sy - oy
             tf_msg.transform.translation.z = 0.1
             tf_msg.transform.rotation.w    = 1.0
-            self._static_br.sendTransform(tf_msg)
+            # Fresh broadcaster each call: StaticTransformBroadcaster.sendTransform()
+            # silently ignores a second call for the same child_frame_id on the same
+            # instance (it only appends new frames, never updates existing ones).
+            # A new instance has an empty _child_frame_ids set, so the corrected
+            # transform is always published regardless of how many recoveries have run.
+            StaticTransformBroadcaster(self).sendTransform(tf_msg)
             time.sleep(1.0)   # let TF propagate through tf2 buffer
             print(f'    TF corrected: map→odom=({sx-ox:.2f}, {sy-oy:.2f})'
                   f'  [odom was ({ox:.2f}, {oy:.2f})]', flush=True)
