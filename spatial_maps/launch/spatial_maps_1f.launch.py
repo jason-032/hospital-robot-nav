@@ -15,7 +15,7 @@ from launch.actions import (DeclareLaunchArgument, ExecuteProcess,
                              IncludeLaunchDescription, SetEnvironmentVariable,
                              TimerAction)
 from launch.launch_description_sources import PythonLaunchDescriptionSource
-from launch.substitutions import Command, LaunchConfiguration
+from launch.substitutions import Command, LaunchConfiguration, PythonExpression
 from launch_ros.actions import Node
 from ament_index_python.packages import get_package_share_directory
 
@@ -44,6 +44,10 @@ def generate_launch_description():
         _models_dir + ':' + os.environ.get('GZ_SIM_RESOURCE_PATH', ''))
 
     use_sim_time = LaunchConfiguration('use_sim_time', default='true')
+    # headless:=true runs Gz Sim server-only (no 3D GUI window), which frees the
+    # renderer's CPU budget and raises the real-time factor — the sweep then
+    # consumes its sim-time budget in far less wall-clock time. Watch in RViz.
+    headless = LaunchConfiguration('headless', default='false')
 
     # Kill any leftover processes from previous launches before starting fresh.
     # Without this, orphaned nodes accumulate across Ctrl+C relaunches and
@@ -66,12 +70,19 @@ def generate_launch_description():
         'use_sim_time', default_value='true',
         description='Use simulation time')
 
+    declare_headless = DeclareLaunchArgument(
+        'headless', default_value='false',
+        description='Run Gz Sim server-only (no GUI) for a higher real-time factor')
+
     # ── Gz Sim ────────────────────────────────────────────────────────────────
+    # '-r' runs immediately; '-s' (server-only) is appended when headless:=true.
+    gz_args = PythonExpression(
+        ["'", world_file, " -r' + (' -s' if '", headless, "' == 'true' else '')"])
     gz_sim = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             os.path.join(ros_gz_sim_share, 'launch', 'gz_sim.launch.py')
         ),
-        launch_arguments={'gz_args': world_file + ' -r'}.items()
+        launch_arguments={'gz_args': gz_args}.items()
     )
 
     # ── Robot state publisher ─────────────────────────────────────────────────
@@ -292,6 +303,7 @@ def generate_launch_description():
         set_gz_resource_path,   # must precede gz_sim so Gz finds model://pgm_walls_1f
         cleanup,
         declare_use_sim_time,
+        declare_headless,
         gz_sim,
         robot_state_publisher,
         ros_gz_bridge,

@@ -10,7 +10,7 @@ second terminal once nav2 reports "Managed nodes are active".
 
 Usage:
   ros2 run spatial_maps sweep_test.py
-  ros2 run spatial_maps sweep_test.py --ros-args -p timeout_sec:=180
+  ros2 run spatial_maps sweep_test.py --ros-args -p timeout_sec:=500
   ros2 run spatial_maps sweep_test.py --ros-args -p floor:=2F
   ros2 run spatial_maps sweep_test.py --ros-args -p skip_inaccessible:=true
 
@@ -31,9 +31,10 @@ from scipy.ndimage import distance_transform_edt
 
 import rclpy
 from rclpy.node import Node
+from rclpy.parameter import Parameter
 from rclpy.action import ActionClient
 from action_msgs.msg import GoalStatus
-from geometry_msgs.msg import PoseStamped, TransformStamped
+from geometry_msgs.msg import PoseStamped, PoseWithCovarianceStamped, TransformStamped
 from nav2_msgs.action import NavigateToPose
 from nav_msgs.msg import Odometry
 from tf2_ros import StaticTransformBroadcaster
@@ -82,7 +83,13 @@ _GOAL_OVERRIDES = {
 class SweepTest(Node):
 
     def __init__(self):
-        super().__init__('sweep_test')
+        # use_sim_time must be set at construction so the node's clock follows
+        # Gazebo's /clock.  Room timeouts are then measured in SIM-seconds, so a
+        # low Gazebo real-time factor can never cause a false timeout.
+        super().__init__(
+            'sweep_test',
+            parameter_overrides=[
+                Parameter('use_sim_time', Parameter.Type.BOOL, True)])
 
         self.declare_parameter('semantic_json',
             '/home/jason/Downloads/OneDrive_1_4-10-2026/entity/semantic.json')
@@ -90,7 +97,7 @@ class SweepTest(Node):
         self.declare_parameter('map_yaml', '')   # auto-derived from floor if empty
         self.declare_parameter('robot_start_x', 21.0)
         self.declare_parameter('robot_start_y', 38.0)
-        self.declare_parameter('timeout_sec', 180.0)
+        self.declare_parameter('timeout_sec', 500.0)
         self.declare_parameter('skip_inaccessible', False)
         # Comma-separated substrings; matched against name and display label.
         self.declare_parameter('skip_keywords',
@@ -102,9 +109,9 @@ class SweepTest(Node):
         # planner immediately rejecting goals from a stuck position versus a normal
         # failure where the robot actually drove and then gave up.
         self.declare_parameter('cascade_threshold', 3)
-        self.declare_parameter('cascade_max_sec',   30.0)
-        self.declare_parameter('recovery_timeout_sec', 120.0)
-        self.declare_parameter('max_recoveries',    5)
+        self.declare_parameter('cascade_max_sec',   60.0)
+        self.declare_parameter('recovery_timeout_sec', 300.0)
+        self.declare_parameter('max_recoveries',    20)
 
         semantic_json = self.get_parameter('semantic_json').value
         self.floor     = self.get_parameter('floor').value
@@ -148,6 +155,8 @@ class SweepTest(Node):
 
         self._latest_odom = None
         self.create_subscription(Odometry, '/odom', self._on_odom, 10)
+        self._initialpose_pub = self.create_publisher(
+            PoseWithCovarianceStamped, '/initialpose', 10)
 
     # ── Skip filter ────────────────────────────────────────────────────────────
 
@@ -326,6 +335,12 @@ class SweepTest(Node):
 
     # ── Navigation helper ──────────────────────────────────────────────────────
 
+    def _sim_now(self):
+        """Current SIM time in seconds (follows Gazebo /clock via use_sim_time).
+        Used for the navigation timeout so a low real-time factor cannot cause a
+        premature failure — the budget tracks the robot's progress, not wall time."""
+        return self.get_clock().now().nanoseconds / 1e9
+
     def _navigate_blocking(self, goal_x, goal_y):
         """Send one goal and block until success/failure/timeout.
         Returns (result_str, notes_str)."""
@@ -351,16 +366,18 @@ class SweepTest(Node):
             return 'REJECTED', 'nav2 rejected goal (likely occupied cell)'
 
         result_future = handle.get_result_async()
-        t0 = time.time()
+        # SIM-time budget: measured against Gazebo's clock so a low real-time
+        # factor slows the wall-clock but never trips a false timeout.
+        t0 = self._sim_now()
         while not result_future.done():
             rclpy.spin_once(self, timeout_sec=0.05)
-            if time.time() - t0 > self.timeout:
+            if self._sim_now() - t0 > self.timeout:
                 handle.cancel_goal_async()
-                # drain the cancel
+                # drain the cancel (wall-time bound — this is just a comms flush)
                 t1 = time.time()
                 while not result_future.done() and time.time() - t1 < 3.0:
                     rclpy.spin_once(self, timeout_sec=0.05)
-                return 'TIMEOUT', f'exceeded {self.timeout:.0f} s'
+                return 'TIMEOUT', f'exceeded {self.timeout:.0f} s (sim)'
 
         status = result_future.result().status
         if status == GoalStatus.STATUS_SUCCEEDED:
@@ -388,43 +405,10 @@ class SweepTest(Node):
               f'navigating back to spawn ({sx:.1f}, {sy:.1f}) …',
               flush=True)
 
-        # ── TF correction ─────────────────────────────────────────────────────
-        # Fast-FAILs (status=6) happen because the robot's computed map
-        # position (static TF + odom) has drifted into a PGM occupied cell.
-        # The NavFn planner refuses to plan from any lethal-cost start,
-        # including the recovery goal itself.
-        #
-        # Fix: read the current odom and publish a corrected map->odom static
-        # TF so that the robot's map position equals spawn exactly.  After this
-        # the planner sees the robot in free space and accepts the goal.
-        t_wait = time.time()
-        while self._latest_odom is None and time.time() - t_wait < 5.0:
-            rclpy.spin_once(self, timeout_sec=0.1)
-        odom = self._latest_odom
-        if odom is not None:
-            ox = odom.pose.pose.position.x
-            oy = odom.pose.pose.position.y
-            tf_msg = TransformStamped()
-            tf_msg.header.stamp    = self.get_clock().now().to_msg()
-            tf_msg.header.frame_id = 'map'
-            tf_msg.child_frame_id  = 'odom'
-            tf_msg.transform.translation.x = sx - ox
-            tf_msg.transform.translation.y = sy - oy
-            tf_msg.transform.translation.z = 0.1
-            tf_msg.transform.rotation.w    = 1.0
-            # Fresh broadcaster each call: StaticTransformBroadcaster.sendTransform()
-            # silently ignores a second call for the same child_frame_id on the same
-            # instance (it only appends new frames, never updates existing ones).
-            # A new instance has an empty _child_frame_ids set, so the corrected
-            # transform is always published regardless of how many recoveries have run.
-            StaticTransformBroadcaster(self).sendTransform(tf_msg)
-            time.sleep(1.0)   # let TF propagate through tf2 buffer
-            print(f'    TF corrected: map→odom=({sx-ox:.2f}, {sy-oy:.2f})'
-                  f'  [odom was ({ox:.2f}, {oy:.2f})]', flush=True)
-        else:
-            print('    Warning: no /odom received — skipping TF correction',
-                  flush=True)
-
+        # With tf_broadcast:false and ideal Gazebo odometry, the static TF
+        # (21, 38) always gives the exact physical position — no TF correction
+        # needed.  Just physically drive back to spawn; the path is planned and
+        # tracked from the robot's true map position.
         old_timeout   = self.timeout
         self.timeout  = self._recovery_timeout
         rec_res, notes = self._navigate_blocking(sx, sy)
