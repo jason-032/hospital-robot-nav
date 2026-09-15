@@ -3,12 +3,8 @@
   <world name="1f">
 
     <!-- Gz Sim required plugins -->
-    <!-- Bullet Featherstone handles the 17k-face wall mesh via BVH; DART crashes on it -->
-    <plugin name="gz::sim::systems::Physics" filename="gz-sim-physics-system">
-      <engine>
-        <filename>gz-physics7-bullet-featherstone-plugin</filename>
-      </engine>
-    </plugin>
+    <!-- test variant: default DART physics (no interior collision, so no mesh for DART to choke on) -->
+    <plugin name="gz::sim::systems::Physics" filename="gz-sim-physics-system"/>
     <plugin name="gz::sim::systems::UserCommands" filename="gz-sim-user-commands-system"/>
     <plugin name="gz::sim::systems::SceneBroadcaster" filename="gz-sim-scene-broadcaster-system"/>
     <plugin name="gz::sim::systems::Contact" filename="gz-sim-contact-system"/>

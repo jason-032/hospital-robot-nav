@@ -55,6 +55,11 @@
           </geometry>
           <surface>
             <friction>
+              <!-- Bullet Featherstone treats this as spinning friction (SDF default 1.0), -->
+              <!-- combined with the robot wheel value; anything but 0 locks the robot's yaw. -->
+              <torsional>
+                <coefficient>0</coefficient>
+              </torsional>
               <ode>
                 <mu>100</mu>
                 <mu2>50</mu2>

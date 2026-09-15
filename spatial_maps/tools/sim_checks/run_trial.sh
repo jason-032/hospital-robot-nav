@@ -37,6 +37,7 @@ for t in ${TESTS//,/ }; do
     rt)      python3 rt_sample.py 60 $LABEL 2>&1 | grep "^\[" | tee -a $RES ;;
     scan)    timeout 300 python3 scan_check.py $LABEL 2>&1 | grep "^\[" | tee -a $RES ;;
     contact) timeout 900 python3 contact_test.py $LABEL ${DRIVE_S:-35} 2>&1 | grep "^\[" | tee -a $RES ;;
+    motion)  timeout 600 python3 motion_test.py $LABEL ${MOTION_ARGS:-} 2>&1 | grep "^\[" | tee -a $RES ;;
     sweep)
       ( while true; do python3 rt_sample.py 30 $LABEL-during-sweep 2>&1 | grep "^\[" >> $TR/$LABEL.rt_during; sleep 570; done ) &
       SP=$!

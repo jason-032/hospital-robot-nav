@@ -1,10 +1,46 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-    <gazebo reference="caster_wheel_link">
-        <mu1 value="0.1"/>
-        <mu2 value="0.1"/>
+    <!-- Contact surfaces are written for both physics engines. 1F runs Bullet Featherstone,  -->
+    <!-- the other floors DART. Bullet ignores <ode><mu> (what <mu1>/<mu2> produce), sets     -->
+    <!-- friction once per link, and treats <torsional><coefficient> (SDF default 1.0) as     -->
+    <!-- spinning friction, which locked yaw completely. See the 1F motion tests of           -->
+    <!-- 15 September 2026 in spatial_maps/tools/sim_checks.                                  -->
+
+    <!-- Keep the caster as its own link. Lumped into base_footprint, its friction was       -->
+    <!-- overwritten by the body's default 1.0 under Bullet and the drive wheels slipped.    -->
+    <!-- (No colon-space in comments here. The launch files parse the URDF as YAML.)         -->
+    <gazebo reference="base_caster_wheel_joint">
+        <preserveFixedJoint>true</preserveFixedJoint>
     </gazebo>
+
+    <gazebo reference="caster_wheel_link">
+        <collision>
+            <surface>
+                <friction>
+                    <torsional><coefficient>0</coefficient></torsional>
+                    <ode><mu>0.1</mu><mu2>0.1</mu2></ode>
+                    <bullet><friction>0.1</friction><friction2>0.1</friction2><rolling_friction>0</rolling_friction></bullet>
+                </friction>
+            </surface>
+        </collision>
+    </gazebo>
+
+    <!-- No torsional friction at the wheel contacts, or the robot cannot turn under Bullet. -->
+    <!-- The floor must also set it to 0, because Bullet combines wheel and floor values.    -->
+    <xacro:macro name="wheel_surface" params="prefix">
+        <gazebo reference="${prefix}_wheel_link">
+            <collision>
+                <surface>
+                    <friction>
+                        <torsional><coefficient>0</coefficient></torsional>
+                    </friction>
+                </surface>
+            </collision>
+        </gazebo>
+    </xacro:macro>
+    <xacro:wheel_surface prefix="left"/>
+    <xacro:wheel_surface prefix="right"/>
 
     <gazebo>
         <plugin filename="gz-sim-diff-drive-system" name="gz::sim::systems::DiffDrive">
