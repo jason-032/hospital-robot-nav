@@ -65,10 +65,13 @@
         <xacro:sphere_inertia m="0.5" r="${wheel_radius / 2.0}" o_xyz="0 0 0" o_rpy="0 0 0"/>
     </link>
 
+    <!-- base_footprint sits on the midpoint of the wheel axle, which is the point the    -->
+    <!-- DiffDrive odometry follows. With base_footprint under the body centre instead,   -->
+    <!-- every turn shifted the believed pose by up to 0.30 m (15 September 2026).         -->
     <joint name="base_joint" type="fixed">
         <parent link="base_footprint"/>
         <child link="base_link"/>
-        <origin xyz="0 0 ${wheel_radius}" rpy="0 0 0"/>
+        <origin xyz="${base_length / 4.0} 0 ${wheel_radius}" rpy="0 0 0"/>
     </joint>
 
     <joint name="base_right_wheel_joint" type="continuous">
