@@ -31,6 +31,11 @@ def generate_launch_description():
     rviz_config   = os.path.join(spatial_maps_share, 'config', 'spatial_maps_1f.rviz')
     map_yaml      = os.path.join(spatial_maps_share, 'maps',   '1F.yaml')
     nav2_params   = os.path.join(spatial_maps_share, 'config', 'nav2_params.yaml')
+    # 1F overlay: footprint polygon, Smac State Lattice planner, smooth inflation,
+    # doorway speed filter. Later files in a parameters list override earlier ones.
+    nav2_params_1f  = os.path.join(spatial_maps_share, 'config', 'nav2_params_1f.yaml')
+    map_yaml_global = os.path.join(spatial_maps_share, 'maps',   '1F_05.yaml')
+    speed_mask_yaml = os.path.join(spatial_maps_share, 'maps',   '1F_speed_mask.yaml')
     semantic_json = '/home/jason/Downloads/OneDrive_1_4-10-2026/entity/semantic.json'
 
     # Expose spatial_maps/models/ to Gz Sim so model://pgm_walls_1f resolves.
@@ -122,15 +127,11 @@ def generate_launch_description():
         parameters=[{'config_file': bridge_config}]
     )
 
-    # ── Static TF: map → odom ─────────────────────────────────────────────────
-    # Robot spawns at BIM coords (21, 38, 0.1). This anchors map to odom.
-    map_to_odom_tf = Node(
-        package='tf2_ros',
-        executable='static_transform_publisher',
-        name='map_to_odom_tf',
-        output='screen',
-        arguments=['21.0', '38.0', '0.1', '0', '0', '0', 'map', 'odom']
-    )
+    # ── map → odom ────────────────────────────────────────────────────────────
+    # AMCL publishes this transform on 1F (tf_broadcast: true in the 1F overlay).
+    # The static publisher that used to anchor it at the spawn point is gone: two
+    # publishers of the same transform fight, and odometry drift went uncorrected,
+    # which drifted the robot 0.6 m off course over 35 m on 15 September 2026.
 
     # ── Odom TF republisher ───────────────────────────────────────────────────
     # The bridge converts Gz odometry to /odom but does NOT publish TF.
@@ -166,7 +167,7 @@ def generate_launch_description():
         executable='amcl',
         name='amcl',
         output='screen',
-        parameters=[nav2_params, {'use_sim_time': use_sim_time}]
+        parameters=[nav2_params, nav2_params_1f, {'use_sim_time': use_sim_time}]
     )
 
     # ── Map publisher (no lifecycle dependency — always publishing) ───────────
@@ -178,8 +179,46 @@ def generate_launch_description():
         parameters=[
             {'yaml_filename': map_yaml},
             {'frame_id': 'map'},
+            # The map is latched (transient local), so one publish is enough. At the
+            # 1 Hz default AMCL re-received the map every second and reinitialised,
+            # which left map->odom stale and aborted every goal (15 September 2026).
+            {'publish_rate_hz': 0.001},
             {'use_sim_time': use_sim_time}
         ]
+    )
+
+    # 0.05 m copy of the map for the global costmap, which must match the 5 cm
+    # lattice primitives. AMCL and the local costmap keep the 0.02 m /map.
+    map_publisher_global = Node(
+        package='spatial_maps',
+        executable='map_publisher_node.py',
+        name='map_publisher_global',
+        output='screen',
+        parameters=[
+            {'yaml_filename': map_yaml_global},
+            {'frame_id': 'map'},
+            {'publish_rate_hz': 0.001},
+            {'use_sim_time': use_sim_time}
+        ],
+        remappings=[('/map', '/map_global')]
+    )
+
+    # ── Doorway speed filter (mask server + filter info server) ──────────────
+    speed_filter_mask_server = Node(
+        package='nav2_map_server',
+        executable='map_server',
+        name='speed_filter_mask_server',
+        output='screen',
+        parameters=[nav2_params_1f, {'use_sim_time': use_sim_time},
+                    {'yaml_filename': speed_mask_yaml}]
+    )
+
+    speed_costmap_filter_info_server = Node(
+        package='nav2_map_server',
+        executable='costmap_filter_info_server',
+        name='speed_costmap_filter_info_server',
+        output='screen',
+        parameters=[nav2_params_1f, {'use_sim_time': use_sim_time}]
     )
 
     # ── Nav2 stack ────────────────────────────────────────────────────────────
@@ -188,7 +227,7 @@ def generate_launch_description():
         executable='bt_navigator',
         name='bt_navigator',
         output='screen',
-        parameters=[nav2_params, {'use_sim_time': use_sim_time}]
+        parameters=[nav2_params, nav2_params_1f, {'use_sim_time': use_sim_time}]
     )
 
     planner_server = Node(
@@ -196,7 +235,7 @@ def generate_launch_description():
         executable='planner_server',
         name='planner_server',
         output='screen',
-        parameters=[nav2_params, {'use_sim_time': use_sim_time}]
+        parameters=[nav2_params, nav2_params_1f, {'use_sim_time': use_sim_time}]
     )
 
     controller_server = Node(
@@ -204,7 +243,7 @@ def generate_launch_description():
         executable='controller_server',
         name='controller_server',
         output='screen',
-        parameters=[nav2_params, {'use_sim_time': use_sim_time}],
+        parameters=[nav2_params, nav2_params_1f, {'use_sim_time': use_sim_time}],
         remappings=[('cmd_vel', '/cmd_vel')]
     )
 
@@ -213,7 +252,7 @@ def generate_launch_description():
         executable='behavior_server',
         name='behavior_server',
         output='screen',
-        parameters=[nav2_params, {'use_sim_time': use_sim_time}]
+        parameters=[nav2_params, nav2_params_1f, {'use_sim_time': use_sim_time}]
     )
 
     smoother_server = Node(
@@ -221,7 +260,7 @@ def generate_launch_description():
         executable='smoother_server',
         name='smoother_server',
         output='screen',
-        parameters=[nav2_params, {'use_sim_time': use_sim_time}]
+        parameters=[nav2_params, nav2_params_1f, {'use_sim_time': use_sim_time}]
     )
 
     # Delayed 42 s — robot spawns at 30 s, odom TF needs ~12 s to flow
@@ -240,6 +279,8 @@ def generate_launch_description():
                 # real time (mesh collision, RT ~1.0), shutting down Nav2.
                 {'bond_timeout': 30.0},
                 {'node_names': [
+                    'speed_filter_mask_server',
+                    'speed_costmap_filter_info_server',
                     'amcl',
                     'planner_server',
                     'controller_server',
@@ -311,11 +352,13 @@ def generate_launch_description():
         gz_sim,
         robot_state_publisher,
         ros_gz_bridge,
-        map_to_odom_tf,
         amcl,
         odom_tf_republisher,
         joint_state_relay,
         map_publisher,
+        map_publisher_global,
+        speed_filter_mask_server,
+        speed_costmap_filter_info_server,
         bt_navigator,
         planner_server,
         controller_server,
