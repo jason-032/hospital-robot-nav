@@ -1,4 +1,4 @@
-# Grey wall material for hospital 1F
+# Grey wall material
 newmtl grey_wall
 Ka 0.35 0.35 0.35
 Kd 0.50 0.50 0.50

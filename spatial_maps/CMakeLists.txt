@@ -19,6 +19,7 @@ install(PROGRAMS
   scripts/odom_tf_republisher.py
   scripts/sweep_test.py
   scripts/pgm_to_sdf_walls.py
+  scripts/glb_to_wall_mesh.py
   DESTINATION lib/${PROJECT_NAME}
 )
 
