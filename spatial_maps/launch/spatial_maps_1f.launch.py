@@ -235,6 +235,10 @@ def generate_launch_description():
             parameters=[
                 {'use_sim_time': use_sim_time},
                 {'autostart': True},
+                # Matches spatial_maps.launch.py. With the default 4 s, AMCL
+                # missed heartbeats and crash-looped once the 1F world ran near
+                # real time (mesh collision, RT ~1.0), shutting down Nav2.
+                {'bond_timeout': 30.0},
                 {'node_names': [
                     'amcl',
                     'planner_server',
