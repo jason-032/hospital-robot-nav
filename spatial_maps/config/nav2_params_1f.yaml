@@ -17,6 +17,23 @@ amcl:
     # 1F launch). A 1 degree heading error in the first turn drifted the robot
     # 0.6 m sideways over 35 m in nav_smoke_2.
     tf_broadcast: true
+    # Odometry now tracks ground truth to 0.1%, while 77% of mapped obstacle cells
+    # in the eastern hall have no physical geometry (the mesh is walls and columns
+    # only), so scan matching there is fed obstacles the LiDAR cannot see. Trust
+    # odometry, use more beams and particles, and the real 12 m LiDAR range.
+    # With the defaults AMCL diverged 13 m in 25 s and the robot drove off the map.
+    alpha1: 0.02
+    alpha2: 0.02
+    alpha3: 0.02
+    alpha4: 0.02
+    alpha5: 0.02
+    max_beams: 180
+    laser_max_range: 12.0
+    laser_min_range: 0.2
+    min_particles: 1000
+    max_particles: 5000
+    update_min_d: 0.1
+    update_min_a: 0.1
     set_initial_pose: true
     initial_pose:
       x: 21.0
@@ -69,6 +86,17 @@ planner_server:
 controller_server:
   ros__parameters:
     speed_limit_topic: /speed_limit
+    stopped_goal_checker:
+      plugin: nav2_controller::StoppedGoalChecker
+      trans_stopped_velocity: 0.25
+      rot_stopped_velocity: 0.25
+      # 0.5 m let the robot stop half a metre off the goal, often against a wall,
+      # where its own footprint counted as occupied and the planner then refused
+      # every later goal ("Start occupied", 93 of 94 in p5_lattice_amcl_sweep_1).
+      # Goals are projected to 0.65 m clearance, so 0.25 m keeps 0.40 m, above the
+      # 0.30 m the padded footprint needs.
+      xy_goal_tolerance: 0.25
+      yaw_goal_tolerance: 0.785
 
 # Convex hull of body (x -0.15..0.45, y +-0.20), wheels (x +-0.10, y +-0.25) and
 # camera (x 0.46), in base_footprint (wheel axle) coordinates.

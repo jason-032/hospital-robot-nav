@@ -144,7 +144,13 @@ class POINavNode(Node):
 
         # Minimum clearance: inflation_radius (0.55 m) + small buffer → 0.65 m
         # so the projected goal is safely outside the inflated lethal zone.
-        self._min_clearance_px = math.ceil(0.65 / resolution)
+        # 0.85 m, not the old 0.65 m: Nav2 treats a pose as occupied when any point of the
+        # footprint outline lies within the robot's inscribed radius (0.30 m with padding)
+        # of an obstacle, so the real 0.61 x 0.50 m body needs about 0.60 m of clearance
+        # sideways and 0.81 m lengthwise. At 0.65 m the robot reached goals it could not
+        # then plan away from, and every later goal failed with "Start occupied"
+        # (15 September 2026). 72 of 74 sweep goals still have a reachable pose at 0.85 m.
+        self._min_clearance_px = math.ceil(0.85 / resolution)
 
         self._map_meta = {
             'origin_x': origin_x, 'origin_y': origin_y,

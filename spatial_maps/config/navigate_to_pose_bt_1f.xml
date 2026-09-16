@@ -34,10 +34,10 @@
         </RecoveryNode>
       </PipelineSequence>
       <Sequence>
-        <Fallback>
-          <WouldAControllerRecoveryHelp error_code="{follow_path_error_code}"/>
-          <WouldAPlannerRecoveryHelp error_code="{compute_path_error_code}"/>
-        </Fallback>
+        <!-- No WouldA*RecoveryHelp gate on 1F: those conditions report that recovery
+             cannot help a "Start occupied" planner failure, so the tree aborted in
+             0.0 s and left the robot parked in a pose it could never plan out of,
+             failing 83 of 94 goals. Backing up does free it, so always try. -->
         <ReactiveFallback name="RecoveryFallback">
           <GoalUpdated/>
           <RoundRobin name="RecoveryActions">
@@ -46,6 +46,9 @@
               <ClearEntireCostmap name="ClearGlobalCostmap-Subtree" service_name="global_costmap/clear_entirely_global_costmap"/>
             </Sequence>
             <Spin spin_dist="1.57" time_allowance="8.0" error_code_id="{spin_error_code}"/>
+            <!-- Reversing frees a robot parked too close to a wall for the planner to
+                 accept its start pose; spinning in place cannot. -->
+            <BackUp backup_dist="0.30" backup_speed="0.10" time_allowance="10.0" error_code_id="{backup_error_code}"/>
           </RoundRobin>
         </ReactiveFallback>
       </Sequence>
