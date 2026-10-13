@@ -1,0 +1,213 @@
+{
+ "entities": {
+  "ClassRoom_1": {
+   "guid": "ClassRoom_1",
+   "name": "ClassRoom_1",
+   "ifc_type": "IfcSpace",
+   "storey_name": "CBNU_scan",
+   "has_geometry": true,
+   "geometry": {
+    "centroid": [
+     -0.034,
+     4.557,
+     0.0
+    ]
+   },
+   "properties": {
+    "Identity Data": {
+     "Name": "ClassRoom_1"
+    }
+   }
+  },
+  "ClassRoom_2": {
+   "guid": "ClassRoom_2",
+   "name": "ClassRoom_2",
+   "ifc_type": "IfcSpace",
+   "storey_name": "CBNU_scan",
+   "has_geometry": true,
+   "geometry": {
+    "centroid": [
+     0.05,
+     -4.872,
+     0.0
+    ]
+   },
+   "properties": {
+    "Identity Data": {
+     "Name": "ClassRoom_2"
+    }
+   }
+  },
+  "ClassRoom_3": {
+   "guid": "ClassRoom_3",
+   "name": "ClassRoom_3",
+   "ifc_type": "IfcSpace",
+   "storey_name": "CBNU_scan",
+   "has_geometry": true,
+   "geometry": {
+    "centroid": [
+     -19.934,
+     -15.491,
+     0.0
+    ]
+   },
+   "properties": {
+    "Identity Data": {
+     "Name": "ClassRoom_3"
+    }
+   }
+  },
+  "ClassRoom_4": {
+   "guid": "ClassRoom_4",
+   "name": "ClassRoom_4",
+   "ifc_type": "IfcSpace",
+   "storey_name": "CBNU_scan",
+   "has_geometry": true,
+   "geometry": {
+    "centroid": [
+     -31.03,
+     -15.595,
+     0.0
+    ]
+   },
+   "properties": {
+    "Identity Data": {
+     "Name": "ClassRoom_4"
+    }
+   }
+  },
+  "ClassRoom_5": {
+   "guid": "ClassRoom_5",
+   "name": "ClassRoom_5",
+   "ifc_type": "IfcSpace",
+   "storey_name": "CBNU_scan",
+   "has_geometry": true,
+   "geometry": {
+    "centroid": [
+     -41.612,
+     -15.702,
+     0.0
+    ]
+   },
+   "properties": {
+    "Identity Data": {
+     "Name": "ClassRoom_5"
+    }
+   }
+  },
+  "HallWay_1": {
+   "guid": "HallWay_1",
+   "name": "HallWay_1",
+   "ifc_type": "IfcSpace",
+   "storey_name": "CBNU_scan",
+   "has_geometry": true,
+   "geometry": {
+    "centroid": [
+     -5.472,
+     -1.199,
+     0.0
+    ]
+   },
+   "properties": {
+    "Identity Data": {
+     "Name": "HallWay_1"
+    }
+   }
+  },
+  "HallWay_2": {
+   "guid": "HallWay_2",
+   "name": "HallWay_2",
+   "ifc_type": "IfcSpace",
+   "storey_name": "CBNU_scan",
+   "has_geometry": true,
+   "geometry": {
+    "centroid": [
+     -9.416,
+     -16.667,
+     0.0
+    ]
+   },
+   "properties": {
+    "Identity Data": {
+     "Name": "HallWay_2"
+    }
+   }
+  },
+  "HallWay_3": {
+   "guid": "HallWay_3",
+   "name": "HallWay_3",
+   "ifc_type": "IfcSpace",
+   "storey_name": "CBNU_scan",
+   "has_geometry": true,
+   "geometry": {
+    "centroid": [
+     -41.213,
+     -21.362,
+     0.0
+    ]
+   },
+   "properties": {
+    "Identity Data": {
+     "Name": "HallWay_3"
+    }
+   }
+  },
+  "HallWay_4": {
+   "guid": "HallWay_4",
+   "name": "HallWay_4",
+   "ifc_type": "IfcSpace",
+   "storey_name": "CBNU_scan",
+   "has_geometry": true,
+   "geometry": {
+    "centroid": [
+     -67.064,
+     -10.893,
+     0.0
+    ]
+   },
+   "properties": {
+    "Identity Data": {
+     "Name": "HallWay_4"
+    }
+   }
+  },
+  "S_C_S_LAB": {
+   "guid": "S_C_S_LAB",
+   "name": "S_C_S_LAB",
+   "ifc_type": "IfcSpace",
+   "storey_name": "CBNU_scan",
+   "has_geometry": true,
+   "geometry": {
+    "centroid": [
+     -72.333,
+     -13.476,
+     0.0
+    ]
+   },
+   "properties": {
+    "Identity Data": {
+     "Name": "S_C_S_LAB"
+    }
+   }
+  },
+  "Study_room_1": {
+   "guid": "Study_room_1",
+   "name": "Study_room_1",
+   "ifc_type": "IfcSpace",
+   "storey_name": "CBNU_scan",
+   "has_geometry": true,
+   "geometry": {
+    "centroid": [
+     -13.259,
+     -25.631,
+     0.0
+    ]
+   },
+   "properties": {
+    "Identity Data": {
+     "Name": "Study_room_1"
+    }
+   }
+  }
+ }
+}

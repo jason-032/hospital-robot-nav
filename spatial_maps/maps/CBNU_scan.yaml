@@ -1,0 +1,8 @@
+image: CBNU_scan.pgm
+mode: trinary
+resolution: 0.05
+origin: [-77.759, -28.619, 0.0]
+negate: 0
+occupied_thresh: 0.65
+free_thresh: 0.196
+# frame: scanner global frame rotated by -36.25 deg about z (walls axis-aligned)
