@@ -1,0 +1,24 @@
+# CBNU scan site settings, loaded after nav2_params_1f.yaml by
+# spatial_maps_cbnu_scan.launch.py. Each was found necessary on 2026-10-13
+# (trials in ~/sim_trials/2026-10-13/).
+# 1. The wheel collision shapes are spheres of radius 0.10 m centred at y +-0.225,
+#    so they reach y +-0.325, which is 0.075 m outside the 1F footprint (y +-0.25).
+#    In cbnu_pad010_1 a wheel met a single-cell post and the robot flipped over.
+# 2. The scan map has unknown cells (the 1F map has none). Without
+#    track_unknown_space the global costmap treats them as free, and in
+#    cbnu_repeat_1 the robot drove through unscanned space for 210 of 409 samples.
+# 3. The planner sent the robot through a 0.775 m gap that the padded footprint
+#    (0.75 m wide) fits with 2.5 cm to spare. In cbnu_wheels_unknown_1 and
+#    cbnu_visible_1 it stopped inside the gap, every later plan failed with
+#    "Start occupied" and the rest of the sweep was lost. The global costmap now
+#    pads by 0.10 m so plans keep 0.05 m per side more than the controller needs.
+local_costmap:
+  local_costmap:
+    ros__parameters:
+      footprint: "[[0.46, 0.20], [0.10, 0.325], [-0.10, 0.325], [-0.15, 0.20], [-0.15, -0.20], [-0.10, -0.325], [0.10, -0.325], [0.46, -0.20]]"
+global_costmap:
+  global_costmap:
+    ros__parameters:
+      footprint: "[[0.46, 0.20], [0.10, 0.325], [-0.10, 0.325], [-0.15, 0.20], [-0.15, -0.20], [-0.10, -0.325], [0.10, -0.325], [0.46, -0.20]]"
+      track_unknown_space: true
+      footprint_padding: 0.10

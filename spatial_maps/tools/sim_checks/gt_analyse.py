@@ -16,7 +16,7 @@ from PIL import Image
 
 label, sweep_csv = sys.argv[1], sys.argv[2]
 tdir = sys.argv[3] if len(sys.argv) > 3 else os.path.expanduser('~/sim_trials')
-MAP_YAML = '/home/jason/ros2_ws/src/spatial_maps/maps/1F.yaml'
+MAP_YAML = os.environ.get('MAP_YAML', '/home/jason/ros2_ws/src/spatial_maps/maps/1F.yaml')
 TOL = 0.5                           # nav2 stopped_goal_checker xy_goal_tolerance
 
 

@@ -25,6 +25,7 @@ import tf2_ros
 label = sys.argv[1] if len(sys.argv) > 1 else 'gt'
 out_dir = sys.argv[2] if len(sys.argv) > 2 else os.path.expanduser('~/sim_trials')
 ROBOT = 'my_robot'
+WORLD = os.environ.get('GZ_WORLD', '1f')      # Gazebo world name; cbnu_scan for that site
 TERMINAL = {4: 'SUCCEEDED', 5: 'CANCELED', 6: 'ABORTED'}
 
 
@@ -45,7 +46,7 @@ class GroundTruth(threading.Thread):
     def run(self):
         while True:
             self.proc = subprocess.Popen(
-                ['gz', 'topic', '-e', '-t', '/world/1f/dynamic_pose/info'],
+                ['gz', 'topic', '-e', '-t', f'/world/{WORLD}/dynamic_pose/info'],
                 stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, text=True, bufsize=1)
             sec = nsec = 0
             in_header = in_robot = False
@@ -111,7 +112,8 @@ class Logger(Node):
         self.traj = csv.writer(self.traj_f)
         self.ev = csv.writer(self.ev_f)
         self.traj.writerow(['sim_t', 'wall_t', 'goal_seq', 'gt_stamp', 'gt_x', 'gt_y', 'gt_yaw',
-                            'tf_x', 'tf_y', 'tf_yaw'])
+                            'tf_x', 'tf_y', 'tf_yaw',
+                            'gt_z', 'gt_roll', 'gt_pitch'])
         self.ev.writerow(['sim_t', 'wall_t', 'goal_seq', 'goal_id', 'status', 'status_name',
                           'gt_stamp', 'gt_x', 'gt_y', 'gt_yaw', 'tf_x', 'tf_y', 'tf_yaw',
                           'plan_end_x', 'plan_end_y'])
@@ -139,9 +141,17 @@ class Logger(Node):
             return ('', '', '', '')
         return (f'{g[0]:.3f}', f'{g[1]:.4f}', f'{g[2]:.4f}', f'{g[3]:.4f}')
 
+    def gt_attitude(self):
+        # Height and tilt show a robot that has tipped over, which x, y, yaw cannot.
+        g = self.gt.get()
+        if g is None or time.time() - g[4] > 2.0:
+            return ('', '', '')
+        return (f'{g[5]:.3f}', f'{g[6]:.3f}', f'{g[7]:.3f}')
+
     def sample(self):
         seq = self.goal_seq.get(self.executing, '') if self.executing else ''
-        self.traj.writerow([f'{self.now():.3f}', f'{time.time():.3f}', seq, *self.gt_fields(), *self.tf_pose()])
+        self.traj.writerow([f'{self.now():.3f}', f'{time.time():.3f}', seq, *self.gt_fields(), *self.tf_pose(),
+                            *self.gt_attitude()])
         self.traj_f.flush()
 
     def on_plan(self, msg):

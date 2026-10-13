@@ -5,6 +5,12 @@ Launch Gz Sim with the 1F hospital world, spawn my_robot, and bring up nav2.
 Usage:
   ros2 launch spatial_maps spatial_maps_1f.launch.py
 
+Every site-specific input is a launch argument whose default is the 1F value, so
+another site that uses the 1F configuration (spatial_maps_cbnu_scan.launch.py)
+includes this file and overrides them. Arguments: world, bridge_config, map_yaml,
+map_yaml_global, speed_mask_yaml, semantic_json, floor, spawn_x, spawn_y,
+spawn_yaw, rviz, params_overlay.
+
 Send a robot to a POI:
   ros2 topic pub --once /goal_poi std_msgs/String "data: 'S1312'"
 """
@@ -12,31 +18,67 @@ Send a robot to a POI:
 import os
 from launch import LaunchDescription
 from launch.actions import (DeclareLaunchArgument, ExecuteProcess,
-                             IncludeLaunchDescription, SetEnvironmentVariable,
-                             TimerAction)
+                             IncludeLaunchDescription, OpaqueFunction,
+                             SetEnvironmentVariable, TimerAction)
+from launch.conditions import IfCondition
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import Command, LaunchConfiguration, PythonExpression
 from launch_ros.actions import Node
 from ament_index_python.packages import get_package_share_directory
 
 
+SEMANTIC_JSON_1F = '/home/jason/Downloads/OneDrive_1_4-10-2026/entity/semantic.json'
+
+
+def _site_defaults():
+    share = get_package_share_directory('spatial_maps')
+    return {
+        'world':           os.path.join(share, 'worlds', '1f.world'),
+        'bridge_config':   os.path.join(share, 'config', 'gz_bridge_1f.yaml'),
+        'map_yaml':        os.path.join(share, 'maps',   '1F.yaml'),
+        'map_yaml_global': os.path.join(share, 'maps',   '1F_05.yaml'),
+        'speed_mask_yaml': os.path.join(share, 'maps',   '1F_speed_mask.yaml'),
+        'semantic_json':   SEMANTIC_JSON_1F,
+        'floor':           '1F',
+        'spawn_x':         '21.0',
+        'spawn_y':         '38.0',
+        'spawn_yaw':       '0.0',
+        'rviz':            'true',
+        # Optional Nav2 parameter file loaded after the 1F overlay (experiments).
+        'params_overlay':  '',
+    }
+
+
 def generate_launch_description():
+    return LaunchDescription(
+        [DeclareLaunchArgument(k, default_value=v) for k, v in _site_defaults().items()]
+        + [OpaqueFunction(function=_launch_setup)])
+
+
+def _launch_setup(context):
+    arg = lambda name: LaunchConfiguration(name).perform(context)
     spatial_maps_share = get_package_share_directory('spatial_maps')
     robot_desc_share   = get_package_share_directory('my_robot_description')
     ros_gz_sim_share   = get_package_share_directory('ros_gz_sim')
 
-    world_file    = os.path.join(spatial_maps_share, 'worlds', '1f.world')
+    world_file    = arg('world')
     urdf_file     = os.path.join(robot_desc_share,   'urdf',   'my_robot.urdf.xacro')
-    bridge_config = os.path.join(spatial_maps_share, 'config', 'gz_bridge_1f.yaml')
+    bridge_config = arg('bridge_config')
     rviz_config   = os.path.join(spatial_maps_share, 'config', 'spatial_maps_1f.rviz')
-    map_yaml      = os.path.join(spatial_maps_share, 'maps',   '1F.yaml')
+    map_yaml      = arg('map_yaml')
     nav2_params   = os.path.join(spatial_maps_share, 'config', 'nav2_params.yaml')
     # 1F overlay: footprint polygon, Smac State Lattice planner, smooth inflation,
     # doorway speed filter. Later files in a parameters list override earlier ones.
     nav2_params_1f  = os.path.join(spatial_maps_share, 'config', 'nav2_params_1f.yaml')
-    map_yaml_global = os.path.join(spatial_maps_share, 'maps',   '1F_05.yaml')
-    speed_mask_yaml = os.path.join(spatial_maps_share, 'maps',   '1F_speed_mask.yaml')
-    semantic_json = '/home/jason/Downloads/OneDrive_1_4-10-2026/entity/semantic.json'
+    map_yaml_global = arg('map_yaml_global')
+    speed_mask_yaml = arg('speed_mask_yaml')
+    semantic_json = arg('semantic_json')
+    floor         = arg('floor')
+    spawn_x, spawn_y, spawn_yaw = arg('spawn_x'), arg('spawn_y'), arg('spawn_yaw')
+    # Overrides the initial pose in nav2_params_1f.yaml, which is the 1F spawn.
+    overlay = [arg('params_overlay')] if arg('params_overlay') else []
+    amcl_initial_pose = {'initial_pose': {'x': float(spawn_x), 'y': float(spawn_y),
+                                          'z': 0.0, 'yaw': float(spawn_yaw)}}
 
     # Expose spatial_maps/models/ to Gz Sim so model://pgm_walls_1f resolves.
     # The models/ directory is not installed to the ROS2 share path, so we
@@ -113,7 +155,7 @@ def generate_launch_description():
             arguments=[
                 '-name',  'my_robot',
                 '-topic', 'robot_description',
-                '-x', '21.0', '-y', '38.0', '-z', '0.1', '-Y', '0.0'
+                '-x', spawn_x, '-y', spawn_y, '-z', '0.1', '-Y', spawn_yaw
             ]
         )]
     )
@@ -167,7 +209,8 @@ def generate_launch_description():
         executable='amcl',
         name='amcl',
         output='screen',
-        parameters=[nav2_params, nav2_params_1f, {'use_sim_time': use_sim_time}]
+        parameters=[nav2_params, nav2_params_1f, amcl_initial_pose,
+                    {'use_sim_time': use_sim_time}]
     )
 
     # ── Map publisher (no lifecycle dependency — always publishing) ───────────
@@ -227,7 +270,7 @@ def generate_launch_description():
         executable='bt_navigator',
         name='bt_navigator',
         output='screen',
-        parameters=[nav2_params, nav2_params_1f, {'use_sim_time': use_sim_time}]
+        parameters=[nav2_params, nav2_params_1f, *overlay, {'use_sim_time': use_sim_time}]
     )
 
     planner_server = Node(
@@ -235,7 +278,7 @@ def generate_launch_description():
         executable='planner_server',
         name='planner_server',
         output='screen',
-        parameters=[nav2_params, nav2_params_1f, {'use_sim_time': use_sim_time}]
+        parameters=[nav2_params, nav2_params_1f, *overlay, {'use_sim_time': use_sim_time}]
     )
 
     controller_server = Node(
@@ -243,7 +286,7 @@ def generate_launch_description():
         executable='controller_server',
         name='controller_server',
         output='screen',
-        parameters=[nav2_params, nav2_params_1f, {'use_sim_time': use_sim_time}],
+        parameters=[nav2_params, nav2_params_1f, *overlay, {'use_sim_time': use_sim_time}],
         remappings=[('cmd_vel', '/cmd_vel')]
     )
 
@@ -252,7 +295,7 @@ def generate_launch_description():
         executable='behavior_server',
         name='behavior_server',
         output='screen',
-        parameters=[nav2_params, nav2_params_1f, {'use_sim_time': use_sim_time}]
+        parameters=[nav2_params, nav2_params_1f, *overlay, {'use_sim_time': use_sim_time}]
     )
 
     smoother_server = Node(
@@ -260,7 +303,7 @@ def generate_launch_description():
         executable='smoother_server',
         name='smoother_server',
         output='screen',
-        parameters=[nav2_params, nav2_params_1f, {'use_sim_time': use_sim_time}]
+        parameters=[nav2_params, nav2_params_1f, *overlay, {'use_sim_time': use_sim_time}]
     )
 
     # Delayed 42 s — robot spawns at 30 s, odom TF needs ~12 s to flow
@@ -300,7 +343,7 @@ def generate_launch_description():
         output='screen',
         parameters=[
             {'semantic_json': semantic_json},
-            {'floor': '1F'},
+            {'floor': floor},
             {'marker_frame': 'map'},
             {'publish_rate_hz': 1.0}
         ]
@@ -314,7 +357,7 @@ def generate_launch_description():
         output='screen',
         parameters=[
             {'semantic_json': semantic_json},
-            {'floor': '1F'},
+            {'floor': floor},
         ]
     )
 
@@ -326,11 +369,11 @@ def generate_launch_description():
         output='screen',
         parameters=[
             {'semantic_json': semantic_json},
-            {'floor': '1F'},
+            {'floor': floor},
             {'goal_z': 0.0},
             {'map_yaml': map_yaml},
-            {'robot_start_x': 21.0},
-            {'robot_start_y': 38.0},
+            {'robot_start_x': float(spawn_x)},
+            {'robot_start_y': float(spawn_y)},
         ]
     )
 
@@ -341,10 +384,11 @@ def generate_launch_description():
         name='rviz2',
         output='screen',
         arguments=['-d', rviz_config],
-        parameters=[{'use_sim_time': use_sim_time}]
+        parameters=[{'use_sim_time': use_sim_time}],
+        condition=IfCondition(arg('rviz'))
     )
 
-    return LaunchDescription([
+    return [
         set_gz_resource_path,   # must precede gz_sim so Gz finds model://pgm_walls_1f
         cleanup,
         declare_use_sim_time,
@@ -370,4 +414,4 @@ def generate_launch_description():
         poi_nav_node,
         rviz,
         spawn_robot,      # delayed 5 s
-    ])
+    ]
