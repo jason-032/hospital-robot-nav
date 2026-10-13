@@ -18,7 +18,8 @@ import time
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 # (dx m, dy m, dyaw deg) added to the true pose before it is given to AMCL.
-ERRORS = [(0.0, 0.0, 0.0), (0.40, -0.30, 5.0), (-0.30, 0.20, -8.0), (0.70, 0.0, 0.0)]
+# The third is the size of error the lab measured for hand placement of the Go2.
+ERRORS = [(0.0, 0.0, 0.0), (0.40, -0.30, 5.0), (0.40, 0.0, 20.0), (-0.60, 0.50, -27.0)]
 
 
 def sh(cmd, timeout=60):

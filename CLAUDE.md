@@ -93,7 +93,7 @@ Three settings in `config/nav2_params_cbnu_scan.yaml` are deliberate: a footprin
 
 The CBNU map and mesh derive from the lab's scan data, which is not public. This repository is public: do not push those files without the lab's agreement.
 
-`tools/field_checks/localisation_preflight.py` is a read-only check of a running Nav2 + AMCL system (map publish count, `map -> odom` owner and age, AMCL parameters, scan-to-map fit). Written for the Go2 field test of 19 to 23 October 2026; tested in simulation only. It refines a pose that is already within 1 m and 10 deg on a 2D LaserScan; it does not find a pose from scratch.
+`tools/field_checks/localisation_preflight.py` is a read-only check of a running Nav2 + AMCL system (map publish count, `map -> odom` owner and age, AMCL parameters, scan-to-map fit). Written for the Go2 field test of 19 to 23 October 2026; tested in simulation only. It refines a pose that is already within 1 m and 30 deg on a 2D LaserScan; it does not find a pose from scratch.
 
 ## Open problems
 

@@ -14,7 +14,8 @@ September 2026 (see README.md beside this file):
 Usage (robot or simulator running, ROS environment sourced):
   python3 localisation_preflight.py                       # real robot
   python3 localisation_preflight.py --sim-time            # Gazebo
-  python3 localisation_preflight.py --scan-topic /scan --base-frame base_link
+  python3 localisation_preflight.py --scan-topic /ouster/scan            # SCS Lab Go2
+  ros2 bag play <bag> & python3 localisation_preflight.py ...           # from a recording
 
 Run it on the robot or on a machine whose clock is synchronised with it: the
 transform ages compare message stamps with the local clock.
@@ -88,36 +89,48 @@ class MapField:
         return self.dist[r[ok], c[ok]]
 
 
-def best_correction(field, pts, centre, tol, max_shift=1.0, step=0.05, max_yaw_deg=10.0):
+def best_correction(field, pts, centre, tol, max_shift=1.0, max_yaw_deg=30.0):
     """Rigid correction of the scan, about the sensor, that puts most hits on walls.
 
     Returns ((share within tol, dx, dy, dyaw_deg), (spread m, spread deg)). A robot
     whose believed pose is right scores best at or next to (0, 0, 0). The spread is
     how far apart the corrections within three points of the best score lie: a
     large spread means the scan fits the map in several places (a plain corridor)
-    and the correction should not be trusted."""
+    and the correction should not be trusted.
+
+    Two passes: 0.10 m and 2 deg over the whole range, then 0.05 m and 1 deg
+    around the best coarse fit and around zero."""
     if len(pts) > 1500:
         pts = pts[np.linspace(0, len(pts) - 1, 1500).astype(int)]
-    shifts = np.arange(-max_shift, max_shift + 1e-9, step)
-    found = []
     rel = pts - centre
-    for yaw_deg in np.arange(-max_yaw_deg, max_yaw_deg + 1e-9, 1.0):
-        a = math.radians(yaw_deg)
-        rot = rel @ np.array([[math.cos(a), math.sin(a)], [-math.sin(a), math.cos(a)]]) + centre
-        for dx in shifts:
-            for dy in shifts:
-                d = field.lookup(rot + [dx, dy])
-                score = float(np.mean(d <= tol)) * len(d) / len(rot) if len(d) else 0.0
-                found.append((score, float(dx), float(dy), float(yaw_deg)))
+    found = {}
+
+    def scan(xs, ys, yaws):
+        for yaw_deg in yaws:
+            a = math.radians(yaw_deg)
+            rot = rel @ np.array([[math.cos(a), math.sin(a)], [-math.sin(a), math.cos(a)]]) + centre
+            for dx in xs:
+                for dy in ys:
+                    key = (round(float(dx), 2), round(float(dy), 2), round(float(yaw_deg), 1))
+                    if key not in found:
+                        d = field.lookup(rot + [dx, dy])
+                        found[key] = float(np.mean(d <= tol)) * len(d) / len(rot) if len(d) else 0.0
+
+    coarse = np.arange(-max_shift, max_shift + 1e-9, 0.10)
+    scan(coarse, coarse, np.arange(-max_yaw_deg, max_yaw_deg + 1e-9, 2.0))
+    cx, cy, cyaw = max(found, key=found.get)
+    fine = np.arange(-0.10, 0.10 + 1e-9, 0.05)
+    for ox, oy, oyaw in ((cx, cy, cyaw), (0.0, 0.0, 0.0)):
+        scan(ox + fine, oy + fine, oyaw + np.arange(-2.0, 2.0 + 1e-9, 1.0))
     # Of the corrections within one point of the best score, take the smallest, so
     # a pose that is already right reports (0, 0, 0) and not a neighbouring cell.
-    top = max(f[0] for f in found)
-    best = min((f for f in found if f[0] >= top - 0.01),
-               key=lambda f: math.hypot(f[1], f[2]) + abs(f[3]) * 0.02)
-    near = np.array([f[1:] for f in found if f[0] >= top - 0.03])
+    top = max(found.values())
+    k = min((k for k, v in found.items() if v >= top - 0.01),
+            key=lambda k: math.hypot(k[0], k[1]) + abs(k[2]) * 0.02)
+    near = np.array([k for k, v in found.items() if v >= top - 0.03])
     spread = (float(np.hypot(*(near[:, :2].max(0) - near[:, :2].min(0)))),
               float(near[:, 2].max() - near[:, 2].min()))
-    return best, spread
+    return (found[k], k[0] + 0.0, k[1] + 0.0, k[2] + 0.0), spread   # + 0.0 turns -0.0 into 0.0
 
 
 def correct_pose(pose, centre, dx, dy, dyaw_deg):
@@ -218,6 +231,10 @@ def main():
     ap.add_argument('--scans', type=int, default=5)
     ap.add_argument('--tol', type=float, default=0.10,
                     help='a scan hit within this distance of an occupied cell counts as on the map')
+    ap.add_argument('--max-shift', type=float, default=1.0,
+                    help='pose correction search range, m each way')
+    ap.add_argument('--max-yaw', type=float, default=30.0,
+                    help='pose correction search range, deg each way')
     ap.add_argument('--sim-time', action='store_true')
     a = ap.parse_args()
 
@@ -307,7 +324,8 @@ def main():
             print(f'[scan] {on * 100:.1f}% of hits within {a.tol:.2f} m of an occupied cell '
                   f'(median {np.median(d):.3f} m, p90 {np.percentile(d, 90):.3f} m, '
                   f'{(1 - len(d) / len(pts)) * 100:.1f}% outside the map)')
-            (s, dx, dy, dyaw), spread = best_correction(f, pts, np.array([x, y]), a.tol)
+            (s, dx, dy, dyaw), spread = best_correction(f, pts, np.array([x, y]), a.tol,
+                                                        a.max_shift, a.max_yaw)
             print(f'[scan] best fit: move the sensor by dx {dx:+.2f} m, dy {dy:+.2f} m, '
                   f'yaw {dyaw:+.0f} deg -> {s * 100:.1f}% on the map')
             ambiguous = spread[0] > 0.30 or spread[1] > 5.0
@@ -333,7 +351,8 @@ def main():
                                 f'dx {dx:+.2f}, dy {dy:+.2f}, yaw {dyaw:+.0f} deg: the pose is off')
             if s < 0.5:
                 warn.append(f'even the best fit puts only {s * 100:.0f}% of hits on the map: the map '
-                            'lacks what the LiDAR sees (clutter, furniture) or the pose is over 1 m off')
+                            f'lacks what the LiDAR sees (clutter, furniture) or the pose is over '
+                            f'{a.max_shift:.1f} m or {a.max_yaw:.0f} deg off')
 
     print()
     for w in warn:
