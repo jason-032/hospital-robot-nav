@@ -16,7 +16,10 @@ Usage (robot or simulator running, ROS environment sourced):
   python3 localisation_preflight.py --sim-time            # Gazebo
   python3 localisation_preflight.py --scan-topic /scan --base-frame base_link
 
-Works on Humble and Jazzy. Needs rclpy, tf2_ros, NumPy and SciPy.
+Run it on the robot or on a machine whose clock is synchronised with it: the
+transform ages compare message stamps with the local clock.
+Written and tested on Jazzy. Nothing Jazzy-specific is used, but Humble is
+untested. Needs rclpy, tf2_ros, NumPy and SciPy.
 """
 import argparse
 import math
@@ -88,8 +91,11 @@ class MapField:
 def best_correction(field, pts, centre, tol, max_shift=1.0, step=0.05, max_yaw_deg=10.0):
     """Rigid correction of the scan, about the sensor, that puts most hits on walls.
 
-    Returns (share within tol, dx, dy, dyaw_deg). A robot whose believed pose is
-    right scores best at or next to (0, 0, 0)."""
+    Returns ((share within tol, dx, dy, dyaw_deg), (spread m, spread deg)). A robot
+    whose believed pose is right scores best at or next to (0, 0, 0). The spread is
+    how far apart the corrections within three points of the best score lie: a
+    large spread means the scan fits the map in several places (a plain corridor)
+    and the correction should not be trusted."""
     if len(pts) > 1500:
         pts = pts[np.linspace(0, len(pts) - 1, 1500).astype(int)]
     shifts = np.arange(-max_shift, max_shift + 1e-9, step)
@@ -106,8 +112,21 @@ def best_correction(field, pts, centre, tol, max_shift=1.0, step=0.05, max_yaw_d
     # Of the corrections within one point of the best score, take the smallest, so
     # a pose that is already right reports (0, 0, 0) and not a neighbouring cell.
     top = max(f[0] for f in found)
-    return min((f for f in found if f[0] >= top - 0.01),
+    best = min((f for f in found if f[0] >= top - 0.01),
                key=lambda f: math.hypot(f[1], f[2]) + abs(f[3]) * 0.02)
+    near = np.array([f[1:] for f in found if f[0] >= top - 0.03])
+    spread = (float(np.hypot(*(near[:, :2].max(0) - near[:, :2].min(0)))),
+              float(near[:, 2].max() - near[:, 2].min()))
+    return best, spread
+
+
+def correct_pose(pose, centre, dx, dy, dyaw_deg):
+    """Apply a correction found about `centre` (the sensor) to another pose."""
+    a = math.radians(dyaw_deg)
+    rx, ry = pose[0] - centre[0], pose[1] - centre[1]
+    return (centre[0] + rx * math.cos(a) - ry * math.sin(a) + dx,
+            centre[1] + rx * math.sin(a) + ry * math.cos(a) + dy,
+            math.atan2(math.sin(pose[2] + a), math.cos(pose[2] + a)))
 
 
 class Preflight(Node):
@@ -126,8 +145,11 @@ class Preflight(Node):
         self.tl = tf2_ros.TransformListener(self.buf, self)
         self.create_subscription(OccupancyGrid, a.map_topic, self.on_map, latched)
         self.create_subscription(TFMessage, '/tf', lambda m: self.on_tf(m, self.tf_dyn), 100)
+        # Every static broadcaster latches its own message, so keep them all.
+        static = QoSProfile(depth=100, reliability=ReliabilityPolicy.RELIABLE,
+                            durability=DurabilityPolicy.TRANSIENT_LOCAL)
         self.create_subscription(TFMessage, '/tf_static',
-                                 lambda m: self.on_tf(m, self.tf_static), latched)
+                                 lambda m: self.on_tf(m, self.tf_static), static)
         self.create_subscription(LaserScan, a.scan_topic, self.on_scan, qos_profile_sensor_data)
         self.create_subscription(PoseWithCovarianceStamped, a.amcl_pose_topic,
                                  self.on_pose, latched)
@@ -162,7 +184,14 @@ class Preflight(Node):
         yaw = quat_yaw(tf.transform.rotation)
         pts = np.stack([t.x + r[ok] * np.cos(ang[ok] + yaw),
                         t.y + r[ok] * np.sin(ang[ok] + yaw)], 1)
-        self.scans.append((pts, (t.x, t.y, yaw), int(ok.sum()), len(r)))
+        base = None
+        try:
+            b = self.buf.lookup_transform(self.a.global_frame, self.a.base_frame,
+                                          rclpy.time.Time()).transform
+            base = (b.translation.x, b.translation.y, quat_yaw(b.rotation))
+        except Exception:
+            pass
+        self.scans.append((pts, (t.x, t.y, yaw), int(ok.sum()), len(r), base))
 
     def get_params(self, node_name, names):
         cli = self.create_client(GetParameters, f'/{node_name.lstrip("/")}/get_parameters')
@@ -184,6 +213,8 @@ def main():
                     help='lifecycle manager to read bond_timeout from')
     ap.add_argument('--global-frame', default='map')
     ap.add_argument('--odom-frame', default='odom')
+    ap.add_argument('--base-frame', default='base_footprint',
+                    help='robot frame the pose correction is reported for')
     ap.add_argument('--scans', type=int, default=5)
     ap.add_argument('--tol', type=float, default=0.10,
                     help='a scan hit within this distance of an occupied cell counts as on the map')
@@ -216,11 +247,14 @@ def main():
     name = f'{a.global_frame} -> {a.odom_frame}'
     if n.tf_dyn:
         ages = np.array([x[1] for x in n.tf_dyn])
+        p95 = float(np.percentile(ages, 95))
         print(f'[tf]   {name} on /tf: {len(n.tf_dyn) / span:.1f} Hz, stamp age '
-              f'median {np.median(ages):+.2f} s, worst {ages.max():+.2f} s '
-              '(negative = post-dated by transform_tolerance)')
-        if ages.max() > 1.0:
-            warn.append(f'{name} was up to {ages.max():.1f} s old: AMCL is not updating steadily')
+              f'median {np.median(ages):+.2f} s, 95th percentile {p95:+.2f} s, '
+              f'worst {ages.max():+.2f} s (negative = post-dated by transform_tolerance)')
+        # One late sample is start-up noise; a late 95th percentile is a fault.
+        if p95 > 1.0:
+            warn.append(f'{name} was over {p95:.1f} s old in 5% of samples: the localiser '
+                        'is not updating steadily (or this clock is not synchronised)')
     else:
         print(f'[tf]   {name} not seen on /tf')
     if n.tf_static:
@@ -273,9 +307,26 @@ def main():
             print(f'[scan] {on * 100:.1f}% of hits within {a.tol:.2f} m of an occupied cell '
                   f'(median {np.median(d):.3f} m, p90 {np.percentile(d, 90):.3f} m, '
                   f'{(1 - len(d) / len(pts)) * 100:.1f}% outside the map)')
-            s, dx, dy, dyaw = best_correction(f, pts, np.array([x, y]), a.tol)
-            print(f'[scan] best fit: move the believed pose by dx {dx:+.2f} m, dy {dy:+.2f} m, '
+            (s, dx, dy, dyaw), spread = best_correction(f, pts, np.array([x, y]), a.tol)
+            print(f'[scan] best fit: move the sensor by dx {dx:+.2f} m, dy {dy:+.2f} m, '
                   f'yaw {dyaw:+.0f} deg -> {s * 100:.1f}% on the map')
+            ambiguous = spread[0] > 0.30 or spread[1] > 5.0
+            print(f'[scan] fits within 3 points of the best span {spread[0]:.2f} m and '
+                  f'{spread[1]:.0f} deg' + (': AMBIGUOUS here, the scan fits in several '
+                                            'places, do not trust the correction' if ambiguous else ''))
+            base = n.scans[0][4]
+            if base is None:
+                print(f'[scan] no transform {a.global_frame} -> {a.base_frame}: the correction '
+                      'above is for the sensor, not the robot base (see --base-frame)')
+            elif (dx, dy, dyaw) != (0.0, 0.0, 0.0) and not ambiguous:
+                nx, ny, nyaw = correct_pose(base, (x, y), dx, dy, dyaw)
+                print(f'[scan] {a.base_frame} would move from ({base[0]:.2f}, {base[1]:.2f}, '
+                      f'{math.degrees(base[2]):.1f} deg) to ({nx:.2f}, {ny:.2f}, '
+                      f'{math.degrees(nyaw):.1f} deg). Not sent. To try it:')
+                print(f"[scan]   ros2 topic pub --once /initialpose "
+                      f"geometry_msgs/msg/PoseWithCovarianceStamped \"{{header: {{frame_id: "
+                      f"{a.global_frame}}}, pose: {{pose: {{position: {{x: {nx:.3f}, y: {ny:.3f}}}, "
+                      f"orientation: {{z: {math.sin(nyaw / 2):.5f}, w: {math.cos(nyaw / 2):.5f}}}}}}}}}\"")
             if math.hypot(dx, dy) > 0.15 or abs(dyaw) > 3:
                 if s - on > 0.10:
                     warn.append(f'the scan fits the map {(s - on) * 100:.0f} points better at '

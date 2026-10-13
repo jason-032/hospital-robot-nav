@@ -17,7 +17,8 @@ from PIL import Image
 label, sweep_csv = sys.argv[1], sys.argv[2]
 tdir = sys.argv[3] if len(sys.argv) > 3 else os.path.expanduser('~/sim_trials')
 MAP_YAML = os.environ.get('MAP_YAML', '/home/jason/ros2_ws/src/spatial_maps/maps/1F.yaml')
-TOL = 0.5                           # nav2 stopped_goal_checker xy_goal_tolerance
+TOL = 0.5                           # reporting threshold used for every 1F figure to date
+GOAL_TOL = 0.25                     # nav2 stopped_goal_checker xy_goal_tolerance (1F overlay)
 
 
 def fnum(v):
@@ -108,15 +109,19 @@ for x, y in pts:
     c, rr = int((x - ox) / res), H - 1 - int((y - oy) / res)
     inside += 0 <= c < W and 0 <= rr < H and occ[rr, c]
 
-succ = [o for o in out if o.get('logged') and o['sweep_result'] == 'SUCCESS' and o['true_err_m'] is not None]
+# A cascade recovery drives back to spawn. It is a goal, but not a room reached.
+succ_all = [o for o in out if o.get('logged') and o['sweep_result'] == 'SUCCESS' and o['true_err_m'] is not None]
+succ = [o for o in succ_all if o['room'] != 'RECOVERY']
+recov = len(succ_all) - len(succ)
 p = f'[{label}]'
 print(f'{p} sweep goals {len(goal_rows)}, logged terminal goals {len(goals)}, alignment offset {offset}, '
       f'plan-end matches {matches(offset)}/{checked}')
 if succ:
     te = sorted(o['true_err_m'] for o in succ)
     gap = sorted(o['true_vs_believed_m'] for o in succ)
-    print(f'{p} sweep SUCCESS with ground truth: {len(succ)}; truly within {TOL} m of goal: '
-          f'{sum(e <= TOL for e in te)}; within 1.0 m: {sum(e <= 1.0 for e in te)}; '
+    print(f'{p} room SUCCESS with ground truth: {len(succ)} (plus {recov} recovery return(s) to spawn, '
+          f'not counted); truly within {GOAL_TOL} m of goal: {sum(e <= GOAL_TOL for e in te)}; '
+          f'within {TOL} m: {sum(e <= TOL for e in te)}; within 1.0 m: {sum(e <= 1.0 for e in te)}; '
           f'median true error {te[len(te) // 2]:.2f} m, max {te[-1]:.2f} m')
     print(f'{p} true vs believed pose at goal end: median {gap[len(gap) // 2]:.2f} m, max {gap[-1]:.2f} m')
     tr = [(o['true_travel_m'], o['believed_travel_m']) for o in succ if o['true_travel_m'] and o['believed_travel_m']]
