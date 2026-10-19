@@ -5,7 +5,7 @@
 
 ## Research Summary
 
-This project implements a physics-based, multi-floor autonomous robot navigation system for a 15-floor hospital building, constructed entirely from Building Information Modelling (BIM) data. It was developed as an independent research initiative by Jason Mwinsegre Dassah, a Ghanaian construction engineer and robotics researcher, and is directly aligned with the research agenda of the Smart Construction and Systems (SCS) Lab at Chungbuk National University, South Korea, whose work spans construction robotics, spatial data pipelines, and simulation-based systems for smart built environments. The project has also attracted research interest from the Laboratory for Interactive Visualization in Engineering (LIVE Lab), University of Michigan, led by Prof. Vineet Kamat.
+This project implements a physics-based, multi-floor autonomous robot navigation system for a 15-floor hospital building, constructed entirely from Building Information Modelling (BIM) data. It was developed as an independent research initiative by Jason Mwinsegre Dassah, a Ghanaian construction engineer and robotics researcher, and is directly aligned with the research agenda of the Smart Construction and Systems (SCS) Lab at Chungbuk National University, South Korea, whose work spans construction robotics, spatial data pipelines, and simulation-based systems for smart built environments.
 
 The original research brief was to generate a Gazebo simulation environment from the outputs of an Indoor Spatial Map Generation Pipeline and validate POI (Point of Interest) integration by deploying a robot on a single floor. The Indoor Spatial Map Generation Pipeline is an upstream process that parses IFC-format BIM models to extract spatial entities (IfcSpace objects), room connectivity, door positions, stairwell geometry, and floor-level occupancy grids, producing both 2D navigable maps and semantic topology graphs as structured outputs.
 
@@ -471,8 +471,6 @@ The 1F configuration was run on a Nav2 map derived from a terrestrial laser scan
 ## Acknowledgements
 
 The research direction for this project was proposed by **Prof. Min-Koo Kim**, Smart Construction and Systems (SCS) Lab, Department of Civil Engineering, Chungbuk National University, South Korea. The original brief to validate POI-integrated robot navigation in a BIM-derived Gazebo simulation defined the foundational scope from which this implementation grew.
-
-The project has attracted research interest from the Laboratory for Interactive Visualization in Engineering (LIVE Lab) at the University of Michigan, led by **Prof. Vineet Kamat**, whose work on construction robotics and virtual environments is closely aligned with this research direction.
 
 The Indoor Spatial Map Generation Pipeline that produced the BIM-derived assets (occupancy maps, semantic entity data, and topological network graphs) used in this project is a separate upstream system developed as part of the same broader research programme.
 
