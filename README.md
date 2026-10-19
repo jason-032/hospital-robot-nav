@@ -1,6 +1,20 @@
 # Hospital Robot Navigation Simulation
 ### BIM-Derived Multi-Floor Autonomous Navigation with POI Integration
 
+## At a glance
+
+![The robot drives to four rooms on the 1F hospital floor: Gazebo on the left, RViz with the planned path on the right](docs/media/hospital_1f_demo.gif)
+
+*Floor 1F, played at 8× speed: the robot drives to four rooms in turn with Nav2 (Gazebo on the left, RViz with the planned path in green on the right).*
+
+- Turns a hospital's IFC/BIM model into a working robot simulation: maps, room locations and Gazebo worlds for all 15 floors, with no manual modelling.
+- A differential-drive robot with a 360° LiDAR plans and drives to named rooms using ROS 2 Jazzy, Nav2 and Gazebo Harmonic.
+- **1F result:** the robot reached 71 of 74 attempted rooms (95.9%), each success checked against Gazebo ground truth (see [Known Limitations](#known-limitations-and-open-problems) for what this covers).
+
+```bash
+ros2 launch spatial_maps spatial_maps_1f.launch.py   # needs semantic.json, see Installation
+```
+
 ---
 
 ## Research Summary
